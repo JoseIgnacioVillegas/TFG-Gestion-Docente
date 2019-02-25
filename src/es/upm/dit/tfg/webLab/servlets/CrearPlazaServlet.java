@@ -1,5 +1,6 @@
 package es.upm.dit.tfg.webLab.servlets;
 
+import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +16,15 @@ import es.upm.dit.tfg.webLab.dao.PlazaDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Plaza;
 import es.upm.dit.tfg.webLab.model.Profesor;
+import es.upm.dit.tfg.webLab.model.Usuario;
 
 @WebServlet("/CrearPlazaServlet")
 public class CrearPlazaServlet extends HttpServlet{
+	
+	private final static Logger log = Logger.getLogger(CrearPlazaServlet.class);
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		req.getSession().removeAttribute("mensaje");
 		String nom = req.getParameter("nombre");
 		String descripcion = req.getParameter("descripcion");
 		List<Plaza> plazas = PlazaDAOImplementation.getInstance().readPlazas();
@@ -30,6 +35,11 @@ public class CrearPlazaServlet extends HttpServlet{
 		plaza.setPlaza(nom);
 		plaza.setDescripcion(descripcion);
 		PlazaDAOImplementation.getInstance().createPlaza(plaza);
+		
+		Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
+
+		//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha creado la plaza de profesor "+nom);
+
 		
 		List<Plaza> todasPlazas = PlazaDAOImplementation.getInstance().readPlazas();
 	

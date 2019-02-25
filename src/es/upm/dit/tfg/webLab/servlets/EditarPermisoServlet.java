@@ -19,6 +19,8 @@ public class EditarPermisoServlet extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		
+		req.getSession().removeAttribute("mensaje");
 		int id = Integer.parseInt(req.getParameter("id"));
 		String permiso = req.getParameter("permiso");
 		String descripcion = req.getParameter("descripcion");

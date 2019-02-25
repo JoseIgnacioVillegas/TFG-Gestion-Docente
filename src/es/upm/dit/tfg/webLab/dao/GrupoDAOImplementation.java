@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.Grupo;
 
 
@@ -95,42 +96,18 @@ public class GrupoDAOImplementation implements GrupoDAO{
 	}
 
 
-
-
-/* Es probable que me haga falta leer todos los profesores del tiron y los profesores para una asignatura concreta asi que igual 
-esto me hace falta en el futuro pero por ahora NO
 	@Override
-	public List<Comentario> readComentarios() {
+	public void updateGrupo(Grupo grupo) {
 		Session session = SessionFactoryService.get().openSession();
-		List<Comentario> comentarios = new ArrayList<>();
 		try {
 			session.beginTransaction();
-			comentarios.addAll(session.createQuery("select t from Comentario t").getResultList() );
+			session.saveOrUpdate(grupo);
 			session.getTransaction().commit();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			
-		}finally {
+		} finally {
 			session.close();
-		}
-		return comentarios;
+		}		
 	}
-	@Override
-	public List<Comentario> readComentarios(Pensamiento pensamiento) {
-		Session session = SessionFactoryService.get().openSession();
-		List<Comentario> comentarios = new ArrayList<>();
-		try {
-			session.beginTransaction();
-			comentarios.addAll(session.createQuery("select t from Comentario t  where t.pensamiento_id = :id")
-	        .setParameter("id", pensamiento.getId())
-	        .getResultList() );
-			session.getTransaction().commit();
-		}catch(Exception e) {
-			
-		}finally {
-			session.close();
-		}
-		return comentarios;
-	}
-*/
 
 }

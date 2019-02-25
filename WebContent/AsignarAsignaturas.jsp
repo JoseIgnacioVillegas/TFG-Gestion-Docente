@@ -10,23 +10,33 @@
 
 
 <html>
-
-
+<head>
+<style>
+html {
+  min-height: 100%;
+  position: relative;
+}
+body {
+  margin: 0;
+  margin-bottom: 40px;
+}
+footer {
+  background-color: black;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 200px;
+  color: white;
+}
+</style>
 <meta charset="UTF-8">
-
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
+<title>Gestion de departamento</title>
+<link rel="icon" type="image/gif" href="./img/ditupm.gif"/>
+</head>
 
 
 <body id="myPage">
@@ -80,24 +90,6 @@
  
 </div>
 
- 
-
-
-
-
-<!-- Image Header -->
-
-
-<div class="w3-display-container w3-animate-opacity" >
-  
-
-<!--  img src="" alt="boat" style="width:30%;" -->
-</div>
-
-
-
-
-
 
 
 
@@ -132,15 +124,28 @@
 		<p>
 		
 		
-		
-			<select name="participa" >
-				<option selected>Seleccionar asignatura que participa</option>
-				<c:forEach items="${todasAsignaturas}" var="asignatura">
-					<option value="${asignatura.codigo}">${asignatura.codigo} - ${asignatura.nombre}</option>
+		<div name="participa">
+			<select name="planes" onchange="mostrarAsignaturas(this,'${plan.codigo}');">
+				<option selected>Seleccionar el plan de estudios </option>
+				<c:forEach items="${todosPlanes}" var="plan">
+					<option>${plan.codigo} - ${plan.nombre}</option>
 				</c:forEach>
 			</select>
+		
+		<br>
+
+			<select  style="visibility:hidden;" onchange="mostrarGrupos(this);">
+				<option selected>Seleccionar asignatura que participa</option>
+				<c:forEach items="${todasAsignaturas}" var="asignatura">
+
+						<option value="${asignatura.codigo}">${asignatura.codigo} - ${asignatura.nombre} - ${asignatura.planEstudios.codigo}</option>
+
+				</c:forEach>
+			</select>
+			<br>
+			<div style="visibility:hidden;" id="grupos">Aqui van los grupos de clase</div>
 			
-			
+			</div>
 			
 		</p>
 
@@ -192,8 +197,8 @@
 		<p>
 			<select name="coordina">
 				<option selected>Seleccionar Asignatura que coordina</option>
-				<c:forEach items="${todasAsignaturas}" var="asignatura">
-					<option value="${asignatura.codigo}">${asignatura.codigo} - ${asignatura.nombre}</option>
+				<c:forEach items="${todasAsignaturas}" var="asignatura" >
+					<option value="${asignatura.codigo}">${asignatura.codigo} - ${asignatura.nombre} </option>
 				</c:forEach>
 				
 			</select>
@@ -223,28 +228,14 @@
 
 
 <!-- Footer -->
-
-<footer class="w3-container w3-padding-32 w3-theme-d1 w3-center" >
-  
-<h4>Follow Us</h4>
-  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Facebook"><i class="fa fa-facebook"></i></a>
-  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Twitter"><i class="fa fa-twitter"></i></a>
-  
-
-<a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Google +">
-<i class="fa fa-google-plus"></i></a>
-  
-<a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Google +">
-<i class="fa fa-instagram"></i></a>
-  
-<a class="w3-button w3-large w3-teal w3-hide-small" href="javascript:void(0)" title="Linkedin">
-<i class="fa fa-linkedin"></i></a>
-
-<p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-
-  
-
-
+<footer class="w3-padding-32 w3-center" >
+  <h4>Enlaces de interés</h4>
+  <a class="w3-button w3-large w3-teal" href="https://www.dit.upm.es/" title="DIT"><img src="./img/ditupm.gif" style="width:30px;height:30px;"></a>
+  <a class="w3-button w3-large w3-teal" href="http://www.etsit.upm.es/" title="ETSIT"><img src="./img/etsit.gif" style="width:30px;height:30px;"></a>
+  <a class="w3-button w3-large w3-teal" href="https://moodle.upm.es/" title="MOODLE"><img src="./img/moodle.gif" style="width:30px;height:30px;"></a>
+  <a class="w3-button w3-large w3-teal" href="http://www.upm.es/" title="UPM"><img src="./img/upm.gif" style="width:30px;height:30px;"></a>
+  <p>TFG Gestión docente - 2019</p>
+  <!--  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>  -->
 </footer>
 
 
@@ -264,8 +255,7 @@ function setValue(source) {
 	elements =source.parentNode.getElementsByTagName('input');
 	elements[0].value=source.value;
 	elements[1].value=source.value;
-	console.log(elements[0]);
-	console.log(elements[1]);
+
 }
 
 
@@ -277,8 +267,7 @@ function ponerValor(obj,id){
 	
 	elemento.style.display = "none";
 	
-	console.log(input);
-	
+
 }
 
 
@@ -299,7 +288,16 @@ function addAsignaturaCoordinar(){
 }
 
 
+function mostrarAsignaturas(source,codigo){
+	elements =source.parentNode.getElementsByTagName('select');
 
+	elements[1].style.visibility = "";
+}
+
+function mostrarGrupos(source){
+	element = document.getElementById('grupos');
+	element.style.visibility = "";
+}
 
 
 

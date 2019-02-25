@@ -33,6 +33,7 @@ public class AsignarDocentesServlet extends HttpServlet{
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		req.getSession().removeAttribute("mensaje");
 		String codAsignatura = req.getParameter("codigoAsignatura");
 		Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(codAsignatura);
 		

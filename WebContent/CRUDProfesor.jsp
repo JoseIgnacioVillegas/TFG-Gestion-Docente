@@ -2,8 +2,27 @@
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
 <style>
+	html {
+	  min-height: 100%;
+	  position: relative;
+	}
+	body {
+	  margin: 0;
+	  margin-bottom: 40px;
+	}
+	footer {
+	  background-color: black;
+	  position: absolute;
+	  bottom: 0;
+	  width: 100%;
+	  height: 200px;
+	  color: white;
+	}
 	table{
 		font-size:12px;
 	}
@@ -63,17 +82,15 @@
 	  background-color: #1e90ff;
 	}
 </style>
-<html>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Gestion de departamento</title>
+<link rel="icon" type="image/gif" href="./img/ditupm.gif"/>
+
+</head>
 
 <body id="myPage">
 
@@ -93,7 +110,6 @@
     <div id="gestDocencia" style="display:none;">
     	<form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDPlan" name="CRUDPlan">Plan de Estudios</button></form>
    	  	<form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDAsignatura" name="CRUDAsignatura">Asignaturas</button></form>
-   	  	<form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="Responsabilidades" name="Responsabilidades">Responsabilidades</button></form>
   	</div>
 </div>
 
@@ -115,37 +131,20 @@
  
 </div>
 
- 
-
-
-<!-- Image Header -->
-
-<div class="w3-display-container w3-animate-opacity" >
-  
-<!--  img src="" alt="boat" style="width:30%;" -->
-</div>
-
-
-
-
-
-
-
 
 <!-- Team Container -->
 
 <div class="w3-container w3-padding-64 w3-center" id="team">
-	<p style="color:#FF0000";>${mensaje}</p>
+	<p style="color:#FF0000">${mensaje}</p>
 	<h2>Gestionar Docentes</h2>
 
 
 	<p name="mensaje"></p>
 	<div class="w3-row"><br>
 
-		<form action="CrearProfesor.jsp">Para crear un nuevo docente pincha aquí: <button type="submit" >Crear un nuevo docente</button></form>		
+		<shiro:hasRole name="crearprofesor"><form action="CrearProfesor.jsp"><input type="hidden" value="${permisos}" name="permisos">Para crear un nuevo docente pincha aquí: <button type="submit" >Crear un nuevo docente</button></form></shiro:hasRole>		
 		<br>
-		<form action="">Para asignar asignaturas a Docentes pincha aquí: <button type="submit" >Asignar asignaturas</button></form>	
-		<br><br>
+		<br>
 		
 		<table id="datos" style="margin: 0 auto;text-align: left;">
 	<tr>
@@ -227,8 +226,8 @@
 				<div class="checkboxes" id="chksCol7"></div>
 			</div>
 		</td>
-		<td><a>Editar</a></td>
-		<td><a>Borrar</a></td>
+		<shiro:hasRole name="editarprofesor"><td><a>Editar</a></td></shiro:hasRole>
+		<shiro:hasRole name="borrarprofesor"><td><a>Borrar</a></td></shiro:hasRole>
 		<td><a>Gestionar asignaturas</a></td>
 	</tr>
 		
@@ -244,6 +243,7 @@
 			<td>${profesor.dedicacion}</td>
 			<td>${profesor.plaza.plaza}</td>
 			
+			<shiro:hasRole name="editarprofesor">
 			<td><form action="EditarProfesor.jsp">
 			<input type="hidden" value="${profesor.id}" name="id">
 		<input type="hidden" value="${profesor.usuario.nombre}" name="nombre">
@@ -254,16 +254,20 @@
 		<input type="hidden" value="${profesor.dedicacion}" name="dedicacion">
 		<input type="hidden" value="${profesor.grupo.nombre}" name="grupo">
 			<button type="submit" >Editar</button></form></td>
+			</shiro:hasRole>
 			
-			
+			<shiro:hasRole name="borrarprofesor">
 			<td><form action="BorrarProfesorServlet">
 			<input type="hidden" value="${profesor.id}" name="idProfe">
 			<input type="hidden" value="${profesor.usuario.id}" name="idUsuario">
 			<button type="submit" >Borrar</button></form></td>
+			</shiro:hasRole>
 			
+			<shiro:hasRole name="asignarasignaturas">
 			<td><form action="ObtenerAsignaturasServlet">
 			<input type="hidden" value="${profesor.id}" name="idProfe">
 			<button type="submit" >Gestionar asignaturas</button></form></td>
+			</shiro:hasRole>
 		</tr>
 		
 		</c:forEach>
@@ -274,9 +278,13 @@
 
 		
 		<br><br>
+		<shiro:hasAnyRoles name="creargrupo,editargrupo,borrargrupo">
 		<form action="GestorServlet" >Para gestionar grupos de investigación pincha aquí:<button type="submit" value="CRUDGrupo" name="CRUDGrupo">Gestionar Grupos de Investigación</button></form>
+		</shiro:hasAnyRoles>
 		<br><br>
+		<shiro:hasAnyRoles name="crearplaza,editarplaza,borrarplaza">
 		<form action="GestorServlet" >Para gestionar las plazas de profesores pincha aquí:<button type="submit" value="CRUDPlaza" name="CRUDPlaza">Gestionar Plaza de profesor</button></form>
+		</shiro:hasAnyRoles>
 		<br><br>
 	</div>
 </div>
@@ -290,21 +298,15 @@
 
 
 
-
 <!-- Footer -->
-
-<footer class="w3-container w3-padding-32 w3-theme-d1 w3-center" >
-  
-<h4>Follow Us</h4>
-  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Facebook"><i class="fa fa-facebook"></i></a>
-  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Twitter"><i class="fa fa-twitter"></i></a>
-  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Google +"><i class="fa fa-google-plus"></i></a>
-  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Google +"><i class="fa fa-instagram"></i></a>
-  <a class="w3-button w3-large w3-teal w3-hide-small" href="javascript:void(0)" title="Linkedin"><i class="fa fa-linkedin"></i></a>
-<p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-
-  
-
+<footer class="w3-padding-32 w3-center" >
+  <h4>Enlaces de interés</h4>
+  <a class="w3-button w3-large w3-teal" href="https://www.dit.upm.es/" title="DIT"><img src="./img/ditupm.gif" style="width:30px;height:30px;"></a>
+  <a class="w3-button w3-large w3-teal" href="http://www.etsit.upm.es/" title="ETSIT"><img src="./img/etsit.gif" style="width:30px;height:30px;"></a>
+  <a class="w3-button w3-large w3-teal" href="https://moodle.upm.es/" title="MOODLE"><img src="./img/moodle.gif" style="width:30px;height:30px;"></a>
+  <a class="w3-button w3-large w3-teal" href="http://www.upm.es/" title="UPM"><img src="./img/upm.gif" style="width:30px;height:30px;"></a>
+  <p>TFG Gestión docente - 2019</p>
+  <!--  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>  -->
 </footer>
 
 

@@ -213,6 +213,20 @@ public Usuario readUsuarioPorCorreo(String email) {
 	
 }
 
+@Override
+public void updateUsuario(Usuario usuario) {
+	Session session = SessionFactoryService.get().openSession();
+	try {
+		session.beginTransaction();
+		session.saveOrUpdate(usuario);
+		session.getTransaction().commit();
+	} catch (Exception e) {
+		System.out.println("En el DAO: "+e);
+	} finally {
+		session.close();
+	}		
+}
+
 
 
 

@@ -49,36 +49,13 @@ public class ProfesorDAOImplementation implements ProfesorDAO{
 	@Override
 	public Profesor readProfesor(int id) {
 		
-		/*
 
-CriteriaBuilder cb = em.getCriteriaBuilder();
-CriteriaQuery q = cb.createQuery(Order.class);
-Root o = q.from(Order.class);
-o.fetch("items", JoinType.INNER);
-q.select(o);
-q.where(cb.equal(o.get("id"), orderId));
-
-Order order = (Order)this.em.createQuery(q).getSingleResult();
-
-		 *
-		 */
-		
-		
 		
 		
 		
 		Profesor profesor = null;
 		Session session = SessionFactoryService.get().openSession();
-		
-		/*
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery cq = cb.createQuery(Profesor.class);
-		Root rt = cq.from(Profesor.class);
-		rt.fetch("Profesor", JoinType.INNER);
-		cq.select(rt);
-		cq.where(cb.equal(rt.get("id"), orderId));
-		Order order = (Order)this.session.createQuery(cq).getSingleResult();
-		*/
+
 		try {
 			session.beginTransaction();
 			profesor = session.get(Profesor.class, id);
@@ -147,40 +124,6 @@ Order order = (Order)this.em.createQuery(q).getSingleResult();
 	
 	
 	
-/* Es probable que me haga falta leer todos los profesores del tiron y los profesores para una asignatura concreta asi que igual 
-esto me hace falta en el futuro pero por ahora NO
-	@Override
-	public List<Comentario> readComentarios() {
-		Session session = SessionFactoryService.get().openSession();
-		List<Comentario> comentarios = new ArrayList<>();
-		try {
-			session.beginTransaction();
-			comentarios.addAll(session.createQuery("select t from Comentario t").getResultList() );
-			session.getTransaction().commit();
-		}catch(Exception e) {
-			
-		}finally {
-			session.close();
-		}
-		return comentarios;
-	}
-	@Override
-	public List<Comentario> readComentarios(Pensamiento pensamiento) {
-		Session session = SessionFactoryService.get().openSession();
-		List<Comentario> comentarios = new ArrayList<>();
-		try {
-			session.beginTransaction();
-			comentarios.addAll(session.createQuery("select t from Comentario t  where t.pensamiento_id = :id")
-	        .setParameter("id", pensamiento.getId())
-	        .getResultList() );
-			session.getTransaction().commit();
-		}catch(Exception e) {
-			
-		}finally {
-			session.close();
-		}
-		return comentarios;
-	}
-*/
+
 
 }

@@ -27,8 +27,13 @@ import es.upm.dit.tfg.webLab.model.Profesor;
 import es.upm.dit.tfg.webLab.model.Usuario;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.subject.Subject;
 import org.json.*;
 
+import com.microsoft.schemas.office.excel.*;
+import com.microsoft.schemas.office.office.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,21 +52,50 @@ public class GestorServlet extends HttpServlet{
 	
 	public static List<Asignatura> todasAsignaturas = new ArrayList<Asignatura>();
 	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		req.getSession().removeAttribute("mensaje");
+		
+		//Subject currentUser = SecurityUtils.getSubject();
+		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
+		System.out.println(currentUser);
 		String grupo = req.getParameter("CRUDGrupo");
 		String plaza = req.getParameter("CRUDPlaza");
 		String api = req.getParameter("importarapi");
 		String permisos = req.getParameter("Permisos");
 		String boton = req.getParameter("crearusuario");
 		String asignaturas = req.getParameter("CRUDAsignatura");
-		String usuario = req.getParameter("CRUDProfesor");
+		String CRUDProfesor = req.getParameter("CRUDProfesor");
 		String plan = req.getParameter("CRUDPlan");
 		String asignar = req.getParameter("AsignarUsuarios");
-		//String id = req.getParameter("usuarioId");
 
 		String NoDocentes = req.getParameter("NoDocentes");
 		
+	
+		if (currentUser.hasRole("crearprofesor")|| currentUser.hasRole("borrarprofesor")|| currentUser.hasRole("editarprofesor")||
+				currentUser.hasRole("creargrupo")||currentUser.hasRole("editargrupo")||currentUser.hasRole("borrargrupo")||	
+				currentUser.hasRole("crearplaza")||currentUser.hasRole("editarplaza")||currentUser.hasRole("borrarplaza")||
+				currentUser.hasRole("asignarasignaturas")) {  
+			
+			if(CRUDProfesor!=null && CRUDProfesor.equals("CRUDProfesor")) {
+				
+				List<Profesor> listaProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
+				List<Grupo> listaGrupos = GrupoDAOImplementation.getInstance().readGrupos();
+				
+				List<Plaza> listaPlazas = PlazaDAOImplementation.getInstance().readPlazas();
+				List<Permiso> listaPermisos = PermisoDAOImplementation.getInstance().readPermisos();
+				
+				req.getSession().setAttribute("permisos", listaPermisos);
+				req.getSession().setAttribute("profesores", listaProfesores);
+				req.getSession().setAttribute("grupos", listaGrupos);
+				req.getSession().setAttribute("plazas", listaPlazas);
+				
+				getServletContext().getRequestDispatcher("/CRUDProfesor.jsp").forward(req, resp);
+				//resp.sendRedirect(req.getContextPath() + "/CRUDProfesor.jsp");
+			}
+		}
 		
 		
 		
@@ -72,26 +106,29 @@ public class GestorServlet extends HttpServlet{
 			
 			req.getSession().setAttribute("permisos", todosPermisos);
 			req.getSession().setAttribute("usuarios", usuarios);
-			resp.sendRedirect(req.getContextPath() + "/AsignarPermisos.jsp");
+			resp.sendRedirect(req.getContextPath() + "/GestionarPermisos.jsp");
 		}
 		
 		
 		
-		
-		
-		if(NoDocentes!=null && NoDocentes.equals("NoDocentes")) {
+		             
+			if(NoDocentes!=null && NoDocentes.equals("NoDocentes")) {
 
-			List<Usuario> todosUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
-			List<Usuario> usuarios =new ArrayList();
-			
-			for (int i=0; i<todosUsuarios.size(); i++) {
-				Profesor profesor = todosUsuarios.get(i).getProfesor();
-				if(profesor==null) usuarios.add(todosUsuarios.get(i));
-			}
-			
-			req.getSession().setAttribute("usuarios", usuarios);
-			resp.sendRedirect(req.getContextPath() + "/CRUDPAS.jsp");
-		}
+				List<Usuario> todosUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
+				List<Usuario> usuarios =new ArrayList();
+				
+				for (int i=0; i<todosUsuarios.size(); i++) {
+					Profesor profesor = todosUsuarios.get(i).getProfesor();
+					if(profesor==null) usuarios.add(todosUsuarios.get(i));
+				}
+				
+				req.getSession().setAttribute("usuarios", usuarios);
+				getServletContext().getRequestDispatcher("/CRUDPAS.jsp").forward(req, resp);
+				//resp.sendRedirect(req.getContextPath() + "/CRUDPAS.jsp");
+			}                        
+		  
+		
+		
 		
 		
 		
@@ -121,21 +158,7 @@ public class GestorServlet extends HttpServlet{
 		}
 		
 		
-		if(usuario!=null && usuario.equals("CRUDProfesor")) {
-			
-			List<Profesor> listaProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
-			List<Grupo> listaGrupos = GrupoDAOImplementation.getInstance().readGrupos();
-			
-			List<Plaza> listaPlazas = PlazaDAOImplementation.getInstance().readPlazas();
-		
-			
-			req.getSession().setAttribute("profesores", listaProfesores);
-			req.getSession().setAttribute("grupos", listaGrupos);
-			req.getSession().setAttribute("plazas", listaPlazas);
-			
-			
-			resp.sendRedirect(req.getContextPath() + "/CRUDProfesor.jsp");
-		}
+	
 		
 		
 		

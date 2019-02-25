@@ -1,7 +1,7 @@
 package es.upm.dit.tfg.webLab.model;
 
 import java.io.Serializable;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -19,19 +19,27 @@ public class Permiso implements Serializable{
 	@Id
 	private int id;
   
-	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	
+	@ManyToMany(mappedBy="permisos",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private List<Usuario> usuario;
 	
 	private String descripcion;
 	
 	private String permiso;
 	
-	
+	private String[] todosLosPermisos = {"leerusuario","crearusuario", "borrarusuario","editarusuario",
+										"leerdocente","creardocente","boorardocente","editardocente",
+										"leergrupo", "creargrupo","borrargrupo","editargrupo",
+										"leerplaza","crearplaza","borrarplaza","editarplaza",
+										"leerplan","crearplan","borrarplan","editarplan",
+										"leerasignatura","crearasignatura","borrarasignatura","editarasignatura",
+										"importarasignatura","asignardocentes","asignarasignaturas",
+										"exportardatos","copiaseguridad","gestionarpermisos"};
 	
 	
 	public Permiso() {
 		id=0;
-		usuario=null;
+		usuario=new ArrayList<Usuario>();
 		descripcion="";
 		permiso="";
 	}
@@ -51,6 +59,9 @@ public class Permiso implements Serializable{
 	}
 	public String getDescripcion() {
 		return this.descripcion;
+	}
+	public String[] getTodosPermisos() {
+		return this.todosLosPermisos;
 	}
 	
 		

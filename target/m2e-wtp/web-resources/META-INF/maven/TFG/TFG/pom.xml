@@ -1,9 +1,23 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>TFG</groupId>
   <artifactId>TFG</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
+  
+  
+  <properties>
+	    <java.version>1.8</java.version>
+	    <spring.version>4.0.2.RELEASE</spring.version>
+	    <spring.security.version>4.0.2.RELEASE</spring.security.version>
+	    <servlet.api.version>3.1.0</servlet.api.version>
+	    <jsp.api.version>2.2</jsp.api.version>
+	    <jstl.version>1.2</jstl.version>
+	</properties>
+  
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
@@ -28,23 +42,105 @@
         <version>3.0.0</version>
         <configuration>
           <warSourceDirectory>WebContent</warSourceDirectory>
+           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
     </plugins>
   </build>
   <dependencies>
+  
+  
   <!-- https://mvnrepository.com/artifact/org.json/json -->
 <dependency>
     <groupId>org.json</groupId>
     <artifactId>json</artifactId>
     <version>20180813</version>
 </dependency>
+
+
 <!-- https://mvnrepository.com/artifact/log4j/log4j -->
 <dependency>
     <groupId>log4j</groupId>
     <artifactId>log4j</artifactId>
     <version>1.2.17</version>
 </dependency>
+
+
+
+
+		
+		<!-- VAINAS DE EXCEL -->
+		<!-- Used to work with the older excel file format - `.xls` -->
+<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>3.17</version>
+</dependency>
+
+<!-- Used to work with the newer excel file format - `.xlsx` -->
+<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>3.17</version>
+</dependency>
+
+<dependency>
+   <groupId>org.glassfish</groupId>
+   <artifactId>javax.faces</artifactId>
+   <version>2.1.18</version>
+</dependency>
+
+
+
+<!-- Cosicas de shiro para roles  -->
+<!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-core -->
+<dependency>
+    <groupId>org.apache.shiro</groupId>
+    <artifactId>shiro-core</artifactId>
+    <version>1.4.0</version>
+</dependency>
+
+        
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        
+        
+        
+        <!-- Shiro uses SLF4J for logging.  We'll use the 'simple' binding  slf4j-api-1.7.7
+             in this example app.  See http://www.slf4j.org for more info. 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.1</version>
+            <scope>test</scope>
+        </dependency> 
+        
+        
+        
+          <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        
+        -->
+        
+               <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        
+      
+        
+        
+        
+
 
   </dependencies>
 </project>

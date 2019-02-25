@@ -1,9 +1,7 @@
 package es.upm.dit.tfg.webLab.servlets;
 
+import org.apache.log4j.Logger;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,12 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.GrupoDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PlazaDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.UsuarioDAOImplementation;
-import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.Grupo;
 import es.upm.dit.tfg.webLab.model.Plaza;
 import es.upm.dit.tfg.webLab.model.Profesor;
@@ -26,8 +22,11 @@ import es.upm.dit.tfg.webLab.model.Usuario;
 
 @WebServlet("/CrearProfesorServlet")
 public class CrearProfesorServlet extends HttpServlet{
+	
+	private final static Logger log = Logger.getLogger(CrearProfesorServlet.class);
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.getSession().removeAttribute("mensaje");
 		String nom = req.getParameter("nombre");
 		String ape = req.getParameter("apellidos");
 		String acrom = req.getParameter("acronimo");
@@ -74,7 +73,10 @@ public class CrearProfesorServlet extends HttpServlet{
 		
 		ProfesorDAOImplementation.getInstance().createProfesor(profesor);
 		
-		
+		Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
+
+		//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha creado el profesor "+nom+" "+ape);
+
 		
 	
 		

@@ -1,6 +1,8 @@
 package es.upm.dit.tfg.webLab.servlets;
 
 
+
+import org.apache.log4j.Logger;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +22,21 @@ import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.Profesor;
-
-
+import es.upm.dit.tfg.webLab.model.Usuario;
 
 
 
 @WebServlet("/AsignarAsignaturasServlet")
 
 public class AsignarAsignaturasServlet extends HttpServlet{
+	
+	private final static Logger log = Logger.getLogger(AsignarAsignaturasServlet.class);
 
 	
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		req.getSession().removeAttribute("mensaje");
 		
 		String docenteId = req.getParameter("id");
 		Profesor profesor = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(docenteId));
@@ -55,6 +59,12 @@ public class AsignarAsignaturasServlet extends HttpServlet{
 
 		String codigoAsignaturasCoordina[]; 
 		codigoAsignaturasCoordina = req.getParameterValues("coordina");
+		
+
+		Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
+
+		//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha creado el plan de estudios "+plan.getCodigo()+" - "+plan.getNombre());
+		//A VER QUE COÑO PASA CON LA ASIGNACION DE ASIGNATURAS
 		
 		
 		//borrar las asignaturas de los profesores que participan, esta hecho 
@@ -116,18 +126,24 @@ public class AsignarAsignaturasServlet extends HttpServlet{
 		
 		
 		//QUitar el coordinador de las asignaturas, hecho 
-		for (int i = 0; i< asignaturasCoordinaBorradasCodigo.length; i++) {
-			Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(asignaturasCoordinaBorradasCodigo[i]);
+		
 			try {
+				for (int i = 0; i< asignaturasCoordinaBorradasCodigo.length; i++) {
+					Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(asignaturasCoordinaBorradasCodigo[i]);
 				asignatura.deleteCoordinador();
 				AsignaturaDAOImplementation.getInstance().updateAsignatura(asignatura);
+				}
 				}catch(Exception e) {
 					System.out.println(e);
 				}finally {
 							
 				}
-		}
 		
+			
+		
+			
+			
+			
 		String msj = "Usuarios asignados con éxito";
 		req.getSession().setAttribute("mensaje", msj);
 		resp.sendRedirect(req.getContextPath()+ "/CRUDProfesor.jsp");

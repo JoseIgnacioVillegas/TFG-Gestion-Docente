@@ -28,23 +28,15 @@ public class Asignatura implements Serializable{
 	private int numeroAlumnos;
 	private double horasApolo;
 	
+	
+	@OneToMany(mappedBy = "asignatura")
+	private List<GrupoClase> grupos;
+	
 	@ManyToOne(cascade = CascadeType.ALL)
-	/*
-	(mappedBy = "asignaturaCoordina", cascade = CascadeType.ALL, fetch = FetchType.EAGER)  
-	@Fetch(value = FetchMode.JOIN)
-	*/
 	private Profesor coordinador;
 	
 	
 	 @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	 /*
-	 //(cascade=CascadeType.REFRESH, fetch = FetchType.LAZY)
-	 (cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	 @JoinTable(
-	   name="Asignaturas_profesor",
-	   joinColumns=@JoinColumn(name="Asignatura", referencedColumnName="codigo"),
-	   inverseJoinColumns=@JoinColumn(name="Profesores", referencedColumnName="id"))
-	   */
 	 private List<Profesor> profesores;
 	 
 
@@ -69,6 +61,7 @@ public class Asignatura implements Serializable{
 		this.comentario="";
 		this.numeroAlumnos=0;
 		this.horasApolo=0.00;
+		this.grupos = new ArrayList<GrupoClase>();
 	}
 	
 
@@ -118,6 +111,9 @@ public class Asignatura implements Serializable{
 		return this.coordinador;
 	}
 
+	public List<GrupoClase> getGruposClase() {
+		return this.grupos;
+	}
 	
 	
 	
@@ -171,7 +167,10 @@ public class Asignatura implements Serializable{
 	public void deleteCoordinador() {
 		this.coordinador=null;
 	}
-	
+	 
+	public void setGruposClase(List<GrupoClase> grupos) {
+		this.grupos=grupos;
+	}
 }
 
 

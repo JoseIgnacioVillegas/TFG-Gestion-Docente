@@ -118,15 +118,7 @@ public Asignatura readAsignatura(String codigo) {
 			
 		session.beginTransaction();
 
-		/*
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery q = cb.createQuery(Order.class);
-		Root o = q.from(Order.class);
-		o.fetch("items", JoinType.INNER);
-		q.select(o);
-		q.where(cb.equal(o.get("id"), codigo));
-		Order order = (Order)session.createQuery(q).getSingleResult();
-			*/
+	
 		asignatura = session.get(Asignatura.class, codigo);
 
 			
@@ -158,18 +150,7 @@ public List<Asignatura> readAsignaturas() {
 		
 	try {
 		
-		/*
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery q = cb.createQuery(Order.class);
-		Root o = q.from(Order.class);
-		o.fetch("items", JoinType.INNER);
-		q.select(o);
-		q.where(cb.equal(o.get("id"), orderId));
-		Order order = (Order)session.createQuery(q).getSingleResult();
-			*/
-		
-		
-		//this.em.createQuery(q).getSingleResult();
+
 			
 		session.beginTransaction();
 			
@@ -197,20 +178,9 @@ public List<Asignatura> readAsignaturasPorPlan(String codigo) {
 	Session session = SessionFactoryService.get().openSession();
 	try {
 		session.beginTransaction();
-		//asignaturas.addAll(session.createQuery("select t from Asignatura t").getResultList() );
-		
-		
+	
 		listaAsignaturas.addAll(session.createQuery("select t from Asignatura t  where t.plan_codigo = :codigo").setParameter("codigo", codigo).getResultList() );
 		
-		
-		/*
-		listaAsignaturas.addAll( session.createQuery("select t from Asignatura t  where t.plan_codigo = :codigo")
-		        .setParameter("codigo", codigo))
-		.getResultList();
-		
-		*/
-		
-		//listaAsignaturas = session.get(PlanEstudios.class, codigo);
 
 		session.getTransaction().commit();
 	}catch(Exception e) {
@@ -234,87 +204,6 @@ public void updateAsignatura(Asignatura asignatura) {
 		session.close();
 	}		
 }
-
-
-
-
-/*  --Seguramente esto no se pueda hacer de esta manera, lo que tengo que hacer aqui es que cada vez que se modifique una asignatura, se modifique también la lista del plan de la misma 
-Eso o bien (quizas seria mas sensato) que cuando se llame al plan, este llame a la bbdd y actualice las asignaturas de su lista y asi esten siempre actualizadas
-Por tanto, habría que crear una query para sacar las asignaturas por codigo de plan 
-
-QUIZÁS LO MÁS PUTO LÓGICO SERÍA QUE EL PLAN NO TUVIESE UNA LISTA DEFINIDA COMO TAL Y QUE CADA VEZ QUE SE NECESITE LLAMAR AL PLAN, QUE SE LLAME A LAS ASIGNATURAS DEL MISMO 
-CON EL UN PUT QUERY QUE SAQUE LAS ASIGNATURAS POR CODIGO DE PLAN, COHONEH
-
-
-
-
-
- Es probable que me haga falta leer todos los profesores del tiron y los profesores para una asignatura concreta asi que igual 
-esto me hace falta en el futuro pero por ahora NO
-	
-@Override
-	
-public List<Comentario> readComentarios() {
-		
-	Session session = SessionFactoryService.get().openSession();
-		
-	List<Comentario> comentarios = new ArrayList<>();
-		
-	try {
-			
-		session.beginTransaction();
-			
-		comentarios.addAll(session.createQuery("select t from Comentario t").getResultList() );
-			
-		session.getTransaction().commit();
-		
-	}catch(Exception e) {
-			
-		
-	}finally {
-			
-		session.close();
-		
-	}
-		
-	return comentarios;
-	
-}
-	
-
-@Override
-	
-public List<Comentario> readComentarios(Pensamiento pensamiento) {
-		
-	Session session = SessionFactoryService.get().openSession();
-		
-	List<Comentario> comentarios = new ArrayList<>();
-		
-	try {
-			
-		session.beginTransaction();
-			
-		comentarios.addAll(session.createQuery("select t from Comentario t  where t.pensamiento_id = :id")
-	        
-			.setParameter("id", pensamiento.getId())
-	        
-			.getResultList() );
-			
-		session.getTransaction().commit();
-		
-	}catch(Exception e) {
-			
-		
-	}finally {
-			
-		session.close();
-		
-	}
-		
-return comentarios;
-	
-}
-*/
 
 
 

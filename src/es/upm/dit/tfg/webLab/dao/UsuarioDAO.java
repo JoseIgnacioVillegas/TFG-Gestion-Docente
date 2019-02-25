@@ -16,6 +16,7 @@ public interface UsuarioDAO {
 	public void deleteUsuario(Usuario usuario);
 	public List<Usuario> readUsuarios(); 
 	public Usuario readUsuarioPorCorreo(String email);
+	public void updateUsuario(Usuario usuario);
 
 
 }

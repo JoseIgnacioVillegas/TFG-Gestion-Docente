@@ -33,16 +33,17 @@ public class ObtenerAsignaturasServlet extends HttpServlet{
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		
+		req.getSession().removeAttribute("mensaje");
 		String profesorId = req.getParameter("idProfe");
 		Profesor profesor = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesorId));
-		//System.out.println("eyyy"+profesor.getAsignaturasParticipa());
+
 		List<Asignatura> asignaturasParticipa = profesor.getAsignaturasParticipa();
 		
-		//List<Asignatura> asignaturasParticipa = ProfesorDAOImplementation.getInstance().readAsignaturas(Integer.parseInt(profesorId));
-		
-		System.out.println(asignaturasParticipa);
+
 		req.getSession().setAttribute("profesor", profesor);
 		req.getSession().setAttribute("asignaturasParticipa", asignaturasParticipa);
+		req.getSession().setAttribute("todosPlanes", PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios());
 		req.getSession().setAttribute("todasAsignaturas", AsignaturaDAOImplementation.getInstance().readAsignaturas());
 		req.getSession().setAttribute("asignaturasCoordina", profesor.getAsignaturaCoordina());
 		resp.sendRedirect(req.getContextPath()+ "/AsignarAsignaturas.jsp");

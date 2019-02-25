@@ -2,8 +2,27 @@
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
 <style>
+	html {
+	  min-height: 100%;
+	  position: relative;
+	}
+	body {
+	  margin: 0;
+	  margin-bottom: 40px;
+	}
+	footer {
+	  background-color: black;
+	  position: absolute;
+	  bottom: 0;
+	  width: 100%;
+	  height: 200px;
+	  color: white;
+	}
 	table{
 		font-size:12px;
 	}
@@ -63,17 +82,15 @@
 	  background-color: #1e90ff;
 	}
 </style>
-<html>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Gestion de departamento</title>
+<link rel="icon" type="image/gif" href="./img/ditupm.gif"/>
+</head>
 
 <body id="myPage">
 
@@ -118,31 +135,26 @@
  
 
 
-<!-- Image Header -->
-
-<div class="w3-display-container w3-animate-opacity" >
-  
-<!--  img src="" alt="boat" style="width:30%;" -->
-</div>
-
-
-
-
-
-
 
 
 <!-- Team Container -->
 
 <div class="w3-container w3-padding-64 w3-center" id="team">
-	<p style="color:#FF0000";>${mensaje}</p>
+	<p style="color:#FF0000">${mensaje}</p>
 	<h2>Gestionar Usuarios</h2>
 
 
 	<p name="mensaje"></p>
 	<div class="w3-row"><br>
+	
+	<shiro:hasRole name="crearusuario">
+	<form name='crearusuario' action="CrearUsuario.jsp" >
+		<p>Para crear un nuevo usuario pincha aquí: <button type="submit" >Crear un nuevo usuario</button></p>
+	</form>
+	</shiro:hasRole>
 
-		<form action="CrearUsuario.jsp">Para crear un nuevo usuario pincha aquí: <button type="submit" >Crear un nuevo usuario</button></form>		
+
+
 		<br>
 		<br>
 		
@@ -182,8 +194,8 @@
 				<div class="checkboxes" id="chksCol4"></div>
 			</div>
 		</td>
-		<td><a>Editar</a></td>
-		<td><a>Borrar</a></td>
+		<shiro:hasRole name="editarusuario"><td><a>Editar</a></td></shiro:hasRole>
+		<shiro:hasRole name="borrarusuario"><td><a>Borrar</a></td></shiro:hasRole>
 	</tr>
 		
 		<c:forEach items="${usuarios}" var="usuario">
@@ -194,7 +206,7 @@
 			<td>${usuario.apellidos}</td>
 			<td>${usuario.correo}</td>
 
-			
+			<shiro:hasRole name="editarusuario">
 			<td><form action="EditarUsuario.jsp">
 			<input type="hidden" value="${usuario.id}" name="id">
 		<input type="hidden" value="${usuario.nombre}" name="nombre">
@@ -203,11 +215,15 @@
 		<input type="hidden" value="${usuario.correo}" name="correo">
 
 			<button type="submit" >Editar</button></form></td>
+			</shiro:hasRole>
 			
 			
+			
+			<shiro:hasRole name="borrarusuario">
 			<td><form action="BorrarUsuarioServlet">
 			<input type="hidden" value="${usuario.id}" name="id">
 			<button type="submit" >Borrar</button></form></td>
+			</shiro:hasRole>
 		</tr>
 		
 		</c:forEach>
@@ -226,25 +242,16 @@
 
 
 
-
 <!-- Footer -->
-
-<footer class="w3-container w3-padding-32 w3-theme-d1 w3-center" >
-  
-<h4>Follow Us</h4>
-  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Facebook"><i class="fa fa-facebook"></i></a>
-  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Twitter"><i class="fa fa-twitter"></i></a>
-  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Google +"><i class="fa fa-google-plus"></i></a>
-  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Google +"><i class="fa fa-instagram"></i></a>
-  <a class="w3-button w3-large w3-teal w3-hide-small" href="javascript:void(0)" title="Linkedin"><i class="fa fa-linkedin"></i></a>
-<p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-
-  
-
+<footer class="w3-padding-32 w3-center" >
+  <h4>Enlaces de interés</h4>
+  <a class="w3-button w3-large w3-teal" href="https://www.dit.upm.es/" title="DIT"><img src="./img/ditupm.gif" style="width:30px;height:30px;"></a>
+  <a class="w3-button w3-large w3-teal" href="http://www.etsit.upm.es/" title="ETSIT"><img src="./img/etsit.gif" style="width:30px;height:30px;"></a>
+  <a class="w3-button w3-large w3-teal" href="https://moodle.upm.es/" title="MOODLE"><img src="./img/moodle.gif" style="width:30px;height:30px;"></a>
+  <a class="w3-button w3-large w3-teal" href="http://www.upm.es/" title="UPM"><img src="./img/upm.gif" style="width:30px;height:30px;"></a>
+  <p>TFG Gestión docente - 2019</p>
+  <!--  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>  -->
 </footer>
-
-
-
 <script>
 
 

@@ -1,5 +1,6 @@
 package es.upm.dit.tfg.webLab.servlets;
 
+import org.apache.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,17 +31,21 @@ import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.Grupo;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
+import es.upm.dit.tfg.webLab.model.Usuario;
 
 
 
 @WebServlet("/ImportarAsignaturasServlet")
 
 public class ImportarAsignaturasServlet extends HttpServlet{
-
+	
+	private final static Logger log = Logger.getLogger(ImportarAsignaturasServlet.class);
 	
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		
+		req.getSession().removeAttribute("mensaje");
 
 		String planesCodigo[]; 
 		planesCodigo = req.getParameterValues("codigoPlan");
@@ -53,6 +58,10 @@ public class ImportarAsignaturasServlet extends HttpServlet{
 		
 		List<Asignatura> todasAsignaturas = (List<Asignatura>) req.getSession().getAttribute("listaAsignaturas");
 		
+		Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
+
+		
+		
 	
 		
 		
@@ -61,8 +70,7 @@ public class ImportarAsignaturasServlet extends HttpServlet{
 				for (int j = 0; j< planes.size(); j++) { 
 					if(planesCodigo[i].equals(planes.get(j).getCodigo())) {
 						PlanEstudiosDAOImplementation.getInstance().createPlanEstudios(planes.get(j));
-						
-				
+						//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha importado el plan de estudios "+planes.get(j).getCodigo()+" - "+planes.get(j).getNombre());
 					}
 				} 
 			} 
@@ -78,7 +86,6 @@ public class ImportarAsignaturasServlet extends HttpServlet{
 				if(asignatura==null ) {
 						for (int j = 0; j< todasAsignaturas.size(); j++) { 
 							PlanEstudios plan = PlanEstudiosDAOImplementation.getInstance().readPlanEstudios(todasAsignaturas.get(j).getPlanEstudios().getCodigo());
-							System.out.println("el planecito: "+plan);
 							
 							if(asignaturasCodigo[i].equals(todasAsignaturas.get(j).getCodigo()) && plan==null) {
 							
@@ -90,8 +97,10 @@ public class ImportarAsignaturasServlet extends HttpServlet{
 								crearPlan.setNombre(todasAsignaturas.get(j).getPlanEstudios().getNombre());
 								crearPlan.setAsignaturas(asignaturasPlan);
 								PlanEstudiosDAOImplementation.getInstance().createPlanEstudios(crearPlan);
-								
+								//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha importado el plan de estudios "+todasAsignaturas.get(j).getPlanEstudios().getCodigo()+" - "+todasAsignaturas.get(j).getPlanEstudios().getNombre());
+
 								AsignaturaDAOImplementation.getInstance().createAsignatura(todasAsignaturas.get(j));
+								//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha importado la asignatura "+todasAsignaturas.get(j).getCodigo()+" - "+todasAsignaturas.get(j).getNombre());
 								todasAsignaturas.get(j).setPlanEstudios(crearPlan);
 
 							}else if (asignaturasCodigo[i].equals(todasAsignaturas.get(j).getCodigo()) && plan !=null) {
@@ -107,6 +116,8 @@ public class ImportarAsignaturasServlet extends HttpServlet{
 								
 								//Creamos la nueva asignatura 
 								AsignaturaDAOImplementation.getInstance().createAsignatura(todasAsignaturas.get(j));
+								//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha importado la asignatura "+todasAsignaturas.get(j).getCodigo()+" - "+todasAsignaturas.get(j).getNombre());
+
 								//Le metemos el nuevo plan 
 								todasAsignaturas.get(j).setPlanEstudios(crearPlan);
 								
@@ -121,6 +132,8 @@ public class ImportarAsignaturasServlet extends HttpServlet{
 			} 
 			
 		}
+		//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" importado asignaturas.");
+
 		List<PlanEstudios> planesEnviar = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
 		req.getSession().setAttribute("planesActuales",  planesEnviar);
 

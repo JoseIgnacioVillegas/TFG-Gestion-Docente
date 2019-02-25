@@ -1,6 +1,6 @@
 package es.upm.dit.tfg.webLab.servlets;
 
-import java.util.ArrayList;
+import org.apache.log4j.Logger;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,12 +15,17 @@ import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
+import es.upm.dit.tfg.webLab.model.Usuario;
 
 
 @WebServlet("/EditarPlanServlet")
 public class EditarPlanServlet extends HttpServlet{
+	
+
+	private final static Logger log = Logger.getLogger(EditarPlanServlet.class);
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		req.getSession().removeAttribute("mensaje");
 		String codigoAnt = req.getParameter("codigo1");
 		String codigo = req.getParameter("codigo");
 		String nombre = req.getParameter("nombre");
@@ -29,19 +34,7 @@ public class EditarPlanServlet extends HttpServlet{
 		PlanEstudios plan = PlanEstudiosDAOImplementation.getInstance().readPlanEstudios(codigoAnt);
 		List<Asignatura> asignaturas = plan.getAsignaturas();
 		
-		/*
-		try {
-			for(int i=0;i<asignaturas.size();i++) {
-				AsignaturaDAOImplementation.getInstance().deleteAsignatura(asignaturas.get(i));
-				//asignaturas.get(i).setPlanEstudios(planNuevo);
-			}
-			}catch(Exception e){
-				
-			}finally {
-				
-			}
-		*/
-		//PlanEstudios plan = PlanEstudiosDAOImplementation.getInstance().readPlanEstudios(codigoAnt);
+
 		PlanEstudiosDAOImplementation.getInstance().deletePlanEstudios(plan);
 
 
@@ -49,6 +42,11 @@ public class EditarPlanServlet extends HttpServlet{
 		planNuevo.setNombre(nombre);
 		planNuevo.setCodigo(codigo);
 		PlanEstudiosDAOImplementation.getInstance().createPlanEstudios(planNuevo);
+		
+		Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
+
+		//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha editado el plan de estudios "+codigo+" - "+nombre);
+
 		
 		try {
 			for(int i=0;i<asignaturas.size();i++) {

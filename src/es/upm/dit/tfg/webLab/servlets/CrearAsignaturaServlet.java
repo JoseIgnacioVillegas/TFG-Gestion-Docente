@@ -1,38 +1,32 @@
 package es.upm.dit.tfg.webLab.servlets;
 
+import org.apache.log4j.Logger;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
-
 import javax.servlet.annotation.WebServlet;
-
 import javax.servlet.http.HttpServlet;
-
 import javax.servlet.http.HttpServletRequest;
-
 import javax.servlet.http.HttpServletResponse;
-
-import org.h2.table.Plan;
 
 import com.itextpdf.io.IOException;
 
 import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
-import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
-import es.upm.dit.tfg.webLab.model.Profesor;
+import es.upm.dit.tfg.webLab.model.Usuario;
 
 @WebServlet("/CrearAsignaturaServlet")
 
 public class CrearAsignaturaServlet extends HttpServlet{
 
-	
+	private final static Logger log = Logger.getLogger(CrearAsignaturaServlet.class);
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
+		req.getSession().removeAttribute("mensaje");
 		
 		String nom = req.getParameter("nombre");
 		String acronimo = req.getParameter("acronimo");
@@ -70,7 +64,12 @@ public class CrearAsignaturaServlet extends HttpServlet{
 		
 		AsignaturaDAOImplementation.getInstance().createAsignatura(asignaturaNueva);
 		
+		
+		Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
 
+		//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha creado la asignatura "+codigo+" - "+nom);
+
+		
 		//Sacamos todas las asignaturas para pasarlas al jsp
 		List<PlanEstudios> todosPlanes = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
 		req.getSession().setAttribute("planesActuales", todosPlanes);

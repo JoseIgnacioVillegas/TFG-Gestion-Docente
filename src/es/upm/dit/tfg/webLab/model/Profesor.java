@@ -21,12 +21,16 @@ public class Profesor implements Serializable{
 	@Id
 	private int id;
 	
+	@OneToMany(mappedBy="profesor",cascade = CascadeType.ALL)
+	private List<ProfesorGrupoClaseAsociacion> gruposParticipa;
+	
+	
 	@OneToOne
 	private Usuario usuario;
 	
-	@OneToMany(mappedBy = "coordinador", fetch = FetchType.EAGER,cascade = CascadeType.ALL) //OJITO A ESTO QUE LO DE USER ME LO HE INVENTADO
+	@OneToMany(mappedBy = "coordinador", fetch = FetchType.EAGER,cascade = CascadeType.ALL) 
 	@Fetch(value = FetchMode.SUBSELECT)
-	//@LazyCollection(LazyCollectionOption.FALSE)
+
 	private List<Asignatura> asignaturaCoordina;
 	
 
@@ -34,13 +38,10 @@ public class Profesor implements Serializable{
 	private String dedicacion;
 	
 
-	//@ManyToMany
-	@ManyToMany(mappedBy="profesores",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	//@LazyCollection(LazyCollectionOption.FALSE)
-	
+	//fetch = FetchType.EAGER,
+	@ManyToMany(mappedBy="profesores",cascade = CascadeType.ALL)
 	private List<Asignatura> asignaturasParticipa;
-	
-	
+
 	
 	@ManyToOne
 	private Grupo grupo;
@@ -59,6 +60,7 @@ public class Profesor implements Serializable{
 		this.dedicacion="";
 		this.usuario=null;
 		this.asignaturaCoordina=new ArrayList<Asignatura>();
+		this.gruposParticipa=new ArrayList<ProfesorGrupoClaseAsociacion>();
 	}
 	
 	
@@ -86,11 +88,9 @@ public class Profesor implements Serializable{
 	public  List<Asignatura> getAsignaturaCoordina() {
 		return this.asignaturaCoordina;
 	}
-	/*
-	public List<Asignatura> getAsignaturaCoordina() {
-		return this.asignaturasCoordina;
+	public  List<ProfesorGrupoClaseAsociacion> getGrupoClase() {
+		return this.gruposParticipa;
 	}
-	*/
 
 
 
@@ -114,11 +114,6 @@ public class Profesor implements Serializable{
 	public void setPlaza(Plaza plaza) {
 		this.plaza=plaza;
 	}
-	/*
-	public void setAsignaturaCoordina(List<Asignatura> asignaturasCoordina) {
-		this.asignaturasCoordina=asignaturasCoordina;
-	}
-	*/
 	public void setUsuario(Usuario usuario) {
 		this.usuario=usuario;
 	}
@@ -127,4 +122,8 @@ public class Profesor implements Serializable{
 		this.asignaturaCoordina=asignaturaCoordina;
 	}
 
+	public void setGrupoClase( List<ProfesorGrupoClaseAsociacion> gruposParticipa) {
+		this.gruposParticipa=gruposParticipa;
+	}
+	
 }

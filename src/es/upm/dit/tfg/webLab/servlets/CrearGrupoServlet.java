@@ -1,6 +1,6 @@
 package es.upm.dit.tfg.webLab.servlets;
 
-import java.util.ArrayList;
+import org.apache.log4j.Logger;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,14 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.itextpdf.io.IOException;
 
 import es.upm.dit.tfg.webLab.dao.GrupoDAOImplementation;
-import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Grupo;
-import es.upm.dit.tfg.webLab.model.Profesor;
+import es.upm.dit.tfg.webLab.model.Usuario;
 
 @WebServlet("/CrearGrupoServlet")
 public class CrearGrupoServlet extends HttpServlet{
+	private final static Logger log = Logger.getLogger(CrearGrupoServlet.class);
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		req.getSession().removeAttribute("mensaje");
 		String nom = req.getParameter("nombre");
 		String acrom = req.getParameter("acronimo");
 		
@@ -31,15 +33,12 @@ public class CrearGrupoServlet extends HttpServlet{
 		
 
 		GrupoDAOImplementation.getInstance().createGrupo(grupo);
-		
+		Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
+
+		//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha creado el plan de estudios "+nom);
+
 		
 		List<Grupo> todosGrupos = GrupoDAOImplementation.getInstance().readGrupos();
-		
-		List<String> nombres = new ArrayList<String>();
-		for (int i=0; i<todosGrupos.size(); i++) {
-			nombres.add(todosGrupos.get(i).getNombre());
-			nombres.add(todosGrupos.get(i).getAcronimo());
-		}
 		
 		req.getSession().setAttribute("grupos", todosGrupos);
 

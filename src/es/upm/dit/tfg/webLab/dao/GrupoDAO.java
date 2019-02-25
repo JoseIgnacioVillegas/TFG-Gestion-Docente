@@ -10,5 +10,6 @@ public interface GrupoDAO {
 	public void deleteGrupo(Grupo grupo);
 	public Grupo readGrupo(String nombre);
 	public List<Grupo> readGrupos();
+	public void updateGrupo(Grupo grupo) ;
 
 }

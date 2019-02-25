@@ -20,8 +20,10 @@
 		<mapping class="es.upm.dit.tfg.webLab.model.Plaza" />
 		<mapping class="es.upm.dit.tfg.webLab.model.PlanEstudios" />
 		<mapping class="es.upm.dit.tfg.webLab.model.Asignatura" />
-		<mapping class="es.upm.dit.tfg.webLab.model.Log" />
 		<mapping class="es.upm.dit.tfg.webLab.model.Usuario" />
 		<mapping class="es.upm.dit.tfg.webLab.model.Permiso" />
+		<mapping class="es.upm.dit.tfg.webLab.model.GrupoClase" />
+		<mapping class="es.upm.dit.tfg.webLab.model.ProfesorGrupoClaseAsociacion" />
+		<mapping class="es.upm.dit.tfg.webLab.model.ProfesorGrupoClaseAsociacionId" />
 	</session-factory>
 </hibernate-configuration>

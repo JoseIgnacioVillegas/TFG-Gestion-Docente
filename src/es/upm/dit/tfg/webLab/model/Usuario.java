@@ -1,7 +1,7 @@
 package es.upm.dit.tfg.webLab.model;
 
 import java.io.Serializable;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -21,27 +21,21 @@ public class Usuario implements Serializable{
 	@Fetch(value = FetchMode.JOIN)
 	private Profesor profesor;
 	
-	@ManyToMany
-	private List<Permiso> permisos;
-	
-	
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)  
+	@ManyToMany(cascade = CascadeType.ALL, fetch =FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	private List<Log> logs;
-	
-	
+	private List<Permiso> permisos;
+
 	private String nombre;
 	private String apellidos;
 	private String correo;
 	
 	public Usuario() {
 		this.id=0;
-		this.permisos=null;
+		this.permisos=new ArrayList<Permiso>();
 		this.nombre="";
 		this.apellidos="";
 		this.correo="";
 		this.profesor=null;
-		this.logs=null;
 	}
 		
 	

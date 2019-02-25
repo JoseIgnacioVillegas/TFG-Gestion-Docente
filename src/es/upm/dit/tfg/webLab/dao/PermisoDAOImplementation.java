@@ -9,7 +9,7 @@ import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.Permiso;
 import es.upm.dit.tfg.webLab.model.Plaza;
 import es.upm.dit.tfg.webLab.model.Profesor;
-
+import es.upm.dit.tfg.webLab.model.Usuario;
 
 import org.hibernate.Session;
 
@@ -122,6 +122,27 @@ public class PermisoDAOImplementation implements PermisoDAO{
 	}
 	
 	
+	/*
+	@Override
+	public List<Permiso> readPermisosPorUsuario(int usuarioid) {
+		List<Permiso> listaPermisos = null;
+		Session session = SessionFactoryService.get().openSession();
+		try {
+			session.beginTransaction();
+		
+			listaPermisos.addAll(session.createQuery("select t from Permiso t  where t.usuario_id = :usuario_id").setParameter("usuario_id", usuarioid).getResultList() );
+			
+
+			session.getTransaction().commit();
+		}catch(Exception e) {
+			System.out.println("eeeeeeeeeeeheeee"+e);
+		}finally {
+			session.close();
+		}
+		return listaPermisos;
+	}
+	
+	*/
 
 
 }
