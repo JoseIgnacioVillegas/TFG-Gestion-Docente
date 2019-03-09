@@ -24,17 +24,7 @@ public class Permiso implements Serializable{
 	private List<Usuario> usuario;
 	
 	private String descripcion;
-	
 	private String permiso;
-	
-	private String[] todosLosPermisos = {"leerusuario","crearusuario", "borrarusuario","editarusuario",
-										"leerdocente","creardocente","boorardocente","editardocente",
-										"leergrupo", "creargrupo","borrargrupo","editargrupo",
-										"leerplaza","crearplaza","borrarplaza","editarplaza",
-										"leerplan","crearplan","borrarplan","editarplan",
-										"leerasignatura","crearasignatura","borrarasignatura","editarasignatura",
-										"importarasignatura","asignardocentes","asignarasignaturas",
-										"exportardatos","copiaseguridad","gestionarpermisos"};
 	
 	
 	public Permiso() {
@@ -60,17 +50,14 @@ public class Permiso implements Serializable{
 	public String getDescripcion() {
 		return this.descripcion;
 	}
-	public String[] getTodosPermisos() {
-		return this.todosLosPermisos;
-	}
-	
+
 		
 	
 	public void setId(int id) {	
 		this.id=id;
 	}
-	public void setUsuario(List<Usuario> usuario) {	
-		this.usuario=usuario;	
+	public void addUsuario(Usuario usuario) {	
+		this.usuario.add((Usuario) usuario);	
 	}
 	public void setPermiso(String permiso) {	
 		this.permiso=permiso;	

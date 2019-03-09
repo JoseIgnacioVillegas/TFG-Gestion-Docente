@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.subject.Subject;
 
 import com.itextpdf.io.IOException;
 
@@ -37,36 +38,45 @@ public class AsignarPermisosServlet extends HttpServlet{
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		
+		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
 		req.getSession().removeAttribute("mensaje");
 		int UsuarioId = Integer.parseInt(req.getParameter("id"));
-		Usuario usuario = UsuarioDAOImplementation.getInstance().readUsuario(UsuarioId);
 		
-		//Saco el array de los id de los profesores borrados
-		String todosPermisosId[]; 
-		todosPermisosId = req.getParameterValues("permisos");
-		
-		List<Permiso> nuevosPermisos = new ArrayList<Permiso>();
-
-		try {
-			for (int i = 0; i< todosPermisosId.length; i++) {
-				Permiso permiso = PermisoDAOImplementation.getInstance().readPermiso(Integer.parseInt(todosPermisosId[i]));
-				nuevosPermisos.add(permiso);
+		/*
+		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
+		 */
+		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
+			Usuario usuario = UsuarioDAOImplementation.getInstance().readUsuario(UsuarioId);
+			
+			//Saco el array de los id de los profesores borrados
+			String todosPermisosId[]; 
+			todosPermisosId = req.getParameterValues("permisos");
+			
+			List<Permiso> nuevosPermisos = new ArrayList<Permiso>();
+	
+			try {
+				for (int i = 0; i< todosPermisosId.length; i++) {
+					Permiso permiso = PermisoDAOImplementation.getInstance().readPermiso(Integer.parseInt(todosPermisosId[i]));
+					nuevosPermisos.add(permiso);
+				}
+			}catch(Exception e) {
+				System.out.println(e);
+			}finally {
+						
 			}
-		}catch(Exception e) {
-			System.out.println(e);
-		}finally {
-					
-		}
-		
-		usuario.setPermisos(nuevosPermisos);
-		UsuarioDAOImplementation.getInstance().updateUsuario(usuario);
-		
-		
+			
+			usuario.setPermisos(nuevosPermisos);
+			UsuarioDAOImplementation.getInstance().updateUsuario(usuario);
 
-		
-		String msj = "Permisos asignados con éxito";
-		req.getSession().setAttribute("mensaje", msj);
-		resp.sendRedirect(req.getContextPath()+ "/GestionarPermisos.jsp");
+			String msj = "Permisos asignados con éxito";
+			req.getSession().setAttribute("mensaje", msj);
+			
+			getServletContext().getRequestDispatcher("/GestionarPermisos.jsp").forward(req, resp);
+			
+		}else {
+			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
+		}
 	}
 }
 		

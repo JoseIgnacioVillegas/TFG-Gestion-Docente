@@ -3,16 +3,26 @@
   
   
   <display-name>TFG</display-name>
-  <welcome-file-list>
-    <welcome-file>loginPage.jsp</welcome-file>
-  </welcome-file-list>
+  
+<welcome-file-list>
+   <welcome-file>loginPage.jsp</welcome-file>
+</welcome-file-list>
   
   
 <listener>
-        <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
-    </listener>
+     <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
+</listener>
 
 
+<!--  
+<context-param>
+		<param-name>shiroConfigLocations</param-name>
+		<param-value>/shiro.ini</param-value>
+</context-param>
+-->
+	
+	
+	
 <filter>
     <filter-name>ShiroFilter</filter-name>
     <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>

@@ -22,9 +22,6 @@ import es.upm.dit.tfg.webLab.model.Profesor;
 import es.upm.dit.tfg.webLab.model.Usuario;
 
 
-
-
-
 @WebServlet("/ObtenerPermisosServlet")
 
 public class ObtenerPermisosServlet extends HttpServlet{
@@ -65,7 +62,8 @@ public class ObtenerPermisosServlet extends HttpServlet{
 		req.getSession().setAttribute("todosPermisos", todosPermisos);
 		req.getSession().setAttribute("usuario", usuario);
 
-		resp.sendRedirect(req.getContextPath()+ "/AsignarPermisos.jsp");
+		getServletContext().getRequestDispatcher("/AsignarPermisos.jsp").forward(req, resp);
+		
 	}
 }
 		

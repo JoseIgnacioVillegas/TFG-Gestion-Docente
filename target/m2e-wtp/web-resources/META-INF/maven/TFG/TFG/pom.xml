@@ -69,6 +69,8 @@
 
 
 		
+		
+		
 		<!-- VAINAS DE EXCEL -->
 		<!-- Used to work with the older excel file format - `.xls` -->
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
@@ -77,6 +79,10 @@
     <artifactId>poi</artifactId>
     <version>3.17</version>
 </dependency>
+
+
+
+
 
 <!-- Used to work with the newer excel file format - `.xlsx` -->
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
@@ -112,32 +118,18 @@
         
         
         <!-- Shiro uses SLF4J for logging.  We'll use the 'simple' binding  slf4j-api-1.7.7
-             in this example app.  See http://www.slf4j.org for more info. 
+             in this example app.  See http://www.slf4j.org for more info.      -->
+       
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>jcl-over-slf4j</artifactId>
+          <version>1.7.25</version>
+      </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.6.1</version>
-            <scope>test</scope>
-        </dependency> 
-        
-        
-        
-          <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.6.1</version>
-        </dependency>
-        
-        -->
-        
-               <dependency>
-            <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.1</version>
+            <version>1.7.25</version>
         </dependency>
-        
-      
-        
         
         
 

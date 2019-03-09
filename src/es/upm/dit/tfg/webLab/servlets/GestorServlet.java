@@ -57,29 +57,42 @@ public class GestorServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		req.getSession().removeAttribute("mensaje");
-		
-		//Subject currentUser = SecurityUtils.getSubject();
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		System.out.println(currentUser);
+		
+		
+		//Botones para gestionar usuarios
+		String BotonCRUDProfesor = req.getParameter("CRUDProfesor");
+		String BotonGestionNoDocentes = req.getParameter("NoDocentes");
+		String BotonGestionPermisos = req.getParameter("Permisos");
+		
+		//Botones para gestionar la docencia 
+		String BotonCRUDPlan = req.getParameter("CRUDPlan");
+		String BotonCRUDAsignaturas = req.getParameter("CRUDAsignatura");
+		
+		
 		String grupo = req.getParameter("CRUDGrupo");
 		String plaza = req.getParameter("CRUDPlaza");
 		String api = req.getParameter("importarapi");
-		String permisos = req.getParameter("Permisos");
-		String boton = req.getParameter("crearusuario");
-		String asignaturas = req.getParameter("CRUDAsignatura");
-		String CRUDProfesor = req.getParameter("CRUDProfesor");
-		String plan = req.getParameter("CRUDPlan");
-		String asignar = req.getParameter("AsignarUsuarios");
-
-		String NoDocentes = req.getParameter("NoDocentes");
 		
-	
-		if (currentUser.hasRole("crearprofesor")|| currentUser.hasRole("borrarprofesor")|| currentUser.hasRole("editarprofesor")||
-				currentUser.hasRole("creargrupo")||currentUser.hasRole("editargrupo")||currentUser.hasRole("borrargrupo")||	
-				currentUser.hasRole("crearplaza")||currentUser.hasRole("editarplaza")||currentUser.hasRole("borrarplaza")||
-				currentUser.hasRole("asignarasignaturas")) {  
+		
+		
+		
+		
+		String asignar = req.getParameter("AsignarUsuarios");
+		
+		String Backup = req.getParameter("Backup");
+		String Export = req.getParameter("Export");
+		
+		
+		
+		
+		/*
+		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
+		 */
+		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
 			
-			if(CRUDProfesor!=null && CRUDProfesor.equals("CRUDProfesor")) {
+			// Gestion de los profesores 
+			if(BotonCRUDProfesor!=null && BotonCRUDProfesor.equals("CRUDProfesor")) {
 				
 				List<Profesor> listaProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
 				List<Grupo> listaGrupos = GrupoDAOImplementation.getInstance().readGrupos();
@@ -93,26 +106,12 @@ public class GestorServlet extends HttpServlet{
 				req.getSession().setAttribute("plazas", listaPlazas);
 				
 				getServletContext().getRequestDispatcher("/CRUDProfesor.jsp").forward(req, resp);
-				//resp.sendRedirect(req.getContextPath() + "/CRUDProfesor.jsp");
 			}
-		}
-		
-		
-		
-		if(permisos!=null && permisos.equals("Permisos")) {
-
-			List<Permiso> todosPermisos = PermisoDAOImplementation.getInstance().readPermisos();
-			List<Usuario> usuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
 			
-			req.getSession().setAttribute("permisos", todosPermisos);
-			req.getSession().setAttribute("usuarios", usuarios);
-			resp.sendRedirect(req.getContextPath() + "/GestionarPermisos.jsp");
-		}
-		
-		
-		
-		             
-			if(NoDocentes!=null && NoDocentes.equals("NoDocentes")) {
+			
+			
+			//Gestion de los usuarios no docentes 
+			if(BotonGestionNoDocentes!=null && BotonGestionNoDocentes.equals("NoDocentes")) {
 
 				List<Usuario> todosUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
 				List<Usuario> usuarios =new ArrayList();
@@ -124,13 +123,96 @@ public class GestorServlet extends HttpServlet{
 				
 				req.getSession().setAttribute("usuarios", usuarios);
 				getServletContext().getRequestDispatcher("/CRUDPAS.jsp").forward(req, resp);
-				//resp.sendRedirect(req.getContextPath() + "/CRUDPAS.jsp");
-			}                        
+			}  
+			
+			//Gestion de los permisos de los usuarios 
+			if(BotonGestionPermisos!=null && BotonGestionPermisos.equals("Permisos")) {
+
+				List<Permiso> todosPermisos = PermisoDAOImplementation.getInstance().readPermisos();
+				List<Usuario> usuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
+				
+				req.getSession().setAttribute("permisos", todosPermisos);
+				req.getSession().setAttribute("usuarios", usuarios);
+				resp.sendRedirect(req.getContextPath() + "/GestionarPermisos.jsp");
+			}
+			
+		}else {
+			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
+		}
+		
+
+		
+		
+		
+		
+		/*
+		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar docencia
+		 */
+		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
+			
+			//Gestion de planes de estudio
+			if(BotonCRUDPlan!=null && BotonCRUDPlan.equals("CRUDPlan")) {
+				List<PlanEstudios> listaPlanes = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
+
+				req.getSession().setAttribute("planesActuales", listaPlanes);
+		
+				
+				resp.sendRedirect(req.getContextPath() + "/CRUDPlan.jsp");
+			}
+			
+			//Gestion de las asignaturas
+			if( BotonCRUDAsignaturas!=null &&  BotonCRUDAsignaturas.equals("CRUDAsignatura")) {
+				
+				
+				List<PlanEstudios> listaPlanes = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
+				List<Profesor> listaProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
+
+				req.getSession().setAttribute("planesActuales", listaPlanes);
+				req.getSession().setAttribute("listaProfesores", listaProfesores);
+				
+				resp.sendRedirect(req.getContextPath() + "/CRUDAsignatura.jsp");
+			}
+			
+			
+		}else {
+			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
+		}
+		
+		      
+		
+		
+		
+		
+		
+		
+		/*
+		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar docencia
+		 */
+		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestiondatos")){
+			
+			//Para realizar el Backup
+			if(Backup!=null && Backup.equals("Backup")) getServletContext().getRequestDispatcher("/GestorBBDD.jsp").forward(req, resp);
+
+			//Para poder exportar datos
+			if(Export!=null && Export.equals("Export")) getServletContext().getRequestDispatcher("/ExportarDatos.jsp").forward(req, resp);
+			
+		}else {
+			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
+		}
+		
+		
+		
+		
+		
+		
+			                      
 		  
 		
 		
 		
-		
+		/*
+		 * ¿DEBERIA ESTO DE ESTAR EN ESTE SERVLET???????????????????????
+		 */
 		
 		if(asignar!=null && asignar.equals("AsignarUsuarios")) {
 			
@@ -145,17 +227,7 @@ public class GestorServlet extends HttpServlet{
 		}
 		
 		
-		if(plan!=null && plan.equals("CRUDPlan")) {
-			
-			
-			List<PlanEstudios> listaPlanes = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
-			
-			//req.getSession().setAttribute("usuarioId", id);
-			req.getSession().setAttribute("planesActuales", listaPlanes);
-	
-			
-			resp.sendRedirect(req.getContextPath() + "/CRUDPlan.jsp");
-		}
+		
 		
 		
 	
@@ -163,18 +235,10 @@ public class GestorServlet extends HttpServlet{
 		
 		
 		
-		if(asignaturas!=null && asignaturas.equals("CRUDAsignatura")) {
-			
-			
-			List<PlanEstudios> listaPlanes = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
-			List<Profesor> listaProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
-
-			req.getSession().setAttribute("planesActuales", listaPlanes);
-			req.getSession().setAttribute("listaProfesores", listaProfesores);
-			
-			resp.sendRedirect(req.getContextPath() + "/CRUDAsignatura.jsp");
-		}
 		
+		/*
+		 * ¿DEBERIA ESTO DE ESTAR EN ESTE SERVLET???????????????????????
+		 */
 		if(api!=null && api.equals("importarapi")) {
 			String anio = hora();
 			
@@ -188,27 +252,11 @@ public class GestorServlet extends HttpServlet{
 		}
 		
 		
-		if(boton!=null && boton.equals("crearusuario")) {
-
-			List<Grupo> todosGrupos = GrupoDAOImplementation.getInstance().readGrupos();
-			List<String> nombres = new ArrayList<String>();
-			for (int i=0; i<todosGrupos.size(); i++) {
-				nombres.add(todosGrupos.get(i).getNombre());
-				nombres.add(todosGrupos.get(i).getAcronimo());
-			}
-			req.getSession().setAttribute("grupos", todosGrupos);
-			List<Plaza> todasPlazas = PlazaDAOImplementation.getInstance().readPlazas();
-			
-			List<String> nombres1 = new ArrayList<String>();
-			for (int i=0; i<todasPlazas.size(); i++) {
-				nombres1.add(todasPlazas.get(i).getPlaza());
-			}
-			
-			req.getSession().setAttribute("plazas", nombres1);
-			resp.sendRedirect(req.getContextPath() + "/CrearUsuario.jsp");
-		}
 		
 		
+		/*
+		 * ¿DEBERIA ESTO DE ESTAR EN ESTE SERVLET???????????????????????
+		 */
 		
 		if(grupo!=null && grupo.equals("CRUDGrupo")) {
 			List<Grupo> todosGrupos = GrupoDAOImplementation.getInstance().readGrupos();
@@ -217,7 +265,9 @@ public class GestorServlet extends HttpServlet{
 		}
 		
 		
-		
+		/*
+		 * ¿DEBERIA ESTO DE ESTAR EN ESTE SERVLET???????????????????????
+		 */
 		
 		if(plaza!=null && plaza.equals("CRUDPlaza")) {
 			
@@ -234,10 +284,35 @@ public class GestorServlet extends HttpServlet{
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 	
 	
+	
+	
+	
+	
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+	// Aqui empiezan los metodos para descargar asignaturas 
 	private static List<Asignatura> descargarAsignaturas(String codigo){
 		List<Asignatura> listaAsignaturas = new ArrayList<Asignatura>();
 		try {

@@ -94,44 +94,8 @@
 
 <body id="myPage">
 
-<!-- Sidebar on click -->
-
-<div class="w3-sidebar w3-bar-block w3-white w3-card w3-animate-left " style="position:absolute;z-index:2" id="mySidebar">
-  <br>
-  <br>
-    <button  class="w3-bar-item w3-button" name="gestUsuarios" value="gestUsuarios" onclick="desplegarMenu(this)">Gestion Usuarios</button>
-    <div id="gestUsuarios" style="display:none;">
-	    <form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDProfesor" name="CRUDProfesor">Docentes</button></form>
-	    <form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="NoDocentes" name="NoDocentes">No Docentes</button></form>
-	    <form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="Permisos" name="Permisos">Permisos</button></form>
-    </div>
-    
-    <button  class="w3-bar-item w3-button"  name="gestDocencia" value="gestDocencia" onclick="desplegarMenu(this)">Gestion Docencia</button>
-    <div id="gestDocencia" style="display:none;">
-    	<form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDPlan" name="CRUDPlan">Plan de Estudios</button></form>
-   	  	<form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDAsignatura" name="CRUDAsignatura">Asignaturas</button></form>
-   	  	<form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="Responsabilidades" name="Responsabilidades">Responsabilidades</button></form>
-  	</div>
-</div>
-
-
-
-
-<!-- Navbar -->
-
-
- 
-<div class="w3-bar w3-theme-d2 w3-left-align" style="position:absolute;z-index:3">
-  
-<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <form action="VistaInicial.jsp"><button class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Inicio</button></form>
-  <form action="ProfesorServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Profesor</button></form>
-  <form action="CoordinadorServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Coordinador</button></form>
-  <form action="VistaGestor.jsp"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Gestor</button></form>
-  <form action="LogoutServlet"><button  type="submit" class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-right">Logout</button>	</form>
- 
-</div>
-
+<!-- En este archivo .jsp esta definido el menu principal y la barra lateral -->
+<%@ include file="menu.jsp" %> 
  
 
 
@@ -147,11 +111,12 @@
 	<p name="mensaje"></p>
 	<div class="w3-row"><br>
 	
-	<shiro:hasRole name="crearusuario">
-	<form name='crearusuario' action="CrearUsuario.jsp" >
-		<p>Para crear un nuevo usuario pincha aquí: <button type="submit" >Crear un nuevo usuario</button></p>
-	</form>
-	</shiro:hasRole>
+	<shiro:hasAnyRoles name="administrador, gestionusuarios">
+		<form action="CrearUsuario.jsp" >
+		<p>Para crear un nuevo usuario pincha aquí:<button type="submit"  value="crearusuario" name="crearusuario">Crear un nuevo usuario</button></p>
+		</form>
+	</shiro:hasAnyRoles>
+
 
 
 
@@ -194,8 +159,8 @@
 				<div class="checkboxes" id="chksCol4"></div>
 			</div>
 		</td>
-		<shiro:hasRole name="editarusuario"><td><a>Editar</a></td></shiro:hasRole>
-		<shiro:hasRole name="borrarusuario"><td><a>Borrar</a></td></shiro:hasRole>
+		<td><a>Editar</a></td>
+		<td><a>Borrar</a></td>
 	</tr>
 		
 		<c:forEach items="${usuarios}" var="usuario">
@@ -206,24 +171,25 @@
 			<td>${usuario.apellidos}</td>
 			<td>${usuario.correo}</td>
 
-			<shiro:hasRole name="editarusuario">
-			<td><form action="EditarUsuario.jsp">
-			<input type="hidden" value="${usuario.id}" name="id">
-		<input type="hidden" value="${usuario.nombre}" name="nombre">
-		<input type="hidden" value="${usuario.apellidos}" name="apellidos">
-		
-		<input type="hidden" value="${usuario.correo}" name="correo">
-
-			<button type="submit" >Editar</button></form></td>
-			</shiro:hasRole>
+			<shiro:hasAnyRoles name="administrador, gestionusuarios">
+			<td>
+				<form action="EditarUsuario.jsp">
+					<input type="hidden" value="${usuario.id}" name="id">
+					<input type="hidden" value="${usuario.nombre}" name="nombre">
+					<input type="hidden" value="${usuario.apellidos}" name="apellidos">
+					<input type="hidden" value="${usuario.correo}" name="correo">
+					<button type="submit" >Editar</button>
+				</form>
+			</td>
+			</shiro:hasAnyRoles>
 			
 			
 			
-			<shiro:hasRole name="borrarusuario">
+			<shiro:hasAnyRoles name="administrador, gestionusuarios">
 			<td><form action="BorrarUsuarioServlet">
 			<input type="hidden" value="${usuario.id}" name="id">
 			<button type="submit" >Borrar</button></form></td>
-			</shiro:hasRole>
+			</shiro:hasAnyRoles>
 		</tr>
 		
 		</c:forEach>

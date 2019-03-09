@@ -2,6 +2,8 @@ package es.upm.dit.tfg.webLab.servlets;
 
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.subject.Subject;
+
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -34,6 +36,7 @@ public class EditarProfesorServlet extends HttpServlet{
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
+		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
 		req.getSession().removeAttribute("mensaje");
 		
 		String nombre = req.getParameter("nombre");
@@ -43,53 +46,57 @@ public class EditarProfesorServlet extends HttpServlet{
 		String dedicacion = req.getParameter("dedicacion");
 		int id = Integer.parseInt(req.getParameter("id"));
 		String grupoStr = req.getParameter("grupo");
-		Grupo grupo = GrupoDAOImplementation.getInstance().readGrupo(grupoStr);
-		
 		int plazaId = Integer.parseInt(req.getParameter("plaza"));
-		Plaza plaza = PlazaDAOImplementation.getInstance().readPlaza(plazaId);
 		
-		Profesor profesorAnt = ProfesorDAOImplementation.getInstance().readProfesor(id);
-		Usuario UsuarioAnt = profesorAnt.getUsuario();
-		int UsuarioId = profesorAnt.getUsuario().getId();
-		ProfesorDAOImplementation.getInstance().deleteProfesor(profesorAnt);
-		
-
-		UsuarioDAOImplementation.getInstance().deleteUsuario(UsuarioAnt);
-		
-		
-		
-		Usuario usuario =new Usuario();
-		usuario.setNombre(nombre);
-		usuario.setApellidos(apellidos);
-		usuario.setCorreo(correo);
-		usuario.setId(UsuarioId);
-		UsuarioDAOImplementation.getInstance().createUsuario(usuario);
+		/*
+		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
+		 */
+		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
+			Grupo grupo = GrupoDAOImplementation.getInstance().readGrupo(grupoStr);
+			
+			
+			Plaza plaza = PlazaDAOImplementation.getInstance().readPlaza(plazaId);
+			
+			Profesor profesorAnt = ProfesorDAOImplementation.getInstance().readProfesor(id);
+			Usuario UsuarioAnt = profesorAnt.getUsuario();
+			int UsuarioId = profesorAnt.getUsuario().getId();
+			ProfesorDAOImplementation.getInstance().deleteProfesor(profesorAnt);
+	
+			UsuarioDAOImplementation.getInstance().deleteUsuario(UsuarioAnt);
+	
+			Usuario usuario =new Usuario();
+			usuario.setNombre(nombre);
+			usuario.setApellidos(apellidos);
+			usuario.setCorreo(correo);
+			usuario.setId(UsuarioId);
+			UsuarioDAOImplementation.getInstance().createUsuario(usuario);
+	
+			Profesor profesor = new Profesor();
+			profesor.setId(id);
+			profesor.setAcronimo(acronimo);
+			profesor.setPlaza(plaza);
+			profesor.setGrupo(grupo);
+			profesor.setDedicacion(dedicacion);
+			profesor.setUsuario(usuario);
+			
+			ProfesorDAOImplementation.getInstance().createProfesor(profesor);
+			
+			Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
+			//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha editado el profesor "+nombre+" "+apellidos);
+	
+			//Sacamos todas las asignaturas para pasarlas al jsp
+			List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
+			req.getSession().setAttribute("profesores", todosProfesores);
 	
 		
-		
-		Profesor profesor = new Profesor();
-		profesor.setId(id);
-		profesor.setAcronimo(acronimo);
-		profesor.setPlaza(plaza);
-		profesor.setGrupo(grupo);
-		profesor.setDedicacion(dedicacion);
-		profesor.setUsuario(usuario);
-		
-		ProfesorDAOImplementation.getInstance().createProfesor(profesor);
-		
-		
-		Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
-		//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha editado el profesor "+nombre+" "+apellidos);
-
-		
-		//Sacamos todas las asignaturas para pasarlas al jsp
-		List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
-		req.getSession().setAttribute("profesores", todosProfesores);
-	
-		
-		String msj = "Profesor editado con éxito";
-		req.getSession().setAttribute("mensaje", msj);
-		resp.sendRedirect(req.getContextPath()+ "/CRUDProfesor.jsp");
+			String msj = "Profesor editado con éxito";
+			req.getSession().setAttribute("mensaje", msj);
+			
+			getServletContext().getRequestDispatcher("/CRUDProfesor.jsp").forward(req, resp);
+			
+		}else {
+			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
+		}
 		
 		
 	}

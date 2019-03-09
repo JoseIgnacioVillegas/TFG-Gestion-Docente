@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.subject.Subject;
 
 import com.itextpdf.io.IOException;
 
@@ -33,6 +34,8 @@ public class AsignarDocentesServlet extends HttpServlet{
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		
+		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
 		req.getSession().removeAttribute("mensaje");
 		String codAsignatura = req.getParameter("codigoAsignatura");
 		Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(codAsignatura);
@@ -43,91 +46,91 @@ public class AsignarDocentesServlet extends HttpServlet{
 		String profesoresBorradosId[]; 
 		profesoresBorradosId = req.getParameterValues("profesoresBorrados");
 		
+		/*
+		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
+		 */
+		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
 		
-		try {
-			for (int i = 0; i< profesoresBorradosId.length; i++) {
-				for (int j = 0; j< profesoresParticipan.size(); j++) {
-					if(Integer.parseInt(profesoresBorradosId[i])==profesoresParticipan.get(j).getId()) profesoresParticipan.remove(j);
+			try {
+				for (int i = 0; i< profesoresBorradosId.length; i++) {
+					for (int j = 0; j< profesoresParticipan.size(); j++) {
+						if(Integer.parseInt(profesoresBorradosId[i])==profesoresParticipan.get(j).getId()) profesoresParticipan.remove(j);
+					}
 				}
-			}
+				}catch(Exception e) {
+					System.out.println(e);
+				}finally {
+						
+				}
+			
+			
+			
+			
+			String coordinadorBorradoId = req.getParameter("coordinadorBorrado");
+		
+			Profesor coordinadorBorrado = new Profesor();
+			try {
+				
+				ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(coordinadorBorradoId));
+				asignatura.setCoordinador(coordinadorBorrado);
 			}catch(Exception e) {
 				System.out.println(e);
 			}finally {
 					
 			}
-		
-		
-		
-		
-		String coordinadorBorradoId = req.getParameter("coordinadorBorrado");
+
+			String profesoresId[]; 
+			profesoresId = req.getParameterValues("profesor");
+
+			String coordinadorId = req.getParameter("coordinador");
+			Profesor coordinador =null;
+			
+			try {
+				
+				coordinador = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(coordinadorId));
+				}catch(Exception e) {
+					System.out.println(e);
+				}finally {
+					
+				}
 	
-		Profesor coordinadorBorrado = new Profesor();
-		try {
 			
-			ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(coordinadorBorradoId));
-			asignatura.setCoordinador(coordinadorBorrado);
-		}catch(Exception e) {
-			System.out.println(e);
-		}finally {
-				
-		}
-		
-		
-		
-		
-		
-		
-		String profesoresId[]; 
-		profesoresId = req.getParameterValues("profesor");
-		
-		
-		
-		
-		
-		String coordinadorId = req.getParameter("coordinador");
-		Profesor coordinador =null;
-		
-		try {
+			try {
+			for (int i = 0; i< profesoresId.length; i++) {
+				Profesor profe = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesoresId[i]));
+				profesoresParticipan.add(profe);
+			}
+			asignatura.setProfesores(profesoresParticipan);
 			
-			coordinador = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(coordinadorId));
 			}catch(Exception e) {
 				System.out.println(e);
 			}finally {
 				
 			}
-
-		
-		try {
-		for (int i = 0; i< profesoresId.length; i++) {
-			Profesor profe = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesoresId[i]));
-			profesoresParticipan.add(profe);
-		}
-		asignatura.setProfesores(profesoresParticipan);
-		
-		}catch(Exception e) {
-			System.out.println(e);
-		}finally {
+			asignatura.setCoordinador(coordinador);
 			
+			List<Asignatura> asignaturasCoordina = coordinador.getAsignaturaCoordina();
+			asignaturasCoordina.add(asignatura);
+			try {
+				coordinador.setAsignaturaCoordina(asignaturasCoordina);
+				}catch(Exception e) {
+					System.out.println(e);
+				}finally {
+					
+				}
+			
+	
+			ProfesorDAOImplementation.getInstance().updateProfesor(coordinador);
+			AsignaturaDAOImplementation.getInstance().updateAsignatura(asignatura);
+			
+			String msj = "Usuarios asignados con éxito";
+			req.getSession().setAttribute("mensaje", msj);
+			
+			getServletContext().getRequestDispatcher("/CRUDAsignatura.jsp").forward(req, resp);
+			
+		}else {
+			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}
-		asignatura.setCoordinador(coordinador);
-		
-		List<Asignatura> asignaturasCoordina = coordinador.getAsignaturaCoordina();
-		asignaturasCoordina.add(asignatura);
-		try {
-			coordinador.setAsignaturaCoordina(asignaturasCoordina);
-			}catch(Exception e) {
-				System.out.println(e);
-			}finally {
-				
-			}
-		
-
-		ProfesorDAOImplementation.getInstance().updateProfesor(coordinador);
-		AsignaturaDAOImplementation.getInstance().updateAsignatura(asignatura);
-		
-		String msj = "Usuarios asignados con éxito";
-		req.getSession().setAttribute("mensaje", msj);
-		resp.sendRedirect(req.getContextPath()+ "/CRUDAsignatura.jsp");
 	}
 }
 		

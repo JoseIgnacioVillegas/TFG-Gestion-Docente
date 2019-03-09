@@ -1,6 +1,8 @@
 package es.upm.dit.tfg.webLab.servlets;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.subject.Subject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,22 +25,33 @@ public class BorrarGrupoServlet extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
 		String nom = req.getParameter("grupo");
+		
+		
+		/*
+		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
+		 */
+		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
+			Grupo grupo = GrupoDAOImplementation.getInstance().readGrupo(nom);
+			GrupoDAOImplementation.getInstance().deleteGrupo(grupo);
+	
+			Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
+			//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha borrado el grupo de investigacion "+grupo.getNombre());
+			
+			
+			List<Grupo> todosGrupos = GrupoDAOImplementation.getInstance().readGrupos();
+			
+			req.getSession().setAttribute("grupos", todosGrupos);
+			
+			String msj = "Grupo borrado con éxito";
+			req.getSession().setAttribute("mensaje", msj);
 
-		Grupo grupo = GrupoDAOImplementation.getInstance().readGrupo(nom);
-		GrupoDAOImplementation.getInstance().deleteGrupo(grupo);
-
-		Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
-		//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha borrado el grupo de investigacion "+grupo.getNombre());
-		
-		
-		List<Grupo> todosGrupos = GrupoDAOImplementation.getInstance().readGrupos();
-		
-		req.getSession().setAttribute("grupos", todosGrupos);
-		
-		String msj = "Grupo borrado con éxito";
-		req.getSession().setAttribute("mensaje", msj);
-		resp.sendRedirect(req.getContextPath()+ "/CRUDGrupo.jsp");
+			getServletContext().getRequestDispatcher("/CRUDGrupo.jsp").forward(req, resp);
+			
+		}else {
+			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
+		}
 
 	}
 }

@@ -94,43 +94,8 @@
 
 <body id="myPage">
 
-<!-- Sidebar on click -->
-
-<div class="w3-sidebar w3-bar-block w3-white w3-card w3-animate-left " style="position:absolute;z-index:2" id="mySidebar">
-  <br>
-  <br>
-    <button  class="w3-bar-item w3-button" name="gestUsuarios" value="gestUsuarios" onclick="desplegarMenu(this)">Gestion Usuarios</button>
-    <div id="gestUsuarios" style="display:none;">
-	    <form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDProfesor" name="CRUDProfesor">Docentes</button></form>
-	    <form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="NoDocentes" name="NoDocentes">No Docentes</button></form>
-	    <form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="Permisos" name="Permisos">Permisos</button></form>
-    </div>
-    
-    <button  class="w3-bar-item w3-button"  name="gestDocencia" value="gestDocencia" onclick="desplegarMenu(this)">Gestion Docencia</button>
-    <div id="gestDocencia" style="display:none;">
-    	<form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDPlan" name="CRUDPlan">Plan de Estudios</button></form>
-   	  	<form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDAsignatura" name="CRUDAsignatura">Asignaturas</button></form>
-  	</div>
-</div>
-
-
-
-
-<!-- Navbar -->
-
-
- 
-<div class="w3-bar w3-theme-d2 w3-left-align" style="position:absolute;z-index:3">
-  
-<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <form action="VistaInicial.jsp"><button class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Inicio</button></form>
-  <form action="ProfesorServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Profesor</button></form>
-  <form action="CoordinadorServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Coordinador</button></form>
-  <form action="VistaGestor.jsp"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Gestor</button></form>
-  <form action="LogoutServlet"><button  type="submit" class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-right">Logout</button>	</form>
- 
-</div>
-
+<!-- En este archivo .jsp esta definido el menu principal y la barra lateral -->
+<%@ include file="menu.jsp" %> 
 
 <!-- Team Container -->
 
@@ -141,8 +106,9 @@
 
 	<p name="mensaje"></p>
 	<div class="w3-row"><br>
-
-		<shiro:hasRole name="crearprofesor"><form action="CrearProfesor.jsp"><input type="hidden" value="${permisos}" name="permisos">Para crear un nuevo docente pincha aquí: <button type="submit" >Crear un nuevo docente</button></form></shiro:hasRole>		
+		<shiro:hasAnyRoles name="administrador,creardocente">
+		<form action="CrearProfesor.jsp"><input type="hidden" value="${permisos}" name="permisos">Para crear un nuevo docente pincha aquí: <button type="submit" >Crear un nuevo docente</button></form>		
+		</shiro:hasAnyRoles>
 		<br>
 		<br>
 		
@@ -226,9 +192,9 @@
 				<div class="checkboxes" id="chksCol7"></div>
 			</div>
 		</td>
-		<shiro:hasRole name="editarprofesor"><td><a>Editar</a></td></shiro:hasRole>
-		<shiro:hasRole name="borrarprofesor"><td><a>Borrar</a></td></shiro:hasRole>
-		<td><a>Gestionar asignaturas</a></td>
+		<shiro:hasAnyRoles name="administrador, gestionusuarios"><td><a>Editar</a></td>
+		<td><a>Borrar</a></td>
+		<td><a>Gestionar asignaturas</a></td></shiro:hasAnyRoles>
 	</tr>
 		
 		<c:forEach items="${profesores}" var="profesor">
@@ -243,31 +209,34 @@
 			<td>${profesor.dedicacion}</td>
 			<td>${profesor.plaza.plaza}</td>
 			
-			<shiro:hasRole name="editarprofesor">
-			<td><form action="EditarProfesor.jsp">
-			<input type="hidden" value="${profesor.id}" name="id">
-		<input type="hidden" value="${profesor.usuario.nombre}" name="nombre">
-		<input type="hidden" value="${profesor.usuario.apellidos}" name="apellidos">
-		<input type="hidden" value="${profesor.acronimo}" name="acronimo">
-		<input type="hidden" value="${profesor.usuario.correo}" name="correo">
-		<input type="hidden" value="${profesor.plaza.plaza}" name="plaza">
-		<input type="hidden" value="${profesor.dedicacion}" name="dedicacion">
-		<input type="hidden" value="${profesor.grupo.nombre}" name="grupo">
-			<button type="submit" >Editar</button></form></td>
-			</shiro:hasRole>
+			<shiro:hasAnyRoles name="administrador, gestionusuarios">
+			<td>
+			<form action="EditarProfesor.jsp">
+				<input type="hidden" value="${profesor.id}" name="id">
+				<input type="hidden" value="${profesor.usuario.nombre}" name="nombre">
+				<input type="hidden" value="${profesor.usuario.apellidos}" name="apellidos">
+				<input type="hidden" value="${profesor.acronimo}" name="acronimo">
+				<input type="hidden" value="${profesor.usuario.correo}" name="correo">
+				<input type="hidden" value="${profesor.plaza.plaza}" name="plaza">
+				<input type="hidden" value="${profesor.dedicacion}" name="dedicacion">
+				<input type="hidden" value="${profesor.grupo.nombre}" name="grupo">
+				<button type="submit" >Editar</button>
+			</form>
+			</td>
 			
-			<shiro:hasRole name="borrarprofesor">
+
+
 			<td><form action="BorrarProfesorServlet">
 			<input type="hidden" value="${profesor.id}" name="idProfe">
 			<input type="hidden" value="${profesor.usuario.id}" name="idUsuario">
 			<button type="submit" >Borrar</button></form></td>
-			</shiro:hasRole>
 			
-			<shiro:hasRole name="asignarasignaturas">
+			
 			<td><form action="ObtenerAsignaturasServlet">
 			<input type="hidden" value="${profesor.id}" name="idProfe">
 			<button type="submit" >Gestionar asignaturas</button></form></td>
-			</shiro:hasRole>
+			
+			</shiro:hasAnyRoles>
 		</tr>
 		
 		</c:forEach>
@@ -278,11 +247,11 @@
 
 		
 		<br><br>
-		<shiro:hasAnyRoles name="creargrupo,editargrupo,borrargrupo">
+		<shiro:hasAnyRoles name="administrador, gestionusuarios">
 		<form action="GestorServlet" >Para gestionar grupos de investigación pincha aquí:<button type="submit" value="CRUDGrupo" name="CRUDGrupo">Gestionar Grupos de Investigación</button></form>
 		</shiro:hasAnyRoles>
 		<br><br>
-		<shiro:hasAnyRoles name="crearplaza,editarplaza,borrarplaza">
+		<shiro:hasAnyRoles name="administrador, gestionusuarios">
 		<form action="GestorServlet" >Para gestionar las plazas de profesores pincha aquí:<button type="submit" value="CRUDPlaza" name="CRUDPlaza">Gestionar Plaza de profesor</button></form>
 		</shiro:hasAnyRoles>
 		<br><br>

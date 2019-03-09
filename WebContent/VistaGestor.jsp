@@ -34,61 +34,9 @@
 
 <body id="myPage">
 
-<!-- Sidebar on click -->
 
-<div class="w3-sidebar w3-bar-block w3-white w3-card w3-animate-left " style="position:absolute;z-index:2" id="mySidebar">
-  <br>
-  <br>
-    <button  class="w3-bar-item w3-button" name="gestUsuarios" value="gestUsuarios" onclick="desplegarMenu(this)">Gestion Usuarios</button>
-    <div id="gestUsuarios" style="display:none;padding-left:30px;">
-	    <shiro:hasRole name="gestor"><form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDProfesor" name="CRUDProfesor">Docentes</button></form> </shiro:hasRole>
-	   	<shiro:hasRole name="gestor"><form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="NoDocentes" name="NoDocentes">No Docentes</button></form></shiro:hasRole>
-	    <shiro:hasAnyRoles name="asignarpermisos"><form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="Permisos" name="Permisos">Permisos</button></form></shiro:hasAnyRoles>
-    </div>
-    
-    <!--  div id="gestUsuarios" style="display:none;padding-left:30px;">
-	    <shiro:hasAnyRoles name="crearprofesor,borrarprofesor,editarprofesor,creargrupo,editargrupo,borrargrupo,crearplaza,editarplaza,borrarplaza"><form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDProfesor" name="CRUDProfesor">Docentes</button></form> </shiro:hasAnyRoles>
-	   	<shiro:hasAnyRoles name="crearusuario,borrarusuario,editarusuario,leerusuario"><form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="NoDocentes" name="NoDocentes">No Docentes</button></form></shiro:hasAnyRoles>
-	    <shiro:hasAnyRoles name="asignarpermisos"><form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="Permisos" name="Permisos">Permisos</button></form></shiro:hasAnyRoles>
-    </div-->
-   
-    
-    <button  class="w3-bar-item w3-button"  name="gestDocencia" value="gestDocencia" onclick="desplegarMenu(this)">Gestion Docencia</button>
-    <div id="gestDocencia" style="display:none;padding-left:30px;">
-    	<form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDPlan" name="CRUDPlan">Plan de Estudios</button></form>
-   	  	<form action="GestorServlet" ><button type="submit" class="w3-bar-item w3-button" value="CRUDAsignatura" name="CRUDAsignatura">Asignaturas</button></form>
-  	</div>
-  	<form action="GestorBBDD.jsp" ><button type="submit" class="w3-bar-item w3-button" value="Backup" name="Backup">Gestionar copias de seguridad</button></form>
-  	<form action="ExportarDatos.jsp" ><button type="submit" class="w3-bar-item w3-button" value="Backup" name="Backup">Exportar datos</button></form>
-</div>
-
-
-
- 
- <!-- Navbar -->
-<div class="w3-top" style="position:absolute;z-index:3">
- <div class="w3-bar w3-theme-d2 w3-left-align">
-  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <form action="VistaInicial.jsp"><button class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Inicio</button></form>
-  
-  <shiro:hasRole name="profesor">
-  <form action="ProfesorServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Profesor</button></form>
-  </shiro:hasRole>
-  
-  <shiro:hasRole name="coordinador">
-  <form action="CoordinadorServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Coordinador</button></form>
-  </shiro:hasRole>
-  
-  <shiro:hasRole name="gestor">
-  <form action="PasoGestorServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Gestor</button></form>
-  </shiro:hasRole>
-  
-  <form action="LogoutServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-right">Logout</button></form>
- </div>
-</div>
- 
-
-
+<!-- En este archivo .jsp esta definido el menu principal y la barra lateral -->
+<%@ include file="menu.jsp" %> 
 
 <!-- Team Container -->
 <div class="w3-container w3-padding-64 w3-center" id="team">

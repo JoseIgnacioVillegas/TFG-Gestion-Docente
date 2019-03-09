@@ -46,7 +46,8 @@ public class ObtenerAsignaturasServlet extends HttpServlet{
 		req.getSession().setAttribute("todosPlanes", PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios());
 		req.getSession().setAttribute("todasAsignaturas", AsignaturaDAOImplementation.getInstance().readAsignaturas());
 		req.getSession().setAttribute("asignaturasCoordina", profesor.getAsignaturaCoordina());
-		resp.sendRedirect(req.getContextPath()+ "/AsignarAsignaturas.jsp");
+
+		getServletContext().getRequestDispatcher("/AsignarAsignaturas.jsp").forward(req, resp);
 	}
 }
 		

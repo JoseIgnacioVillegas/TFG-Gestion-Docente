@@ -1,29 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-       <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-       
+     <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
 <head>
 <style>
-html {
-  min-height: 100%;
-  position: relative;
-}
-body {
-  margin: 0;
-  margin-bottom: 40px;
-}
-footer {
-  background-color: black;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 200px;
-  color: white;
-}
+	html {
+	  min-height: 100%;
+	  position: relative;
+	}
+	body {
+	  margin: 0;
+	  margin-bottom: 40px;
+	}
+	footer {
+	  background-color: black;
+	  position: absolute;
+	  bottom: 0;
+	  width: 100%;
+	  height: 200px;
+	  color: white;
+	}
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,54 +32,25 @@ footer {
 <link rel="icon" type="image/gif" href="./img/ditupm.gif"/>
 </head>
 
-
-
 <body id="myPage">
 
 
-<!-- Navbar -->
-<div class="w3-top">
- <div class="w3-bar w3-theme-d2 w3-left-align">
-  
-  <form action="VistaInicial.jsp"><button class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Inicio</button></form>
-  
-  <shiro:hasRole name="profesor">
-  <form action="ProfesorServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Profesor</button></form>
-  </shiro:hasRole>
-  
-  <shiro:hasRole name="coordinador">
-  <form action="CoordinadorServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Coordinador</button></form>
-  </shiro:hasRole>
-  
-   <shiro:hasAnyRoles name="administrador,gestiondocencia,gestionusuarios,gestiondatos">
-  
-  <form action="PasoGestorServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white">Gestor</button></form>
-  
-  </shiro:hasAnyRoles>
-  
-  <form action="LogoutServlet"><button class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-right">Logout</button></form>
- </div>
-</div>
-
-
-
-
-
+<!-- En este archivo .jsp esta definido el menu principal y la barra lateral -->
+<%@ include file="menu.jsp" %> 
 
 <!-- Team Container -->
 <div class="w3-container w3-padding-64 w3-center" id="team">
 <br>
-<h1>Bienvenido a la aplicación web para la gestión del</h1>
-<h1>Departamento de Ingeniería de Sistemas Telemáticos</h1>
+	<h1>Parece que no tienes permiso para realizar esa acción</h1>
+	<h2>Por favor, selecciona lo que quieras hacer</h2>
 
-<p>${usuario.nombre }</p>
-<p style="color:#FF0000">${mensaje}</p>
 </div>
-
 
 <div class="w3-display-container w3-animate-opacity" style="text-align:center;">
-  <img src="./img/ditupm.gif" alt="icono" style="width:20%;height:20%;" >
+  <img src="./img/prohibido" alt="icono" style="width:20%;height:20%;" >
 </div>
+
+
 
 
 
@@ -97,5 +66,26 @@ footer {
   <!--  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>  -->
 </footer>
 
+
+
+
+
+
+<script>
+function desplegarMenu(obj){ 	
+   	if(obj.value == "gestUsuarios" && document.getElementById('gestUsuarios').style.display=="none" )	{
+   		document.getElementById('gestUsuarios').style.display="";
+   	}else if(obj.value == "gestUsuarios" && document.getElementById('gestUsuarios').style.display==""){
+		document.getElementById('gestUsuarios').style.display="none";
+   	}
+   	
+	if(obj.value == "gestDocencia" && document.getElementById('gestDocencia').style.display=="none"){
+		document.getElementById('gestDocencia').style.display="";
+   	}else if(obj.value == "gestDocencia" && document.getElementById('gestDocencia').style.display==""){
+   		document.getElementById('gestDocencia').style.display="none";
+   	}
+} 
+
+</script>
 </body>
 </html>

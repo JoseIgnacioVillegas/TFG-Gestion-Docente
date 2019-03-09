@@ -4,6 +4,8 @@ package es.upm.dit.tfg.webLab.servlets;
 
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.subject.Subject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,8 @@ public class EditarUsuarioServlet extends HttpServlet{
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		
+		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
 		req.getSession().removeAttribute("mensaje");
 		
 		int id = Integer.parseInt(req.getParameter("id"));
@@ -38,50 +42,42 @@ public class EditarUsuarioServlet extends HttpServlet{
 		String apellidos = req.getParameter("apellidos");
 		String correo = req.getParameter("correo");
 		
-		Usuario usuario = UsuarioDAOImplementation.getInstance().readUsuario(id);
 		
-		usuario.setId(id);
-		usuario.setNombre(nombre);
-		usuario.setApellidos(apellidos);
-		usuario.setCorreo(correo);
-		
-		
-		UsuarioDAOImplementation.getInstance().updateUsuario(usuario);
-		
-		Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
-		//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha editado el usuario "+nombre+" "+apellidos);
-
 		/*
-		UsuarioDAOImplementation.getInstance().deleteUsuario(usuarioAnt);
-		
-		
-		
-		Usuario usuarioNuevo = new Usuario();	
-		usuarioNuevo.setId(id);
-		usuarioNuevo.setNombre(nombre);
-		usuarioNuevo.setApellidos(apellidos);
-		usuarioNuevo.setCorreo(correo);
-		UsuarioDAOImplementation.getInstance().createUsuario(usuarioNuevo);
-		*/
-		
-		
-		List<Usuario> todoUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
-		List<Usuario> usuarios =new ArrayList();
-		
-		for (int i=0; i<todoUsuarios.size(); i++) {
-			Profesor profesor = todoUsuarios.get(i).getProfesor();
-			if(profesor==null) usuarios.add(todoUsuarios.get(i));
-		}
-		
-		req.getSession().setAttribute("usuarios", usuarios);
-		
+		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
+		 */
+		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
+			Usuario usuario = UsuarioDAOImplementation.getInstance().readUsuario(id);
+			
+			usuario.setId(id);
+			usuario.setNombre(nombre);
+			usuario.setApellidos(apellidos);
+			usuario.setCorreo(correo);
+			
+			
+			UsuarioDAOImplementation.getInstance().updateUsuario(usuario);
+			
+			Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
+			//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha editado el usuario "+nombre+" "+apellidos);
+	
+			List<Usuario> todoUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
+			List<Usuario> usuarios =new ArrayList();
+			
+			for (int i=0; i<todoUsuarios.size(); i++) {
+				Profesor profesor = todoUsuarios.get(i).getProfesor();
+				if(profesor==null) usuarios.add(todoUsuarios.get(i));
+			}
+			
+			req.getSession().setAttribute("usuarios", usuarios);
 
-		
-		
-		
-		String msj = "Usuario editado con éxito";
-		req.getSession().setAttribute("mensaje", msj);
-		resp.sendRedirect(req.getContextPath() + "/CRUDPAS.jsp");
+			String msj = "Usuario editado con éxito";
+			req.getSession().setAttribute("mensaje", msj);
+			
+			getServletContext().getRequestDispatcher("/CRUDPAS.jsp").forward(req, resp);
+			
+		}else {
+			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
+		}
 		
 	}
 	

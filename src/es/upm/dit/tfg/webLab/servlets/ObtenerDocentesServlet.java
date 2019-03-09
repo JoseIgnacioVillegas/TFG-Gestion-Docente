@@ -51,7 +51,9 @@ public class ObtenerDocentesServlet extends HttpServlet{
 		req.getSession().setAttribute("nombre", asignatura.getNombre());
 		req.getSession().setAttribute("codigo", asignatura.getCodigo());
 		req.getSession().setAttribute("acronimo", asignatura.getAcronimo());
-		resp.sendRedirect(req.getContextPath()+ "/AsignarDocentes.jsp");
+
+		getServletContext().getRequestDispatcher("/AsignarDocentes.jsp").forward(req, resp);
+		
 	}
 }
 		

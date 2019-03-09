@@ -34,7 +34,7 @@ public class PermisoDAOImplementation implements PermisoDAO{
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
-
+			
 			session.save(permiso);
 
 			session.getTransaction().commit();
