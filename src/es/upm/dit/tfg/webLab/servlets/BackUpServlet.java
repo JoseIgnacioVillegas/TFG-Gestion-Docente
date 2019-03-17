@@ -1,6 +1,11 @@
 package es.upm.dit.tfg.webLab.servlets;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,7 +41,11 @@ public class BackUpServlet extends HttpServlet{
 		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestiondatos")){
 	      Connection conn = null;
 	      Statement stmt = null;
-	
+	      
+	      Path currentRelativePath = Paths.get("");
+	      String s = currentRelativePath.toAbsolutePath().toString();
+	      String path = "'"+s+"/backup.zip'";
+	      
 	      try{
 	    	  
 	         JdbcDataSource datasource = new JdbcDataSource();
@@ -44,7 +53,8 @@ public class BackUpServlet extends HttpServlet{
 	         conn = datasource.getConnection("sa", "sa");
 	         stmt = conn.createStatement();
 	         //El archivo se genera en la carpeta personal 
-	         stmt.execute("BACKUP TO '~/backup.zip'");
+	         
+	         stmt.execute("BACKUP TO "+ path);
 	        
 	         stmt.close();
 	         conn.close();
@@ -72,7 +82,29 @@ public class BackUpServlet extends HttpServlet{
 	         }
 	      }
 	      
-	      getServletContext().getRequestDispatcher("/GestorBBDD.jsp").forward(req, resp);
+	      
+	      	// The zip file you want to download
+	        File zipFile = new File(s+"/backup.zip");
+	        resp.setContentType("application/zip");
+	        resp.addHeader("Content-Disposition", "attachment; filename=" + "backup.zip");
+	        resp.setContentLength((int) zipFile.length());
+	        
+
+	        try {
+	        	
+	            FileInputStream fileInputStream = new FileInputStream(zipFile);
+	            OutputStream responseOutputStream = resp.getOutputStream();
+	            int bytes;
+	            while ((bytes = fileInputStream.read()) != -1) {
+	                responseOutputStream.write(bytes);
+	            }
+	        } catch (IOException e) {
+	        	System.out.println("lo de la excepcion "+e);
+	            
+	        }
+	      
+	      zipFile.delete();
+	      
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}

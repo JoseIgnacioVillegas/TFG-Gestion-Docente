@@ -46,8 +46,10 @@
 	<p>Para generar una nueva copia de seguridad haz click aquí: <form action="BackUpServlet"><input  type="submit" value="Generar copia"/> </form></p>
 	<br><br><br>
 	
+	
+	<p>Para restaurar una antigua versión de la base de datos selecciones un archivo con formato .mv.db </p>
 	<form action="RestoreServlet" enctype="MULTIPART/FORM-DATA" method="post">
-            <input type="file" name="file" /><br/>
+            <input type="file" name="file" /><br><br>
             <input type="submit" value="Restaurar" />
         </form>
 
