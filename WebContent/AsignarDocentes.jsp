@@ -61,26 +61,46 @@ footer {
 <input type="hidden" value="${codigo}" name="codigoAsignatura">
 
 
+<div style="border-style:groove;width:50%;align:center;margin-right:auto;margin-left:auto;">
+
+
 <p>Profesores que participan en esta asignatura</p>
 	<c:forEach items="${profesoresPorAsignatura}" var="profesor">
-					<p >
+					<p>
 					<input type="checkbox" style="visibility:hidden;" value="${profesor.id}"name="profesoresBorrados" id="${profesor.id}">
 					${profesor.usuario.nombre} ${profesor.usuario.apellidos}
 					<a href="#" onclick="ponerValor(this,'${profesor.id}');">Eliminar este profesor</a>
 					</p>
 		</c:forEach>
 		
+		</div>
 		
 		
+		<br>
+
+		
+<div style="border-style:groove;width:50%;align:center;margin-right:auto;margin-left:auto;">
 <p>Coordinador de la asignatura</p>
-	<p><input type="checkbox" style="visibility:hidden;" value="${coordinador.id}"name="coordinadorBorrado" id="${coordinador.id}">
-					${coordinador.usuario.nombre} ${coordinador.usuario.apellidos}
-					<a href="#" onclick="ponerValor(this,'${coordinador.id}');">Eliminar coordinador</a>
-					</p>
+
+<c:set var = "cod1" value="${coordinador.usuario.nombre}"/>
+<c:set var = "cod2" value="<%=null%>"/>
+<c:if test = "${cod1 eq cod2}">
+   				<p>Aún no hay coordinadores asignados a esta asignatura</p>
+</c:if>
+<c:if test = "${cod1 != cod2}">
+   		<p>
+		<input type="checkbox" style="visibility:hidden;" value="${coordinador.id}" name="coordinadorBorrado" id="${coordinador.usuario.correo}">
+		${coordinador.usuario.nombre} ${coordinador.usuario.apellidos}
+		<a href="#" onclick="ponerValor(this,'${coordinador.usuario.correo}');">Eliminar coordinador</a>
+	</p>
+</c:if>
 
 
+</div>
 
-
+<br>
+<div style="border-style:groove;width:50%;align:center;margin-right:auto;margin-left:auto;">
+	<p>Añadir otro profesor o coordinador a la asignatura</p>
 	<div id="profes1">
 		<p>
 			<select name="profesores" onchange="setValue(this);">
@@ -98,10 +118,14 @@ footer {
 	</div>
 
 	<div id="profes"></div>
-	
 	<br>
 	<a  href="#" onClick="addProfesor()" >Añadir otro profesor</a>
+	<br>
+	</div>
 	
+	
+	
+	<br>
 	<button type="submit" >Guardar cambios</button>
 </form>
 	

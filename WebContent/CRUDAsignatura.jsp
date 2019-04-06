@@ -254,9 +254,8 @@
 			</div>
 		</td>
 		<td><a>COMENTARIOS</a></td>
-		<td><a>EDITAR</a></td>
-		<td><a>BORRAR</a></td>
-		<td><a>Asignar Docentes</a></td>
+		<td><a>ACCIONES</a></td>
+
 	</tr>
 		
 <c:forEach items="${planesActuales}" var="plan">
@@ -310,18 +309,18 @@
 				<input type="hidden" value="${asignatura.numeroAlumnos}" name="numeroAlumnos">
 				<input type="hidden" value="${asignatura.horasApolo}" name="horasApolo">
 				<button type="submit" >Editar asignatura</button></form>
-			</td>
-			
-			<td>
+			<br>
 				<form action="BorrarAsignaturaServlet">
 				<input type="hidden" value="${asignatura.codigo}" name="codigo">
 				<button type="submit" >Borrar asignatura</button></form>
-			</td>
-			
-			<td>
+		<br>
 				<form action="ObtenerDocentesServlet">
 				<input type="hidden" value="${asignatura.codigo}" name="codigo">
 				<button type="submit" >Asignar docentes</button></form>
+			<br>
+				<form action="ObtenerGruposServlet">
+				<input type="hidden" value="${asignatura.codigo}" name="codigo">
+				<button type="submit" >Gestionar grupos <br>de clase</button></form>
 			</td>
 			
 		</tr>

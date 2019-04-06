@@ -28,6 +28,7 @@ footer {
   height: 200px;
   color: white;
 }
+
 </style>
 
 <meta charset="UTF-8">
@@ -66,40 +67,31 @@ footer {
 
 	
 <form action="CrearAsignaturaServlet">
+
+
+
+
+
+
 <table style="margin: 0 auto;text-align: center;">
-<tr>
-			<th>CREAR ASIGNATURA</th>
-			<th></th>
-		</tr>
-		<tr>
+
+		<tr >
 			<td>Nombre:</td>
 			<td><input type="text"name="nombre"></td>
-		</tr>
-		
-		
-		<tr>
-			<td>Acronimo:</td>
-			<td><input type="text"name="acronimo"></td>
-			</tr>
-			<tr>
-			<td>Numero:</td>
-			<td><input type="text"name="codigo"></td>
-			</tr>
-			
-			<tr>
-			<td>Selecione el tipo: </td>
+			<td>Selecione el tipo:</td>
 			<td><select name="tipo">
 			<option selected value="">Seleccionar</option>
 			<option value="OBLIGATORIA">OBLIGATORIA</option>
 			<option value="BASICA">BASICA</option>
 			<option value="OPTATIVA">OPTATIVA</option>
 			<option value="PROYECTO FIN DE MASTER">PROYECTO FIN DE MASTER</option>
-			</select>
-			</td>
-			
+			</select></td>
 		</tr>
 		
+		
 		<tr>
+			<td>Acronimo:</td>
+			<td><input type="text"name="acronimo"></td>
 			<td>Seleccione el curso al que pertenece:</td>
 			<td><select name="curso">
 			<option selected value="">Seleccionar</option>
@@ -107,10 +99,13 @@ footer {
 			<option value="2">2</option>
 			<option value="3">3</option>
 			<option value="4">4</option>
-			</select>
-			</td>
+			</select></td>
 		</tr>
-	<tr>
+		
+		
+			<tr>
+			<td>Numero:</td>
+			<td><input type="text"name="codigo"></td>
 			<td>Selecione el semestre de impartición:</td>
 			<td><select name="semestre">
 			<option selected value="">Seleccionar</option>
@@ -118,20 +113,12 @@ footer {
 			<option value="Segundo Semestre">Segundo Semestre</option>
 			<option value="Anual">Anual</option>
 		</select></td>
-		</tr>
+			</tr>
+			
+
 		<tr>
 			<td>Indique los creditos:</td>
 			<td><input type="text"name="ects"></td>
-		</tr>
-		<tr>
-			<td>Indique las horas de teoría:</td>
-			<td><input type="text"name="horasTeoria"></td>
-		</tr>
-		<tr>
-			<td>Indique las horas de laboratorio:</td>
-			<td><input type="text"name="horasLab"></td>
-		</tr>
-		<tr>
 			<td>Seleccione el plan al que pertenece:</td>
 			<td><select name="plan">
 			<option selected value="">Seleccionar</option>
@@ -140,7 +127,11 @@ footer {
 			</c:forEach>
 		</select></td>
 		</tr>
+		
+		
 		<tr>
+			<td>Indique las horas de teoría:</td>
+			<td><input type="text"name="horasTeoria"></td>
 			<td>Marque los profesores/coordinadores que participan: </td>
 			<td>
 			<a  href="#" onclick="mostrar(this)" id="profesores">MOSTRAR PROFESORES</a>
@@ -150,17 +141,23 @@ footer {
 			<div style="display:none;" id="profesoressss">
 			<c:forEach items="${listaProfesores}" var="profesor">
 			
-			
+			<div  style="border-style:groove;">
 			<p>${profesor.usuario.nombre}  ${profesor.usuario.apellidos} </p>
 			
 			<p>Profesor<input name="profesor" value="${profesor.id}" type="checkbox">
-			Coordinador<input name="coordinador" value="${profesor.id}" type="checkbox"></p>
-			
+			Coordinador<input name="coordinador" value="${profesor.id}" type="checkbox" onclick="marcarProfesor(this);"></p>
+			</div>
 			
 		</c:forEach>
 		</div>
 		</td>
 		</tr>
+		<tr>
+			<td>Indique las horas de laboratorio:</td>
+			<td><input type="text"name="horasLab"></td>
+		</tr>
+		
+		
 
 		<tr>
 			<td>Número de horas APOLO: </td>
@@ -170,13 +167,33 @@ footer {
 			<td>Número de alumnos: </td>
 			<td><input type="text"name="numeroAlumnos"></td>
 		</tr>
-		<tr>
-		<td>Añadir comentario(max 250 caracteres):</td>
-		<td> <textarea type="text" name="comentario" maxlength="250" style="width:400px;height:130px;vertical-align: top;" cols="35" rows="10" wrap="soft"></textarea></td>
+		<tr >
+		<td colspan="2">Añadir comentario(max 250 caracteres):<br>
+		 <textarea type="text" name="comentario" maxlength="250" style="width:400px;height:130px;vertical-align: top;" cols="35" rows="10" wrap="soft"></textarea></td>
+		 <td colspan="2">Añadir grupos de clase: <br>
+		 
+		 
+	<br>
+	
+	
+
+		
+		
+		 </td>
+		 
 		</tr>
 		<tr>
-			<th><input type="submit" value="Crear"></th>
-			<th></th>
+		<td></td>
+		<td></td>
+		<td colspan="2">
+
+	
+		 
+
+		</td></tr>
+		<tr>
+			<th colspan="4"><input type="submit" value="Crear"></th>
+			
 		</tr>
 	
 	</table>	
@@ -202,6 +219,12 @@ footer {
 
 
 <script>
+
+function marcarProfesor(source) {
+	elements = source.parentNode.getElementsByTagName('input');
+	elements[0].checked = source.checked;
+}
+
 
 
 function mostrar(obj){ 

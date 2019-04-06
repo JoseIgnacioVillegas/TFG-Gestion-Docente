@@ -1,3 +1,4 @@
+
 package es.upm.dit.tfg.webLab.model;
 
 import java.io.Serializable;
@@ -20,7 +21,7 @@ public class Permiso implements Serializable{
 	private int id;
   
 	
-	@ManyToMany(mappedBy="permisos",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy="permisos",fetch = FetchType.EAGER,cascade = { CascadeType.PERSIST,CascadeType.MERGE})
 	private List<Usuario> usuario;
 	
 	private String descripcion;

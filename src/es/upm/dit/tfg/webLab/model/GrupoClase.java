@@ -23,7 +23,7 @@ public class GrupoClase implements Serializable{
 	
 	
 	//fetch = FetchType.EAGER,
-	@OneToMany(mappedBy="grupo",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="grupo",cascade = CascadeType.ALL,orphanRemoval=true)
 	private List<ProfesorGrupoClaseAsociacion> profesores;
 	
 	

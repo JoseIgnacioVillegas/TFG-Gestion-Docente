@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Proxy;
 
 
@@ -29,14 +32,15 @@ public class Asignatura implements Serializable{
 	private double horasApolo;
 	
 	
-	@OneToMany(mappedBy = "asignatura")
+	@OneToMany(mappedBy = "asignatura", cascade = { CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH})
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<GrupoClase> grupos;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = { CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH},fetch = FetchType.EAGER)
 	private Profesor coordinador;
 	
 	
-	 @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	 @ManyToMany(fetch = FetchType.EAGER,cascade = { CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH})
 	 private List<Profesor> profesores;
 	 
 
@@ -164,13 +168,26 @@ public class Asignatura implements Serializable{
 	public void setCoordinador(Profesor coordinador) {
 		this.coordinador=coordinador;
 	}
-	public void deleteCoordinador() {
-		this.coordinador=null;
-	}
+	
 	 
 	public void setGruposClase(List<GrupoClase> grupos) {
 		this.grupos=grupos;
 	}
+	public void setGrupoClase(GrupoClase grupo) {
+		this.grupos.add(grupo);
+	}
+	
+	
+	
+	public void deleteProfesores() {
+		this.profesores=new ArrayList<Profesor>();
+	}
+	
+	public void deleteCoordinador() {
+		this.coordinador=null;
+	}
+	
+	
 }
 
 

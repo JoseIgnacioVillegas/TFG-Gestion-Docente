@@ -38,14 +38,16 @@ public class ObtenerAsignaturasServlet extends HttpServlet{
 		String profesorId = req.getParameter("idProfe");
 		Profesor profesor = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesorId));
 
-		List<Asignatura> asignaturasParticipa = profesor.getAsignaturasParticipa();
+		List<Asignatura> asignaturasParticipa = new ArrayList<>();
 		
+		asignaturasParticipa =	profesor.getAsignaturasParticipa();
+		System.out.println("LAS ASIGNATURAS QUE COORDINAR "+profesor.getAsignaturaCoordina());
 
 		req.getSession().setAttribute("profesor", profesor);
 		req.getSession().setAttribute("asignaturasParticipa", asignaturasParticipa);
 		req.getSession().setAttribute("todosPlanes", PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios());
 		req.getSession().setAttribute("todasAsignaturas", AsignaturaDAOImplementation.getInstance().readAsignaturas());
-		req.getSession().setAttribute("asignaturasCoordina", profesor.getAsignaturaCoordina());
+		req.getSession().setAttribute("asignaturaCoordina", profesor.getAsignaturaCoordina());
 
 		getServletContext().getRequestDispatcher("/AsignarAsignaturas.jsp").forward(req, resp);
 	}

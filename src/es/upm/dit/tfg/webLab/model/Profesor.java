@@ -28,10 +28,10 @@ public class Profesor implements Serializable{
 	@OneToOne
 	private Usuario usuario;
 	
-	@OneToMany(mappedBy = "coordinador", fetch = FetchType.EAGER,cascade = CascadeType.ALL) 
-	@Fetch(value = FetchMode.SUBSELECT)
-
-	private List<Asignatura> asignaturaCoordina;
+	//@OneToMany(mappedBy = "coordinador", fetch = FetchType.EAGER,cascade = { CascadeType.PERSIST,CascadeType.MERGE}) 
+	@OneToOne(mappedBy = "coordinador", fetch = FetchType.EAGER,cascade = { CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH}) 
+	//@Fetch(value = FetchMode.SUBSELECT)
+	private Asignatura asignaturaCoordina;
 	
 
 	private String acronimo;
@@ -39,7 +39,7 @@ public class Profesor implements Serializable{
 	
 
 	//fetch = FetchType.EAGER,
-	@ManyToMany(mappedBy="profesores",cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy="profesores",cascade = { CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH},fetch = FetchType.EAGER)
 	private List<Asignatura> asignaturasParticipa;
 
 	
@@ -59,7 +59,7 @@ public class Profesor implements Serializable{
 		this.plaza=null;
 		this.dedicacion="";
 		this.usuario=null;
-		this.asignaturaCoordina=new ArrayList<Asignatura>();
+		this.asignaturaCoordina=null;
 		this.gruposParticipa=new ArrayList<ProfesorGrupoClaseAsociacion>();
 	}
 	
@@ -85,7 +85,7 @@ public class Profesor implements Serializable{
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
-	public  List<Asignatura> getAsignaturaCoordina() {
+	public Asignatura getAsignaturaCoordina() {
 		return this.asignaturaCoordina;
 	}
 	public  List<ProfesorGrupoClaseAsociacion> getGrupoClase() {
@@ -118,7 +118,7 @@ public class Profesor implements Serializable{
 		this.usuario=usuario;
 	}
 	
-	public void setAsignaturaCoordina( List<Asignatura> asignaturaCoordina) {
+	public void setAsignaturaCoordina( Asignatura asignaturaCoordina) {
 		this.asignaturaCoordina=asignaturaCoordina;
 	}
 
@@ -126,4 +126,11 @@ public class Profesor implements Serializable{
 		this.gruposParticipa=gruposParticipa;
 	}
 	
+	
+	public void deleteAsignaturaCoordina() {
+		this.asignaturaCoordina=null;
+	}
+	public void addAsignaturaaParticipa(Asignatura asignaturaParticipa) {
+		this.asignaturasParticipa.add(asignaturaParticipa);
+	}
 }

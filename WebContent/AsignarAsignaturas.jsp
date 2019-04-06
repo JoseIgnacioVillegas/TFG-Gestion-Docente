@@ -9,7 +9,7 @@
 
 
 
-<html>
+<html onLoad="cargarLista();">
 <head>
 <style>
 html {
@@ -27,6 +27,42 @@ footer {
   width: 100%;
   height: 200px;
   color: white;
+}
+
+
+
+
+.divTable{
+	display: table;
+	width: 70%;
+	align:center;
+	margin-right:auto;
+	margin-left:auto;
+}
+.divTableRow {
+	display: table-row;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+}
+.divTableCell, .divTableHead {
+	border: 1px solid #999999;
+	display: table-cell;
+	padding: 3px 10px;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
 }
 </style>
 <meta charset="UTF-8">
@@ -50,7 +86,7 @@ footer {
 <div class="w3-container w3-padding-64 w3-center" id="team">
 
 <h2>Asignar Asignaturas</h2>
-
+<h2>Al Docente ${profesor.usuario.nombre } ${profesor.usuario.apellidos }</h2>
 
 
 
@@ -59,9 +95,16 @@ footer {
 <input type="hidden" value="${profesor.id}" name="id">
 
 
-<p>El Docente ${profesor.usuario.nombre } ${profesor.usuario.apellidos }</p>
 
-	<p>Participa en las asignaturas: </p>
+<div class="divTable w3-container w3-padding-64 w3-center">
+
+<div class="divTableBody">
+<div class="divTableRow">
+<div class="divTableCell">
+<!-- AQUI APARECEN LAS ASIGNATURAS EN LAS QUE PARTICIPA PARA PODER ELIMINARLAS -->
+<p>Participa en las asignaturas: </p>
+	
+	
 	
 	<c:forEach items="${asignaturasParticipa}" var="asignatura">
 		<p>
@@ -70,36 +113,64 @@ footer {
 			<a href="#" onclick="ponerValor(this,'${asignatura.codigo}');">Eliminar esta asignatura</a>
 		</p>
 	</c:forEach>
-	
-	<div id="participa1">
-		<p>
-		
-		
-		<div name="participa">
-			<select name="planes" onchange="mostrarAsignaturas(this,'${plan.codigo}');">
-				<option selected>Seleccionar el plan de estudios </option>
-				<c:forEach items="${todosPlanes}" var="plan">
-					<option>${plan.codigo} - ${plan.nombre}</option>
-				</c:forEach>
-			</select>
-		
-		<br>
 
-			<select  style="visibility:hidden;" onchange="mostrarGrupos(this);">
-				<option selected>Seleccionar asignatura que participa</option>
-				<c:forEach items="${todasAsignaturas}" var="asignatura">
 
-						<option value="${asignatura.codigo}">${asignatura.codigo} - ${asignatura.nombre} - ${asignatura.planEstudios.codigo}</option>
 
-				</c:forEach>
-			</select>
-			<br>
-			<div style="visibility:hidden;" id="grupos">Aqui van los grupos de clase</div>
-			
-			</div>
-			
+
+
+</div>
+<div class="divTableCell">
+
+<!-- AQUI APARECE LAS ASIGNATURA QUE COORDINA PARA PODER ELIMINARLAS -->
+<p>Coordina la asignatura: </p>
+
+<c:set var = "cod1" value="${asignaturaCoordina}"/>
+<c:set var = "cod2" value="<%=null%>"/>
+
+
+<c:if test = "${cod1 eq cod2}">
+   				<p>Este docente no coordina ninguna asignatura</p>
+</c:if>
+<c:if test = "${cod1 != cod2}">
+<p>
+			<input type="hidden" name="asignaturasCoordinaBorradas" value="${asignaturaCoordina.codigo}">
+			${asignaturaCoordina.codigo} - ${asignaturaCoordina.nombre}
+			<a href="#" onclick="eliminarAsignatura(this);">Eliminar esta asignatura</a>
 		</p>
 
+</c:if>
+
+
+
+
+
+		
+
+
+</div>
+</div>
+<div class="divTableRow">
+<div class="divTableCell">
+
+
+<p>Añadir nuevas asignaturas en las que participe,</p>
+<p> para ello puede buscar el nombre en el cuadro de busqueda</p>
+
+	<div id="participa1">
+	
+	<p>
+	
+	<input type="text" id="buscar" onKeyUp="buscarSelect()" >
+			
+			<select id="elementos" name="participa">
+				<option selected value="0">Seleccionar la asignatura </option>
+				<c:forEach items="${todasAsignaturas}" var="asignatura">
+					<option value="${asignatura.codigo}" >${asignatura.nombre}</option>
+				</c:forEach>
+			</select>
+	
+	</p>
+	
 	</div>
 
 	<div id="participa"></div>
@@ -107,44 +178,19 @@ footer {
 	<br>
 	<a  href="#" onClick="addAsignaturaParticipar()" >Añadir otra asignatura en la que participe</a>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<br><br><br><br><br><br><br><br>
-	
-	
-	<p>Coordina las asignaturas: </p>
 
-	
-	
-	<c:forEach items="${asignaturasCoordina}" var="asignatura">
-		<p>
-			<input type="checkbox" style="visibility:hidden;" value="${asignatura.codigo}" name="asignaturasCoordinaBorradas" id="${asignatura.codigo}">
-			${asignatura.codigo} - ${asignatura.nombre}
-			<a href="#" onclick="ponerValor(this,'${asignatura.codigo}');">Eliminar esta asignatura</a>
-		</p>
-	</c:forEach>
-	
-	
-	
-	
-	
-	<div id="coordina1">
+
+</div>
+<div class="divTableCell">
+
+
+
+<p>Añadir asignatura que coordine</p>
+
+
+
+<c:if test = "${cod1 eq cod2}">
+<div id="coordina1">
 		<p>
 			<select name="coordina">
 				<option selected>Seleccionar Asignatura que coordina</option>
@@ -156,15 +202,21 @@ footer {
 		</p>
 
 	</div>
+   				
+</c:if>
+<c:if test = "${cod1 != cod2}">
+<p>Este Docente ya coordina una asignatura:</p>
+</c:if>
 
-	<div id="coordina"></div>
+
+
+</div>
+</div>
+</div>
+</div>
+
+
 	
-	<br>
-	<a  href="#" onClick="addAsignaturaCoordinar()" >Añadir otra asignatura</a>
-	
-	
-	
-	<br><br><br><br>
 	
 	<button type="submit" >Guardar cambios</button>
 </form>
@@ -196,6 +248,45 @@ footer {
 
 <script>
 
+function buscarSelect(){
+
+	// creamos un variable que hace referencia al select
+	var select=document.getElementById("elementos") ;
+ 
+	// obtenemos el valor a buscar
+	var buscar=document.getElementById("buscar").value ;
+ 
+	// recorremos todos los valores del select
+	for(var i=1;i<select.length;i++){
+		var x = select.options[i].text.substr(0,buscar.length);
+		if(x.toLowerCase() ==buscar.toLowerCase() ){
+			// seleccionamos el valor que coincide
+			select.selectedIndex=i;
+		}
+		
+		
+		
+	}
+}
+
+
+
+
+function eliminarAsignatura(obj){
+
+	var elemento = obj.parentNode;
+	
+	elemento.style.display = "none";
+	
+
+}
+
+
+
+
+
+
+
 function marcarAsignatura(source) {
 	elements = source.parentNode.getElementsByTagName('input');
 	elements[0].checked = source.checked;
@@ -210,16 +301,35 @@ function setValue(source) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
 function ponerValor(obj,id){
 	var input = document.getElementById(id);
 	console.log(input);
 	input.checked= true;
 	var elemento = obj.parentNode;
-	
 	elemento.style.display = "none";
-	
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -240,7 +350,7 @@ function addAsignaturaCoordinar(){
 
 
 function mostrarAsignaturas(source,codigo){
-	elements =source.parentNode.getElementsByTagName('select');
+	elements = source.parentNode.getElementsByTagName('select');
 
 	elements[1].style.visibility = "";
 }

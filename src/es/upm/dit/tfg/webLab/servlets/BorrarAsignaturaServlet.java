@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.itextpdf.io.IOException;
 
 import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
+import es.upm.dit.tfg.webLab.dao.GrupoClaseDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
+import es.upm.dit.tfg.webLab.model.GrupoClase;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
 import es.upm.dit.tfg.webLab.model.Usuario;
 
