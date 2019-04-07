@@ -12,7 +12,6 @@
 form {
   border: 3px solid #909090;
   width: 50%;
-
 }
 /* Full-width inputs */
 input[type=text], input[type=password] {
@@ -72,7 +71,7 @@ button:hover {
 
 
 <!-- LoginServlet -->
-<form name='loginform' action="LoginServlet" >
+<form name='loginform' action="RegistroServlet" >
 
 
   <div class="imgcontainer">
@@ -82,25 +81,26 @@ button:hover {
 
 
   <div class="container" >
+  <label for="uname"><b>Nombre</b></label>
+    <input type="text" placeholder="Introduzca su nombre" name="nombre" required>
+    
+    <label for="uname"><b>Apellidos</b></label>
+    <input type="text" placeholder="Introduzca sus apellidos" name="apellidos" required>
+    
     <label for="uname"><b>Email</b></label>
-    <input type="text" placeholder="Introduzca Email" name="user" required>
+    <input type="text" placeholder="Introduzca Email" name="email" required>
 
     <label for="psw"><b>Contraseña</b></label>
     <input type="password" placeholder="Introduzca contraseña" name="password" required>
 
-    <button type="submit" class="w3-button w3-large w3-teal">Login</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
+
+    <button type="submit" class="w3-button w3-large w3-teal">Registrar</button>
+
   </div>
 
 
 </form>
 
-<br><br><br>
-<form action="Registro.jsp" ><button type="submit" class="w3-button w3-large w3-teal">Registrarse</button></form>
-
-	
 </div>
 
 </body>
