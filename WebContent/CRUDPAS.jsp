@@ -97,44 +97,40 @@
 			<td>${usuario.correo}</td>
 
 			<td>
-			<div>
-			<div style="float:left;
-		margin: 10px;">
-				<form action="EditarUsuario.jsp">
-					<input type="hidden" value="${usuario.id}" name="id">
-					<input type="hidden" value="${usuario.nombre}" name="nombre">
-					<input type="hidden" value="${usuario.apellidos}" name="apellidos">
-					<input type="hidden" value="${usuario.correo}" name="correo">
-					<button  title="Editar" type="submit" class="btn btn-success btn-circle" >
-					<img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"     src="./img/edit.svg" />
-					
-					</button>
+			<div style="position: relative;">
+				<div style="float:left;margin: 10px;">
+					<form action="EditarUsuario.jsp">
+						<input type="hidden" value="${usuario.id}" name="id">
+						<input type="hidden" value="${usuario.nombre}" name="nombre">
+						<input type="hidden" value="${usuario.apellidos}" name="apellidos">
+						<input type="hidden" value="${usuario.correo}" name="correo">
+						<button  title="Editar" type="submit" class="btn btn-success btn-circle" >
+							<img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"  src="./img/edit.svg" />
+						</button>
+					</form>
+				</div>
 				
+				<div style="float:left;margin: 10px;">
+				<form action="BorrarUsuarioServlet">
+					<input type="hidden" value="${usuario.id}" name="id">
+					<button href="#" title="Borrar" type="submit" class="btn btn-danger btn-circle">
+						<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
+					</button>
 				</form>
-	</div>
-	<div style="float:left;
-		margin: 10px;">
-	<form action="BorrarUsuarioServlet">
-			<input type="hidden" value="${usuario.id}" name="id">
-			<button href="#" title="Borrar" type="submit" class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></button>
-			</form></div>
-			
-			<div style="float:botoom;
-		margin: 10px;">
-			
-			<form action="ObtenerPermisosServlet">
-			<input type="hidden" value="${usuario.id}" name="id">
-			<button type="submit" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                      <img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"     src="./img/lock.svg" />
-                    </span>
-                    <span class="text">Asignar permisos</span>
-                  </button>
-			
-			</form></div></div></td>
-	
+				</div>
+			</div>
+
+			<div style="position:relative;margin-top:70px;" >
+				<form action="ObtenerPermisosServlet">
+					<input type="hidden" value="${usuario.id}" name="id">
+					<button type="submit" class="btn btn-primary btn-icon-split">
+		            	<span class="icon text-white-50"><img  src="./img/lock.svg" /></span>
+		                <span class="text">Asignar permisos</span>
+		            </button>
+				</form>
+			</div>
+			</td>
 		</tr>
-		
 		</c:forEach>
                   </tbody>
                 </table>

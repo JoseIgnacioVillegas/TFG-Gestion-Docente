@@ -181,7 +181,9 @@
 				<input type="hidden" value="${profesor.plaza.plaza}" name="plaza">
 				<input type="hidden" value="${profesor.dedicacion}" name="dedicacion">
 				<input type="hidden" value="${profesor.grupo.nombre}" name="grupo">
-				<button type="submit" >Editar</button>
+				<button  title="Editar" type="submit" class="btn btn-success btn-circle" >
+					<img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"  src="./img/edit.svg" />
+				</button>
 			</form>
 			
 			
@@ -190,16 +192,30 @@
 			<form action="BorrarProfesorServlet">
 			<input type="hidden" value="${profesor.id}" name="idProfe">
 			<input type="hidden" value="${profesor.usuario.id}" name="idUsuario">
-			<button type="submit" >Borrar</button></form>
+			<button href="#" title="Borrar" type="submit" class="btn btn-danger btn-circle">
+				<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
+			</button>
+			</form>
+			
+			
 			
 			
 			<form action="ObtenerAsignaturasServlet">
 			<input type="hidden" value="${profesor.id}" name="idProfe">
-			<button type="submit" >Gestionar asignaturas</button></form>
+			<button type="submit" class="btn btn-info btn-icon-split">
+		       <span class="icon text-white-50"><img  style="width:25px;height:25px;"src="./img/gestion.svg" /></span>
+		       <span class="text">Gestionar asignaturas</span>
+		    </button>
+			</form>
 			
 			<form action="ObtenerPermisosServlet">
 			<input type="hidden" value="${profesor.usuario.id}" name="id">
-			<button type="submit" >Asignar permisos</button></form></td>
+			<button type="submit" class="btn btn-primary btn-icon-split">
+		       <span class="icon text-white-50"><img  src="./img/lock.svg" /></span>
+		       <span class="text">Asignar permisos</span>
+		    </button>
+			</form>
+			</td>
 			
 			</shiro:hasAnyRoles>
 		</tr>
