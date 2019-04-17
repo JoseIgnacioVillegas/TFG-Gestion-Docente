@@ -63,7 +63,6 @@ public class GestorServlet extends HttpServlet{
 		//Botones para gestionar usuarios
 		String BotonCRUDProfesor = req.getParameter("CRUDProfesor");
 		String BotonGestionNoDocentes = req.getParameter("NoDocentes");
-		String BotonGestionPermisos = req.getParameter("Permisos");
 		
 		//Botones para gestionar la docencia 
 		String BotonCRUDPlan = req.getParameter("CRUDPlan");
@@ -125,16 +124,7 @@ public class GestorServlet extends HttpServlet{
 				getServletContext().getRequestDispatcher("/CRUDPAS.jsp").forward(req, resp);
 			}  
 			
-			//Gestion de los permisos de los usuarios 
-			if(BotonGestionPermisos!=null && BotonGestionPermisos.equals("Permisos")) {
 
-				List<Permiso> todosPermisos = PermisoDAOImplementation.getInstance().readPermisos();
-				List<Usuario> usuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
-				
-				req.getSession().setAttribute("permisos", todosPermisos);
-				req.getSession().setAttribute("usuarios", usuarios);
-				resp.sendRedirect(req.getContextPath() + "/GestionarPermisos.jsp");
-			}
 			
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);

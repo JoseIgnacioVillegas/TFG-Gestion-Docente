@@ -72,7 +72,14 @@ public class AsignarPermisosServlet extends HttpServlet{
 			String msj = "Permisos asignados con éxito";
 			req.getSession().setAttribute("mensaje", msj);
 			
-			getServletContext().getRequestDispatcher("/GestionarPermisos.jsp").forward(req, resp);
+			
+			Profesor profe = usuario.getProfesor();
+			if(profe==null) {
+				getServletContext().getRequestDispatcher("/CRUDPAS.jsp").forward(req, resp);
+			}else {
+				
+				getServletContext().getRequestDispatcher("/CRUDProfesor.jsp").forward(req, resp);
+			}
 			
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);

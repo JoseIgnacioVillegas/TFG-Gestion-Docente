@@ -1,69 +1,76 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-     <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<html>
-<head>
-<style>
-	html {
-	  min-height: 100%;
-	  position: relative;
-	}
-	body {
-	  margin: 0;
-	  margin-bottom: 40px;
-	}
-	footer {
-	  background-color: black;
-	  position: absolute;
-	  bottom: 0;
-	  width: 100%;
-	  height: 200px;
-	  color: white;
-	}
-</style>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Gestion de departamento</title>
-<link rel="icon" type="image/gif" href="./img/ditupm.gif"/>
-</head>
-
-<body id="myPage">
-
-
-<!-- En este archivo .jsp esta definido el menu principal y la barra lateral -->
-<%@ include file="menu.jsp" %> 
-
-<!-- Team Container -->
-<div class="w3-container w3-padding-64 w3-center" id="team">
-<br>
-	<h1>Bienvenido a la pantalla de gestión</h1>
-	<h2>Selecciona lo que quieres hacer</h2>
-
-</div>
-
-<div class="w3-display-container w3-animate-opacity" style="text-align:center;">
-  <img src="./img/ditupm.gif" alt="icono" style="width:20%;height:20%;" >
-</div>
+    
+<!DOCTYPE html>
+       <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+       
 
 
 
+<html lang="en">
+
+<!-- En este archivo .jsp esta definida la cabecera -->
+	<%@ include file="head.jsp" %> 
+
+
+<body id="page-top">
+
+  
 
 
 
-<!-- Footer -->
-<footer class="w3-padding-32 w3-center" >
-  <h4>Enlaces de interés</h4>
-  <a class="w3-button w3-large w3-teal" href="https://www.dit.upm.es/" title="DIT"><img src="./img/ditupm.gif" style="width:30px;height:30px;"></a>
-  <a class="w3-button w3-large w3-teal" href="http://www.etsit.upm.es/" title="ETSIT"><img src="./img/etsit.gif" style="width:30px;height:30px;"></a>
-  <a class="w3-button w3-large w3-teal" href="https://moodle.upm.es/" title="MOODLE"><img src="./img/moodle.gif" style="width:30px;height:30px;"></a>
-  <a class="w3-button w3-large w3-teal" href="http://www.upm.es/" title="UPM"><img src="./img/upm.gif" style="width:30px;height:30px;"></a>
-  <p>TFG Gestión docente - 2019</p>
-  <!--  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>  -->
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+<!-- En este archivo .jsp esta definida superior -->
+	<%@ include file="sidebar.jsp" %> 
+	
+	
+	
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- En este archivo .jsp esta definida superior -->
+	<%@ include file="topbar.jsp" %> 
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Bienvenido/a a la pantalla de gestión</h1>
+          </div>
+
+      
+          <!-- Content Row -->
+          <div class="row">
+			<div class="col-xl-3 col-md-6 mb-4"></div>
+            	<div class="col-xl-6 col-md-6 mb-4" style="text-align:center;">
+					<img  type="image/gif" src="./img/ditupm.gif" style="width:50%;height:auto;"/>                    
+            	</div>
+          </div>
+
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+
+
+
+
+
+<footer class="sticky-footer bg-white" >
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+
+  <p>TFG Gestión docente - 2019</p></div></div>
 </footer>
 
 
@@ -71,28 +78,25 @@
 
 
 
-<script>
-function desplegarMenu(obj){ 	
-   	if(obj.value == "gestUsuarios" && document.getElementById('gestUsuarios').style.display=="none" )	{
-   		document.getElementById('gestUsuarios').style.display="";
-   	}else if(obj.value == "gestUsuarios" && document.getElementById('gestUsuarios').style.display==""){
-		document.getElementById('gestUsuarios').style.display="none";
-   	}
-   	
-	if(obj.value == "gestDocencia" && document.getElementById('gestDocencia').style.display=="none"){
-		document.getElementById('gestDocencia').style.display="";
-   	}else if(obj.value == "gestDocencia" && document.getElementById('gestDocencia').style.display==""){
-   		document.getElementById('gestDocencia').style.display="none";
-   	}
-} 
+    </div>
+    <!-- End of Content Wrapper -->
 
-
-
-// Script for side navigation
+  </div>
+  <!-- End of Page Wrapper -->
 
 
 
 
-</script>
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  
+<!-- En este archivo .jsp estan incluidos los enlances a los archivos JS -->
+	<%@ include file="JavaScript.jsp" %> 
+
 </body>
+
 </html>
