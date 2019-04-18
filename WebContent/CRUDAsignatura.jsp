@@ -63,7 +63,7 @@
 
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      <img  style="width:30px;height:30px;"src="./img/import.png" />
                     </div>
                   </div>
                 </div>
@@ -83,7 +83,7 @@
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-size:15px;">Para crear una nueva asignatura pincha aquí</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      <img  style="width:30px;height:30px;"src="./img/crear.png" />
                     </div>
                   </div>
                 </div>
@@ -163,6 +163,7 @@
 			<td><p title="${asignatura.comentario}" style="height:20px;width:100px; overflow:hidden!important;">${asignatura.comentario}</p></td>
 			
 			<td>
+			<div class="row" style="padding-left:5px;">
 			<form action="EditarAsignatura.jsp">
 			<input type="hidden" value="${asignatura.comentario}" name="comentario">
 				<input type="hidden" value="${asignatura.nombre}" name="nombre">
@@ -177,19 +178,38 @@
 				<input type="hidden" value="${asignatura.horasLab}" name="horasLab">
 				<input type="hidden" value="${asignatura.numeroAlumnos}" name="numeroAlumnos">
 				<input type="hidden" value="${asignatura.horasApolo}" name="horasApolo">
-				<button type="submit" >Editar asignatura</button></form>
-			<br>
+				<button  title="Editar" type="submit" class="btn btn-success btn-circle" >
+					<img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"  src="./img/edit.svg" />
+				</button>
+				</form>
+			
 				<form action="BorrarAsignaturaServlet">
 				<input type="hidden" value="${asignatura.codigo}" name="codigo">
-				<button type="submit" >Borrar asignatura</button></form>
-		<br>
+				<button title="Borrar" type="submit" class="btn btn-danger btn-circle">
+				<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
+				</button>
+				</form>
+				</div>
+				<br>
+				<div class="row" style="padding-left:5px;">
 				<form action="ObtenerDocentesServlet">
 				<input type="hidden" value="${asignatura.codigo}" name="codigo">
-				<button type="submit" >Asignar docentes</button></form>
-			<br>
+				<button type="submit" class="btn btn-primary btn-icon-split">
+		       	<span class="icon text-white-50"><img  src="./img/lock.svg" /></span>
+		       	<span class="text">Asignar docentes</span>
+		    	</button>
+				</form>
+				</div>
+				<br>
+				<div class="row" style="padding-left:5px;">
 				<form action="ObtenerGruposServlet">
 				<input type="hidden" value="${asignatura.codigo}" name="codigo">
-				<button type="submit" >Gestionar grupos <br>de clase</button></form>
+				<button type="submit" class="btn btn-info btn-icon-split">
+		       	<span class="icon text-white-50"><img  style="width:25px;height:25px;"src="./img/gestion.svg" /></span>
+		       	<span class="text">Gestionar grupos</span>
+		    	</button>
+				</form>
+				</div>
 			</td>
 			
 		</tr>

@@ -66,7 +66,7 @@
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="correo" placeholder="Introduce el email del docente"></div>                 
                  	<div class="form-group">  
 						<select name="grupo"id="grupo"  class="form-control">
-							<option value="" selected>Selecciona el grupo de investigación al que pertenece: </option>
+							<option value="" selected>Selecciona el grupo de investigación al que pertenece </option>
 							<c:forEach items="${grupos}" var="grupo">
 								<option value="${grupo.nombre}">${grupo.acronimo}</option>
 							</c:forEach>
@@ -98,11 +98,11 @@
 						</select>
 					</div>
 					<div class="form-group"> 
-					<p class="form-control"> Selecciona los permisos que le quieres dar a este profesor</p>
+					<p class="form-control" style="height:70px;"> Selecciona los permisos que le quieres dar a este profesor<br>
 					
 					<c:forEach items="${permisos}" var="permiso">
-						<p class="form-control"> ${permiso.permiso} <input type="checkbox" value="${permiso.id}"> </p>
-					</c:forEach>
+						 ${permiso.permiso} <input type="checkbox" value="${permiso.id}"> 
+					</c:forEach></p>
 					</div>
 					<br>
                   

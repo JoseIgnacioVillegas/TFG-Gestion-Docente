@@ -47,7 +47,7 @@
           <h1 class="h3 mb-2 text-gray-800">Asignar permisos</h1>
 
             
-<form action="AsignarPermisosServlet">
+<form action="AsignarPermisosServlet" class="user">
 	<input type="hidden" value="${usuario.id}" name="id" >
 
 <!-- DataTales Example -->
@@ -91,7 +91,8 @@
             </div>
           </div>
           
-           <button type="submit" >Guardar cambios</button>
+           <button type="submit"class="btn btn-primary btn-user btn-block" style="width:40%;">Guardar cambios</button>
+           <hr>
                 </form>
                 
                 

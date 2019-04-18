@@ -81,11 +81,6 @@
                     <hr>
                    
                   </form>
-                  
-                  
-                  
-                  
-                  <hr>
 
                   
                   <div class="text-center">

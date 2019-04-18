@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-
+    
 <!DOCTYPE html>
+       <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+       
+
 
 
 <html lang="en">
@@ -35,47 +34,46 @@
       <div id="content">
 
         <!-- En este archivo .jsp esta definida superior -->
-	<%@ include file="topbar.jsp" %> 
+		<%@ include file="topbar.jsp" %> 
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Crear usuario</h1>
+            <h1 class="h3 mb-0 text-gray-800">Datos personales </h1>
           </div>
 
       
+      <p>
+      
+
+      
+      </p>
+    
           <!-- Content Row -->
-          <div class="row">
-			<div class="col-xl-3 col-md-6 mb-4"></div>
-            	<div class="col-xl-6 col-md-6 mb-4" style="text-align:center;">
-            	
-            <form class="user" action="CrearUsuarioServlet">
-                    <div class="form-group">
-                      <input type="text" class="form-control form-control-user" name="nombre" placeholder="Introduce el nombre del usuario">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control form-control-user" name="apellidos" placeholder="Introduce apellidos del usuario">
-                    </div>
-                    
-                    <div class="form-group">
-                      <input type="text" class="form-control form-control-user" name="correo" placeholder="Introduce el correo del usuario">
-                    </div>
-                  
-                    
-                     <button type="submit" class="btn btn-primary btn-user btn-block">Crear</button>
-
-                    <hr>
-                   
-                  </form>  
-
-                           
-            	</div>
+          <div class="row" >		
+			<div class="card mb-4 py-3 border-bottom-primary" style="width:60%;align:center;margin-left:auto;margin-right:auto;">
+				<div class="card-body">
+					<div class="row" >
+						<img  style="width:300px;height:150px;"  src="./img/persona.png" />
+						<div class="user col-xl-6 col-md-6 mb-4">
+	                    <div class="form-group">Nombre: <p class="form-control form-control-user">${usuario.nombre }</p></div>
+	                    <div class="form-group">Apellidos: <p class="form-control form-control-user"> ${usuario.apellidos }</p></div>
+	                    <div class="form-group">Correo: <p class="form-control form-control-user">${ usuario.correo}</p></div>
+	                    <br>
+	                    <div class="form-group"><a class="small" href="CambiarPassword.jsp" style="font-size:15px;">Cambiar contraseña</a></div>
+						</div>
+     				</div>					
+				</div>
+			</div>
+	
+	                  
+   
           </div>
 
 
-
+ 		
         </div>
         <!-- /.container-fluid -->
 
@@ -121,4 +119,3 @@
 </body>
 
 </html>
-

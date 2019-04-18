@@ -46,20 +46,20 @@
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Gestión de los usuarios </h1>
           <form action="CrearUsuario.jsp" >
-           <button type="submit" style="width:100%">
-            <div class="col-xl-3 col-md-6 mb-4">
+           <button type="submit" >
+            <div class="col-xl-8 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Para crear un nuevo usuario pincha aquí</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 " style="font-size:15px;">Para crear un nuevo usuario pincha aquí</div>
                     
                       	
 
                       
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      <img  style="width:30px;height:30px;"src="./img/crear.png" />
                     </div>
                   </div>
                 </div>

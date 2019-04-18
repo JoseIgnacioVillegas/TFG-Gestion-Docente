@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.apache.shiro.subject.Subject;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,7 @@ public class CrearUsuarioServlet extends HttpServlet{
 			usuario.setApellidos(ape);
 			usuario.setCorreo(corr);
 			usuario.setId(idMaxUsuario);
+			usuario.setPassword(convertirSHA256("1234"));
 			UsuarioDAOImplementation.getInstance().createUsuario(usuario);
 			
 			
@@ -72,5 +75,24 @@ public class CrearUsuarioServlet extends HttpServlet{
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}
 
+	}
+	public String convertirSHA256(String password) {
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} 
+		catch (NoSuchAlgorithmException e) {		
+			e.printStackTrace();
+			return null;
+		}
+		    
+		byte[] hash = md.digest(password.getBytes());
+		StringBuffer sb = new StringBuffer();
+		    
+		for(byte b : hash) {        
+			sb.append(String.format("%02x", b));
+		}
+		    
+		return sb.toString();
 	}
 }

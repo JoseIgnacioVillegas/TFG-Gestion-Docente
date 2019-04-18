@@ -37,10 +37,6 @@ public class RegistroServlet extends HttpServlet{
 		String apellidos = req.getParameter("apellidos");
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
-		System.out.println(nombre);
-		System.out.println(apellidos);
-		System.out.println(email);
-		System.out.println(password);
 
 			Usuario usuario = new Usuario();
 			usuario.setNombre(nombre);

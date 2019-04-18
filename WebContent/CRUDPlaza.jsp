@@ -48,20 +48,16 @@
           
           
            <form action="CrearPlaza.jsp">
-           <button type="submit" style="width:100%">
-            <div class="col-xl-3 col-md-6 mb-4">
+           <button type="submit" >
+            <div class="col-xl-9 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Para crear una nueva plaza de profesor pincha aquí</div>
-                    
-                      	
-
-                      
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 " style="font-size:15px;">Para crear una nueva plaza de profesor pincha aquí</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      <img  style="width:30px;height:30px;"src="./img/gestionar.png" />
                     </div>
                   </div>
                 </div>
@@ -95,17 +91,27 @@
 		<tr>
 		<td>${plaza.plaza}</td>
 		<td><p title="${plaza.descripcion}" style="height:20px;width:100px; overflow:hidden!important;">${plaza.descripcion}</p></td>
-		<td><form action="EditarPlaza.jsp">
+		<td>
+		
+		<div class="row" style="padding-left:5px;">
+		<form action="EditarPlaza.jsp" >
 			<input type="hidden" value="${plaza.id}" name="id">
 			<input type="hidden" value="${plaza.plaza}" name="nombre">
 			<input type="hidden" value="${plaza.descripcion}" name="descripcion">
-
-			<button type="submit" >Editar</button></form>
+			<button  title="Editar" type="submit" class="btn btn-success btn-circle" >
+					<img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"  src="./img/edit.svg" />
+			</button>
+			</form>
 			
 			
 			<form action="BorrarPlazaServlet">
 			<input type="hidden" value="${plaza.id}" name="id">
-			<button type="submit" >Borrar</button></form></td>
+			<button title="Borrar" type="submit" class="btn btn-danger btn-circle">
+				<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
+			</button>
+			</form>
+			</div>
+			</td>
 		
 
 			

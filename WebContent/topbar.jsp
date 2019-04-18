@@ -80,12 +80,17 @@ button {
       
               </a>
               <!-- Dropdown - User Information -->
+              
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+              <form action="ObtenerUsuarioServlet">
+              <button type="submit">
+              <input type="hidden" name="usuario" value="<shiro:principal/>" />
+                <a class="dropdown-item" >
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Ver perfil 
                 </a>
-
+                </button>
+			</form>
 
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -118,7 +123,7 @@ button {
         <div class="modal-body">Selecciona "Logout" abajo si deseas finalizar tu sesión.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="LogoutServlet">Logout</a>
         </div>
       </div>
     </div>

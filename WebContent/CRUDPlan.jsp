@@ -48,20 +48,17 @@
           
           
            <form action="CrearPlan.jsp"  >
-           <button type="submit" style="width:100%">
-            <div class="col-xl-3 col-md-6 mb-4">
+           <button type="submit" >
+            <div class="col-xl-8 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Para crear un nuevo plan de estudios pincha aquí</div>
-                    
-                      	
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 " style="font-size:15px;">Para crear un nuevo plan de estudios pincha aquí</div>
 
-                      
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      <img  style="width:30px;height:30px;"src="./img/crear.png" />
                     </div>
                   </div>
                 </div>
@@ -98,14 +95,22 @@
 			
 	
 			<td>
+			<div class="row" style="padding-left:5px;">
 				<form action="EditarPlan.jsp">
 				<input type="hidden" value="${plan.codigo}" name="codigo">
 				<input type="hidden" value="${plan.nombre}" name="nombre">
-				<button type="submit" >Editar</button></form>
+				<button  title="Editar" type="submit" class="btn btn-success btn-circle" >
+					<img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"  src="./img/edit.svg" />
+				</button>
+				</form>
 
 				<form action="BorrarPlanServlet">
 				<input type="hidden" value="${plan.codigo}" name="codigo">
-				<button type="submit">Borrar</button></form>
+				<button title="Borrar" type="submit" class="btn btn-danger btn-circle">
+				<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
+				</button>
+				</form>
+				</div>
 			</td>
 			
 			

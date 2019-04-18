@@ -48,20 +48,20 @@
           
 	
             <form action="CrearGrupo.jsp">
-           <button type="submit" style="width:100%">
-            <div class="col-xl-3 col-md-6 mb-4">
+           <button type="submit">
+            <div class="col-xl-8 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Para crear un nuevo grupo de investigación pincha aquí</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 " style="font-size:15px;">Para crear un nuevo grupo de investigación pincha aquí</div>
                     
                       	
 
                       
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                       <img  style="width:30px;height:30px;"src="./img/gestionar.png" />
                     </div>
                   </div>
                 </div>
@@ -96,16 +96,23 @@
 			<td>${grupo.nombre}</td>
 			<td>${grupo.acronimo}</td>
 			<td>
+			<div class="row" style="padding-left:5px;">
 				<form action="EditarGrupo.jsp">
 				<input type="hidden" value="${grupo.nombre}" name="nombre">
 				<input type="hidden" value="${grupo.acronimo}" name="acronimo">
-				<button type="submit" value="${grupo}">Editar</button>
+				<button  title="Editar" type="submit" class="btn btn-success btn-circle" >
+					<img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"  src="./img/edit.svg" />
+				</button>
 				</form>
-			</td>
-			<td>
+
+
 				<form action="BorrarGrupoServlet">
 				<input type="hidden" value="${grupo.nombre}" name="grupo">
-				<button type="submit">Borrar</button></form>
+				<button title="Borrar" type="submit" class="btn btn-danger btn-circle">
+				<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
+				</button>
+				</form>
+				</div>
 			</td>
 		</tr>
 		

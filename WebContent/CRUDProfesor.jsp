@@ -65,7 +65,7 @@
 
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    	<img  style="width:30px;height:30px;"src="./img/crear.png" />
                     </div>
                   </div>
                 </div>
@@ -89,7 +89,7 @@
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-size:15px;">Para gestionar las plazas de profesores pincha aquí</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      <img  style="width:30px;height:30px;"src="./img/gestionar.png" />
                     </div>
                   </div>
                 </div>
@@ -110,7 +110,7 @@
 
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                      <img  style="width:30px;height:30px;"src="./img/gestionar.png" />
                     </div>
                   </div>
                 </div>
@@ -146,7 +146,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th style="font-size:15px;">NOMBRE</th>
+                      <th>Nombre</th>
                       <th>Apellidos</th>
                       <th>Acrónimo</th>
                       <th>Correo</th>
@@ -170,8 +170,17 @@
 			<td>${profesor.dedicacion}</td>
 			<td>${profesor.plaza.plaza}</td>
 			
+			
+			
+			
 			<shiro:hasAnyRoles name="administrador, gestionusuarios">
 			<td>
+			
+			
+			<table style="border:0px;">
+			<tr>
+			<td style="border:0px;">
+			
 			<form action="EditarProfesor.jsp">
 				<input type="hidden" value="${profesor.id}" name="id">
 				<input type="hidden" value="${profesor.usuario.nombre}" name="nombre">
@@ -187,18 +196,8 @@
 			</form>
 			
 			
-
-
-			<form action="BorrarProfesorServlet">
-			<input type="hidden" value="${profesor.id}" name="idProfe">
-			<input type="hidden" value="${profesor.usuario.id}" name="idUsuario">
-			<button href="#" title="Borrar" type="submit" class="btn btn-danger btn-circle">
-				<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
-			</button>
-			</form>
-			
-			
-			
+			</td>
+			<td style="border:0px;">
 			
 			<form action="ObtenerAsignaturasServlet">
 			<input type="hidden" value="${profesor.id}" name="idProfe">
@@ -208,6 +207,22 @@
 		    </button>
 			</form>
 			
+			</td>
+			</tr>
+			<tr>
+			<td style="border:0px;">
+			
+			<form action="BorrarProfesorServlet">
+			<input type="hidden" value="${profesor.id}" name="idProfe">
+			<input type="hidden" value="${profesor.usuario.id}" name="idUsuario">
+			<button href="#" title="Borrar" type="submit" class="btn btn-danger btn-circle">
+				<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
+			</button>
+			</form>
+			
+			</td>
+			<td style="border:0px;">
+			
 			<form action="ObtenerPermisosServlet">
 			<input type="hidden" value="${profesor.usuario.id}" name="id">
 			<button type="submit" class="btn btn-primary btn-icon-split">
@@ -215,6 +230,14 @@
 		       <span class="text">Asignar permisos</span>
 		    </button>
 			</form>
+			
+			
+			</td>
+			</tr>
+			
+			</table>
+			
+			
 			</td>
 			
 			</shiro:hasAnyRoles>

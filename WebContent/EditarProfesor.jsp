@@ -126,7 +126,7 @@
                   
                   
                     
-                     <button type="submit" class="btn btn-primary btn-user btn-block">Crear</button>
+                     <button type="submit" class="btn btn-primary btn-user btn-block">Guardar cambios</button>
 
                     <hr>
                    
