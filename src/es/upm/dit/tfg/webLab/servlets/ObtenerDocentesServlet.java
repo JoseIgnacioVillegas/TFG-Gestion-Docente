@@ -34,15 +34,22 @@ public class ObtenerDocentesServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
 		req.getSession().removeAttribute("mensaje");
-
-
+		String crear = req.getParameter("crear");
+		
+		
+		List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
+		
+		if(crear!=null&&crear.equals("crear")) {
+			req.getSession().setAttribute("todosProfesores", todosProfesores);
+			getServletContext().getRequestDispatcher("/CrearAsignatura.jsp").forward(req, resp);
+		}else {
 		String codigoAsignatura = req.getParameter("codigo");
 		
 		Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(codigoAsignatura);
 		
 		List<Profesor> profesores = asignatura.getProfesores();
 		
-		List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
+		
 		
 		
 		req.getSession().setAttribute("coordinador", asignatura.getCoordinador());
@@ -51,8 +58,12 @@ public class ObtenerDocentesServlet extends HttpServlet{
 		req.getSession().setAttribute("nombre", asignatura.getNombre());
 		req.getSession().setAttribute("codigo", asignatura.getCodigo());
 		req.getSession().setAttribute("acronimo", asignatura.getAcronimo());
+		
+		req.getSession().setAttribute("longitud", profesores.size());
 
 		getServletContext().getRequestDispatcher("/AsignarDocentes.jsp").forward(req, resp);
+		
+		}
 		
 	}
 }

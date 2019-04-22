@@ -44,7 +44,7 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Gestión de los Docentes</h1>
+          <h1 class="h3 mb-2 text-gray-800">Gestión de las asignaturas</h1>
           
    
           
@@ -73,7 +73,8 @@
 			</form>
             
             
-            <form action="CrearAsignatura.jsp">
+            <form action="ObtenerDocentesServlet">
+            <input type="hidden" value="crear" name="crear"/>
             <button type="submit" value="CRUDPlaza" name="CRUDPlaza">
             <div class="col-xl-12 col-md-6 mb-4">
               <div class="card border-left-success shadow h-100 py-2">
@@ -108,7 +109,7 @@
 <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Profesores</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Asignaturas</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive	">

@@ -57,7 +57,7 @@
 
             	<form class="user" action="EditarPlazaServlet">
             		<input type="hidden" name="id" value="<%=id%>">
-					
+					Nombre:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="nombre" value="<%=nom%>"></div>
                     <div class="form-group">
                     <p class="form-group">Descripción(max 250 caracteres):</p>

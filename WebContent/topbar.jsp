@@ -1,3 +1,8 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
+
 <style>
 
 .boton:hover{
@@ -33,13 +38,13 @@ button {
           </button>
           
           
-<shiro:hasRole name="profesor">
-            <form class="boton btn" ><button class="nav-link"  type="submit" >Profesor</button></form>
+<shiro:hasRole name="docente">
+  <form action="PasoDocenteServlet" class="boton btn">
+  <input type="hidden" name="correo" value="<shiro:principal/>">
+  <button class="nav-link"  type="submit">Docente</button>
+  </form>
 </shiro:hasRole>
 
-  <shiro:hasRole name="coordinador">
-  <form action="CoordinadorServlet" class="boton btn"><button class="nav-link"  type="submit">Coordinador</button></form>
-  </shiro:hasRole>
   
     <shiro:hasAnyRoles name="administrador,gestiondocencia,gestionusuarios,gestiondatos">
   <form action="PasoGestorServlet" class="boton btn"><button class="nav-link"  type="submit">Gestor</button></form>

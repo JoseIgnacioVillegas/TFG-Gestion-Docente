@@ -68,11 +68,11 @@
                   </thead>
                   <tbody>
                   
-                  <c:forEach items="${permisosUsuario}" var="permiso">
+                  <c:forEach items="${permisosUsuario}" var="permiso1">
 		<tr>
-			<td>${permiso.permiso } </td>
-			<td>${permiso.descripcion } </td>
-			<td><input type="checkbox" value="${permiso.id}" name="permisos" checked></td>
+			<td>${permiso1.permiso } </td>
+			<td>${permiso1.descripcion } </td>
+			<td><input type="checkbox" value="${permiso1.id}" name="permisos" checked></td>
 		</tr>
 	</c:forEach>
 	

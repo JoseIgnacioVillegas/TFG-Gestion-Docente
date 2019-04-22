@@ -1,200 +1,324 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
-<head>
-<style>
-html {
-  min-height: 100%;
-  position: relative;
-}
-body {
-  margin: 0;
-  margin-bottom: 40px;
-}
-footer {
-  background-color: black;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 200px;
-  color: white;
-}
-</style>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Gestion de departamento</title>
-<link rel="icon" type="image/gif" href="./img/ditupm.gif"/>
-</head>
+<!DOCTYPE html>
 
 
-<body id="myPage">
+<html lang="en">
 
-<!-- En este archivo .jsp esta definido el menu principal y la barra lateral -->
-<%@ include file="menu.jsp" %> 
+<!-- En este archivo .jsp esta definida la cabecera -->
+	<%@ include file="head.jsp" %> 
 
 
-<!-- Team Container -->
+<body id="page-top">
 
-<div class="w3-container w3-padding-64 w3-center" id="team">
-	<p style="color:#FF0000">${mensaje}</p>
-	<h2>Gestionar Grupos de Clase de la asignatura</h2>
-	<h2>${asignatura.codigo} - ${asignatura.nombre}</h2>
+  
+
+
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+<!-- En este archivo .jsp esta definida superior -->
+	<%@ include file="sidebar.jsp" %> 
 	
 	
 	
-	
-	
-	
-	
-	
-<form action="CRUDGruposClaseServlet">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- En este archivo .jsp esta definida superior -->
+	<%@ include file="topbar.jsp" %> 
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Gestionar Grupos de Clase de la asignatura ${asignatura.codigo} - ${asignatura.nombre}</h1>
+          </div>
+
+
+
+      <form action="CRUDGruposClaseServlet" class="user">
 <input type="hidden" name="asignatura" value="${asignatura.codigo}">
+      
+      <!-- Content Row -->
+    <div class="row" >	
+    	<!-- Celda superior izquierda, asignaturas en las que participa -->
+		<div class="col-xl-12 col-md-6 mb-4">
+			<!-- Collapsable Card Example -->
+            <div class="card shadow mb-4">
+            	<!-- Card Header - Accordion -->
+                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                  <h6 class="m-0 font-weight-bold text-primary">Grupos de clase de esta asignatura</h6>
+                </a>
+                <!-- Card Content - Collapse -->
+                <div class="collapse show" id="collapseCardExample">
+                	<div class="card-body">
+                	<c:forEach items="${gruposClase}" var="grupo">
+                	<div class="card border-left-primary shadow h-100 py-2" id="profesor1">
+                		<div class="card-body">
+                  			<div class="row no-gutters align-items-center">
+                    			<div class="col mr-2">
+                      				<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Grupo ${grupo.nombre}</div>
+									Número de alumnos del grupo: ${grupo.numeroAlumnos}<br>
+									Decripción: ${grupo.descripcion}<br>
+									<input type="checkbox" style="visibility:hidden;" value="${grupo.id}" name="gruposBorrados" id="${grupo.id}">
+									<a href="#" style="width:50%;" onclick="borrarGrupo(this,${grupo.id})">Borrar Grupo de Clase</a>
 
-	<p>Grupos de clase de esta asignatura </p>
-	<c:forEach items="${gruposClase}" var="grupo">
-	<div  style="border-style:groove;width:50%;align:center;margin-right:auto;margin-left:auto;">
-		<p>
-		Grupo: <input name="grupo" value="${grupo.nombre}" type="text" style="width:90px;">
-		Numero de Alumnos: <input name="nalumnos" value="${grupo.numeroAlumnos}" type="text" style="width:90px;"></p>
-		<p>Descripción: <textarea type="text"  name="descripcionGrupo" maxlength="100" style="width:150px;height:80px;vertical-align: top;" cols="35" rows="10" wrap="soft">${grupo.descripcion}</textarea>
-		Profesores:
-
-
-		 </p>
-		 
-		 
-	<input type="checkbox" style="visibility:hidden;" value="${grupo.id}" name="gruposBorrados" id="${grupo.id}">
-	<div type="button" style="width:50%;align:center;margin-right:auto;margin-left:auto;" onclick="borrarGrupo(this,${grupo.id})">Borrar Grupo de Clase</div>
-	</div>
-	<br>
-	</c:forEach>
-
-<br>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-
-
-
-
-
-
-
-
-
-
-<br>
-<p>Añadir nuevos grupos de clase</p>
-
-
-
-	<div id="grupo" style="border-style:groove;width:70%;align:center;margin-right:auto;margin-left:auto;">
-	
-	<br>
-		<p> 
-		Nombre del grupo:<input type="text" name="nombreGrupoNuevo" style="width:90px;">
-		 Número de alumnos:<input type="text" name="numeroAlumnosGrupoNuevo" style="width:90px;">
-		 </p>
-		
-
-		Descripción(max 140 caracteres): <textarea type="text" name="descripcionGrupoNuevo" maxlength="100" style="width:150px;height:80px;vertical-align: top;" cols="35" rows="10" wrap="soft"></textarea>
-
-		Seleccionar profesores: 
-		
-		
-		<br>
-		
-		<div id="profesor1">
-		<input type="text"  onKeyUp="buscarSelect(this)" value="Buscar Profesor" onClick="this.value=''" onBlur="this.value='Buscar Profesor'">
-			
-			<select name="docentes">
-				<option selected value="0">Seleccionar la Docente </option>
-				<c:forEach items="${todosProfesores}" var="profesor">
-					<option value="" >${profesor.usuario.nombre } ${profesor.usuario.apellidos }</option>
+                    			</div>
+                  			</div>
+                		</div>
+              		</div>
+                	
+</c:forEach>
+						
+						
+						
+						
+						                
+                  	</div>
+                </div>
+              </div>
+            </div>
+            
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          <!-- Content Row -->
+   
+          
+          
+          
+          <div class="row" id="grupo">
+			<div class="card mb-4 py-3 border-bottom-primary" style="width:100%" >
+				<div class="card-body" style="width:100%;">		
+					<div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size:15px;">Añadir nuevo grupo de clase</div>
 					
-				</c:forEach>
-			</select><br>
-			Horas de prácticas:<input type="text" name="hPracticasNuevo" style="width:45px;" onKeyUp="setName(this)">
-		 	Horas de laboratorio:<input type="text" name="hLabNuevo" style="width:45px;" onKeyUp="setName(this)">
-		 	Horas de teoria:<input type="text" name="hTeoriaNuevo" style="width:45px;" onKeyUp="setName(this)">
-			
-		</div>
-		
-		<div id="profesor"></div>
-		
-		
-		<a  href="#" onClick="addProfesor(this)" >Añadir profesor</a>
+					<div class="row">
+					<div class="col-xl-6 col-md-6 mb-4">
+					<input type="hidden" value="" name=""/>
+					<div class="form-group" style="padding-top:20px;"><input type="text" class="form-control form-control-user" onKeyUp="setName(this)" name="nombreGrupoNuevo" placeholder="Introduce el nombre del grupo"></div>
+					<div class="form-group" style="padding-top:20px;"><input type="text" class="form-control form-control-user" name="numeroAlumnosGrupoNuevo" placeholder="Introduce el numero de alumnos"></div>
+					</div>
+					
+					<div class="col-xl-6 col-md-6 mb-4">
+					
+					Añadir descripción(max 140 caracteres):<br>
+		 			<textarea type="text" name="descripcionGrupoNuevo" maxlength="250" style="width:400px;height:130px;vertical-align: top;" cols="35" rows="10" wrap="soft"></textarea>
+					</div>
+					</div>
+					<br><br>
+					
+					<!-- Empieza la selección de los profesores -->
+					<div id="invisible" style="display:none">
+					<div class="card border-left-primary shadow h-100 py-2" id="profesor1">
+                		<div class="card-body">
+                  			<div class="row no-gutters align-items-center">
+                    			<div class="col mr-2">
+                      				<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">seleccionar profesor y asignarle horas lectivas</div>
+									
+									<div class="row">
+									<input style="height:50px;"  type="text"  onKeyUp="buscarSelect(this)" value="Buscar Profesor" onClick="this.value=''" onBlur="this.value='Buscar Profesor'">
+									<select name="docentes"  style="height:50px;">
+										<option selected value="0">Seleccionar la Docente </option>
+										<c:forEach items="${todosProfesores}" var="profesor">
+											<option value="${profesor.id}" >${profesor.usuario.nombre } ${profesor.usuario.apellidos }</option>
+										</c:forEach>
+									</select><br>
+									<div class="form-group"><input type="text" class="form-control form-control-user" name="hPracticasNuevo" style="width:230px;" value="0" placeholder="Introduce las horas de prácticas"></div>
+									<div class="form-group"><input type="text" class="form-control form-control-user" name="hLabNuevo" style="width:230px;"  value="0" placeholder="Introduce las horas de laboratorio"></div>
+									<div class="form-group"><input type="text" class="form-control form-control-user" name="hTeoriaNuevo" style="width:230px;"  value="0" placeholder="Introduce las horas de teoria"></div>
+                    				<a  href="#" onClick="deleteProfesor(this)" >Eliminar profesor</a>
+                    			</div>
+                    			</div>
+                  			</div>
+                		</div>
+              		</div>
+              		
+              		
+              		
+              		
+					<div id="profesor"  class="h-100 py-2" style="display:none;"></div>
+					<a  href="#" onClick="addProfesor(this)" >Añadir profesor</a>
+					</div>
+					<a  href="#" onClick="addFirstProfesor(this)" id="FirstBoton" >Añadir profesor</a>
+				</div>
+			</div>
+          </div>
+          
+          		
+		  <div id="grupo1"  class="h-100 py-2"  ></div>
+		  <a  href="#" onClick="addGrupo()" >Añadir grupo de clase</a><br><br>
+		<button type="submit" class="btn btn-primary btn-user btn-block" style="width:42%;align:center;margin-left:auto;margin-right:auto;">Guardar Cambios</button>
+		<hr>
+ </form>
+ 
+ 
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
 
 
-		</div>
-
-
-	 <div id="grupo1"></div>
-		<a  href="#" onClick="addGrupo()" >Añadir grupo de clase</a><br><br>
-
-<input type="submit" value="Guardar Cambios">
-
-</form>
-
-
-
-</div>
 
 
 
 
+<footer class="sticky-footer bg-white" >
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
 
-
-
-
-<!-- Footer -->
-<footer class="w3-padding-32 w3-center" >
-  <h4>Enlaces de interés</h4>
-  <a class="w3-button w3-large w3-teal" href="https://www.dit.upm.es/" title="DIT"><img src="./img/ditupm.gif" style="width:30px;height:30px;"></a>
-  <a class="w3-button w3-large w3-teal" href="http://www.etsit.upm.es/" title="ETSIT"><img src="./img/etsit.gif" style="width:30px;height:30px;"></a>
-  <a class="w3-button w3-large w3-teal" href="https://moodle.upm.es/" title="MOODLE"><img src="./img/moodle.gif" style="width:30px;height:30px;"></a>
-  <a class="w3-button w3-large w3-teal" href="http://www.upm.es/" title="UPM"><img src="./img/upm.gif" style="width:30px;height:30px;"></a>
-  <p>TFG Gestión docente - 2019</p>
-  <!--  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>  -->
+  <p>TFG Gestión docente - 2019</p></div></div>
 </footer>
 
+
+
+
+
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+
+
+
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  
+<!-- En este archivo .jsp estan incluidos los enlances a los archivos JS -->
+	<%@ include file="JavaScript.jsp" %> 
+
+</body>
 <script>
+function addFirstProfesor(obj){
+	document.getElementById('invisible').style.display="";
+	document.getElementById('FirstBoton').style.display="none";
+	var input = obj.parentNode.getElementsByTagName('input')[0];
+	input.setAttribute("value",1);
+}
+
+
+
+function buscarSelect(obj){
+	var p = obj.parentNode;
+
+	// creamos un variable que hace referencia al select
+	var select = p.children[1];
+
+	var input = p.children[0];
+	
+	// obtenemos el valor a buscar
+	var buscar = input.value ;
+ 	
+	// recorremos todos los valores del select
+	for(var i=1;i<select.length;i++){
+		var x = select.options[i].text.substr(0,buscar.length);
+		if(x.toLowerCase() ==buscar.toLowerCase() ){
+			// seleccionamos el valor que coincide
+			select.selectedIndex=i;
+		}
+	}
+}
+
+
+function marcarProfesor(source) {
+	elements = source.parentNode.getElementsByTagName('input');
+	elements[0].checked = source.checked;
+}
+
+
+
+
+
+
+
+
+
+function deleteProfesor(obj){
+	var parent = obj.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+	var input = parent.parentNode.parentNode.parentNode.getElementsByTagName('input')[0];
+	var longitud = input.value.length;
+	if(longitud == 1){
+		var valor = "";
+		input.setAttribute("value",valor);
+	}else{
+		var valor = input.value.substr(0,longitud-1);
+		input.setAttribute("value",valor);
+	}
+	var child = obj.parentNode.parentNode.parentNode.parentNode.parentNode;
+	parent.removeChild(child);
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 function setName(obj){
-	console.log(obj.parentNode.parentNode);
+	console.log(obj.parentNode.parentNode.getElementsByTagName('input')[0]);
+	var input = obj.parentNode.parentNode.getElementsByTagName('input')[0];
+	console.log(obj.value);
+	input.setAttribute("name",obj.value);
+	
+	//obj.setAttribute("name",obj.parentNode.parentNode.getElementsByTagName('input')[0].value);
 	//console.log(obj.parentNode.parentNode.getElementsByTagName('input')[0].value);
-	obj.setAttribute("name",obj.parentNode.parentNode.getElementsByTagName('input')[0].value)
 }
 
 
@@ -203,29 +327,23 @@ function setName(obj){
 
 function addProfesor(obj){
     var div = document.createElement('div');
-    div.setAttribute('class', 'form-inline');
+    
         div.innerHTML = document.getElementById('profesor1').outerHTML;
+        document.getElementById('profesor').style.display="";
         document.getElementById('profesor').appendChild(div);
+        var input = obj.parentNode.parentNode.getElementsByTagName('input')[0];
+        input.setAttribute("value",input.value+1);
+        console.log(input);
 }
 
 
-function buscarSelect(obj){
-	// creamos un variable que hace referencia al select
-	var select = obj.parentNode.getElementsByTagName('select').item(0);
-	// obtenemos el valor a buscar
-	var buscar= obj.value ;
- 
-	// recorremos todos los valores del select
-	for(var i=1;i<select.length;i++){
-		var x = select.options[i].text.substr(0,buscar.length);
-		if(x.toLowerCase() ==buscar.toLowerCase() ){
-			// seleccionamos el valor que coincide
-			select.selectedIndex=i;
-		}
-		
-		
-		
-	}
+
+function addGrupo(){
+    var div = document.createElement('div');
+    
+    div.innerHTML = document.getElementById('grupo').outerHTML;
+    document.getElementById('grupo1').style.display="";
+    document.getElementById('grupo1').appendChild(div);
 }
 
 
@@ -237,49 +355,15 @@ function borrarGrupo(obj,id){
 	input.checked= true;
 } 
 
-function mostrar(obj){ 
-	console.log(obj.innerHTML);
-	
-	
-	
-	if(obj.innerHTML=="MOSTRAR PROFESORES"){
-		elements = obj.parentNode.getElementsByTagName('div');
-		elements[1].style.display="";
-		
-		obj.innerHTML="QUITAR PROFESORES";
-	}else{
-		elements = obj.parentNode.getElementsByTagName('div');
-		elements[1].style.display="none";
-		obj.innerHTML="MOSTRAR PROFESORES";
-	}
-   
-} 
 
 
-function addGrupo(){
-    var div = document.createElement('div');
-    div.setAttribute('class', 'form-inline');
-    div.innerHTML = document.getElementById('grupo').outerHTML;
-    document.getElementById('grupo1').appendChild(div);
-}
 
-function desplegarMenu(obj){ 	
-   	if(obj.value == "gestUsuarios" && document.getElementById('gestUsuarios').style.display=="none" )	{
-   		document.getElementById('gestUsuarios').style.display="";
-   	}else if(obj.value == "gestUsuarios" && document.getElementById('gestUsuarios').style.display==""){
-		document.getElementById('gestUsuarios').style.display="none";
-   	}
-   	
-	if(obj.value == "gestDocencia" && document.getElementById('gestDocencia').style.display=="none"){
-		document.getElementById('gestDocencia').style.display="";
-   	}else if(obj.value == "gestDocencia" && document.getElementById('gestDocencia').style.display==""){
-   		document.getElementById('gestDocencia').style.display="none";
-   	}
-} 
+
+
+
+
+
 
 </script>
-
-
-</body>
-
 </html>
+

@@ -56,8 +56,9 @@
 
             	<form class="user" action="EditarPlazaServlet">
             		<input type="hidden" value="<%=nom%>" name="nombre1">
-					
+					Nombre:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="nombre" value="<%=nom%>"></div>
+                    Acrónimo:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="acronimo" value="<%=acron%>"></div>
 
                      <button type="submit" class="btn btn-primary btn-user btn-block">Guardar cambios</button>

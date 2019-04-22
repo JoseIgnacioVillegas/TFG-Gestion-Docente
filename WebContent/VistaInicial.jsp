@@ -45,141 +45,82 @@
       
           <!-- Content Row -->
           <div class="row">
-<div class="col-xl-3 col-md-6 mb-4"></div>
-
-            <div class="col-xl-6 col-md-6 mb-4" style="text-align:center;">
-			<img  type="image/gif" src="./img/ditupm.gif" style="width:50%;height:auto;"/>
-
-                    
-            </div>
-
-
-           
-                    
-
-       
-
-
-          </div>
-
-
-
-
-
-
-
-
-
-
-
-
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Número de profesores del departamento</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Número de asignaturas del departamento</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Número de planes de estudios del departamento</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                        </div>
-                        <div class="col">
-                          <div class="progress progress-sm mr-2">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            
-             <div class="col-xl-3 col-md-6 mb-4">
-  
-
-
-
-<!-- Collapsable Card Example -->
-              <div class="card shadow mb-4">
+			<div class="col-xl-4 col-md-6 mb-4">
+			<div class="card shadow mb-4">
                 <!-- Card Header - Accordion -->
                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                  <h6 class="m-0 font-weight-bold text-primary">Descripción</h6>
+                  <h6 class="m-0 font-weight-bold text-primary" style="font-size:20px">Descripción</h6>
                 </a>
                 <!-- Card Content - Collapse -->
                 <div class="collapse show" id="collapseCardExample">
                   <div class="card-body">
                   Bienvenido/a a la aplicación para la gestión del Departamento de Igeniería de Sistemas Telemáticos.<br>
                   En esta página tiene una visión general del departamento, navegando por las diferentes pantallas podrá realizar las acciones que tenga permitidas.
-                   
                   </div>
                 </div>
               </div>
+				
+			</div>
+
+            <div class="col-xl-4 col-md-6 mb-4" style="text-align:center;">
+				<img src="./img/dit.gif" style="width:50%;height:auto;"/>   
+            </div>
+
+         <div class="col-xl-4 col-md-6 mb-4">
+                 <div class="card border-left-primary shadow h-100 py-2">
+	                <div class="card-body">
+	                  <div class="row no-gutters align-items-center">
+	                    <div class="col mr-2">
+	                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size:20px">Número de profesores del departamento</div>
+	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${profesores }</div>
+	                    </div>
+	                  </div>
+	                </div>
+              </div>      
+         </div>           
+     </div>
 
 
-
-
+          <!-- Content Row -->
+          <div class="row">
+          
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-size:20px">Número de asignaturas del departamento</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">${asignaturas }</div>
                     </div>
-                    
-                    
-                    
-                    
 
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+			<div class="col-xl-4 col-md-6 mb-4">
+				<div style="align:center;margin-left:auto;margin-right:auto;"><img src="./img/upmdit.gif" style="width:50%;height:auto;"/></div>
+            </div>
+
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1" style="font-size:20px">Número de planes de estudios del departamento</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${planes }</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
           </div>
           
-          
-          
-          
-          
-          
-          
-    
-
-          
-
         
 
         </div>

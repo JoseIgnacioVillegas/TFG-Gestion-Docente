@@ -63,10 +63,15 @@
             	<div class="col-xl-6 col-md-6 mb-4" style="text-align:center;">
             	<form class="user" action="EditarProfesorServlet">
 					<input type="hidden" value="<%=id%>" name="id">
+					Nombre:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="nombre" value="<%=nom%>"></div>
+                    Apellidos:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="apellidos" value="<%=apellidos%>"></div>
+                    Acrónimo:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="acronimo" value="<%=acron%>"></div>
+                    Email:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="correo"  value="<%=correo%>"></div>                 
+                 	Grupo de investigación:
                  	<div class="form-group">  
 						<select name="grupo" id="grupo"  class="form-control">
 							<option value="">Seleccionar grupo de investigación</option>
@@ -83,6 +88,7 @@
 					         </c:forEach>
 						</select>
 					</div>
+					Dedicación:
 					<div class="form-group">
 						<select name="dedicacion" id="dedicacion" class="form-control">
 
@@ -99,6 +105,7 @@
 						         </c:forEach>
 						</select>
 	   				</div>
+            		Plaza de profesor:
             		<div class="form-group"> 
             		<select name="plaza" id="plaza" class="form-control">
             			<option value="">Seleccionar plaza de profesor</option>

@@ -17,6 +17,8 @@ import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.GrupoClase;
 import es.upm.dit.tfg.webLab.model.Profesor;
+import es.upm.dit.tfg.webLab.model.ProfesorGrupoClaseAsociacion;
+import es.upm.dit.tfg.webLab.model.ProfesorGrupoClaseAsociacionId;
 
 
 
@@ -34,26 +36,30 @@ public class CRUDGruposClaseServlet extends HttpServlet{
 		Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(codigoAsignatura);
 
 		//Primero creamos los nuevos grupos
+		//Atributos de los grupos
 		String nombre[]; 
 		nombre = req.getParameterValues("nombreGrupoNuevo");
 		String nAlumnos[]; 
 		nAlumnos = req.getParameterValues("numeroAlumnosGrupoNuevo");
+		String descripcion[]; 
+		descripcion = req.getParameterValues("descripcionGrupoNuevo");
+		
+		//Atributos de los profesores 
 		String hPracticas[]; 
 		hPracticas = req.getParameterValues("hPracticasNuevo");
 		String hLab[]; 
 		hLab = req.getParameterValues("hLabNuevo");
 		String hTeoria[]; 
 		hTeoria = req.getParameterValues("hTeoriaNuevo");
-		String descripcion[]; 
-		descripcion = req.getParameterValues("descripcionGrupoNuevo");
-		
+		String profesores[];
+		profesores = req.getParameterValues("docentes");
 		
 		for (int i = 0; i< nombre.length; i++) {
 			
 			if(nombre[i]=="") {
 				
 			}else {
-			
+				
 				int numeroAlumnos = 0;
 				try {
 					numeroAlumnos =Integer.parseInt(nAlumnos[i]);
@@ -69,9 +75,69 @@ public class CRUDGruposClaseServlet extends HttpServlet{
 				
 				asignatura.setGrupoClase(grupoNuevo);
 				AsignaturaDAOImplementation.getInstance().updateAsignatura(asignatura);
+				
+				String nProfesores = req.getParameter(nombre[i]);
+				for (int j = 0; j< nProfesores.length(); j++) {
+					Profesor profe = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesores[j]));
+					System.out.println(profe.getUsuario().getNombre());
+					
+					ProfesorGrupoClaseAsociacionId asociarId = new ProfesorGrupoClaseAsociacionId();
+					asociarId.setGrupoClaseId(grupoNuevo.getId());
+					asociarId.setProfesorId(profe.getId());
+					
+					
+					ProfesorGrupoClaseAsociacion asociacion = new ProfesorGrupoClaseAsociacion();
+					
+					asociacion.setHorasLaboratorio(Integer.parseInt(hLab[j]));
+					asociacion.setHorasPracticas(Integer.parseInt(hPracticas[j]));
+					asociacion.setHorasTeoria(Integer.parseInt(hTeoria[j]));
+					ProfesorDAOImplementation.getInstance().updateProfesor(profe);
+					GrupoClaseDAOImplementation.getInstance().updateGrupoClase(grupoNuevo);
+				}
+				
+				
+				String hLabCambio[] = new String[hLab.length-nProfesores.length()];
+				String hTeoriaCambio[] = new String[hLab.length-nProfesores.length()];
+				String profesoresCambio[] = new String[hLab.length-nProfesores.length()];
+				int indice = 0;
+				for (int j = nProfesores.length(); j< hLab.length; j++) {
+					hLabCambio[indice] = hLabCambio[j];
+					hTeoriaCambio[indice] = hTeoria[j];
+					profesoresCambio[indice] = profesores[j];
+					indice++;
+				}
+				
 			}
 			
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

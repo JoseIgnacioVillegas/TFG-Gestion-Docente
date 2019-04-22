@@ -105,24 +105,25 @@ Añadir comentario(max 250 caracteres):<br>
 		 
 <br><br>
                     
-                    Marque los profesores/coordinadores que participan: 
-
-			<a  href="#" onclick="mostrar(this)" id="profesores">MOSTRAR PROFESORES</a>
-			<br>
-			<br>
-			
-			<div style="display:none;" id="profesoressss">
-			<c:forEach items="${listaProfesores}" var="profesor">
-			
-			<div  style="border-style:groove;">
-			<p>${profesor.usuario.nombre}  ${profesor.usuario.apellidos} </p>
-			
-			<p>Profesor<input name="profesor" value="${profesor.id}" type="checkbox">
-			Coordinador<input name="coordinador" value="${profesor.id}" type="checkbox" onclick="marcarProfesor(this);"></p>
-			</div>
-			
-		</c:forEach>
-		</div>       
+                    
+			<p>Añadir otro profesor o coordinador a la asignatura</p>
+							<div id="profes1">
+								<p>
+								<input type="text" id="buscar" onKeyUp="buscarSelect(this)" placeholder="Buscar docente">
+								<select name="profesores" onchange="setValue(this);">
+									<option selected>Seleccionar docente</option>
+									<c:forEach items="${todosProfesores}" var="profesor">
+										<option value="${profesor.id}">${profesor.usuario.nombre} ${profesor.usuario.apellidos}</option>
+									</c:forEach>
+								</select>
+								<a>
+									Profesor<input name="profesor" type="checkbox">
+									Coordinador<input name="coordinador" type="checkbox" onclick="marcarProfesor(this);"></a>
+								</p>
+							</div>
+							<div id="profes"></div>
+							<br>
+							<a  href="#" onClick="addProfesor()" >Añadir otro profesor</a>    
                      
 
                     
@@ -182,6 +183,37 @@ Añadir comentario(max 250 caracteres):<br>
 
 </body>
 <script>
+
+function addProfesor(){
+    var div = document.createElement('div');
+    div.setAttribute('class', 'form-inline');
+        div.innerHTML = document.getElementById('profes1').outerHTML;
+        document.getElementById('profes').appendChild(div);
+}
+
+
+
+function buscarSelect(obj){
+	var p = obj.parentNode;
+
+	// creamos un variable que hace referencia al select
+	var select = p.children[1];
+
+	var input = p.children[0];
+	
+	// obtenemos el valor a buscar
+	var buscar = input.value ;
+ 	
+	// recorremos todos los valores del select
+	for(var i=1;i<select.length;i++){
+		var x = select.options[i].text.substr(0,buscar.length);
+		if(x.toLowerCase() ==buscar.toLowerCase() ){
+			// seleccionamos el valor que coincide
+			select.selectedIndex=i;
+		}
+	}
+}
+
 
 function marcarProfesor(source) {
 	elements = source.parentNode.getElementsByTagName('input');

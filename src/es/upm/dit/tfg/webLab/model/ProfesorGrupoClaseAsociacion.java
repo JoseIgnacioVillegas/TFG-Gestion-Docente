@@ -15,7 +15,7 @@ public class ProfesorGrupoClaseAsociacion implements Serializable{
 	
 	//@Id
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name="PROFESORID", referencedColumnName="id")
+	@PrimaryKeyJoinColumn(referencedColumnName="id")
 	private Profesor profesor;
 	
 	
@@ -24,7 +24,7 @@ public class ProfesorGrupoClaseAsociacion implements Serializable{
 	private int grupoClaseId;
 	//@Id
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name="GRUPOID", referencedColumnName="id")
+	@PrimaryKeyJoinColumn(referencedColumnName="id")
 	private GrupoClase grupo;
 	
 	

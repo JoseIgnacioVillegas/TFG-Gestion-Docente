@@ -48,7 +48,7 @@ public class ObtenerPermisosServlet extends HttpServlet{
 		try {
 			for (int j = 0; j< permisosUsuario.size(); j++) {
 				for (int i = 0; i< todosPermisos.size(); i++) {
-					if(permisosUsuario.get(i).getId()==todosPermisos.get(i).getId())todosPermisos.remove(i);
+					if(permisosUsuario.get(j).getId()==todosPermisos.get(i).getId())todosPermisos.remove(i);
 				}
 			}
 		}catch(Exception e) {
@@ -56,8 +56,6 @@ public class ObtenerPermisosServlet extends HttpServlet{
 		}finally {
 		}
 		
-
-
 		req.getSession().setAttribute("permisosUsuario", permisosUsuario);
 		req.getSession().setAttribute("todosPermisos", todosPermisos);
 		req.getSession().setAttribute("usuario", usuario);

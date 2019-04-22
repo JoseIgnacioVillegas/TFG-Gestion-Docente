@@ -67,18 +67,28 @@
           <div class="row">
 
 			<div class="col-xl-5 col-md-6 mb-4">
+					Nombre:
 					<div class="form-group"><input type="text" class="form-control form-control-user" name="nombre" value="<%=nom%>"></div>
+                    Acrónimo:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="acronimo" value="<%=acronimo%>"></div>
+                    Código:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="codigo" value="<%=codigo%>"></div>
+                    Créditos:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="ects" value="<%=ects%>"></div>
+                    Horas de teoría:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="horasTeoria" value="<%=horasTeoria%>"></div>
+                    Horas de laboratorio:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="horasLab" value="<%=horasLab%>"></div>
+                    Horas APOLO:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="horasApolo" value="<%=horasApolo%>"></div>
+                    Número de alumnos:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="numeroAlumnos" value="<%=numeroAlumnos%>"></div>
 </div>
+
+
 <div class="col-xl-5 col-md-6 mb-4" style="text-align:center;">
 
-
+			Tipo de asignatura:
             <div class="form-group">
 						<select name="tipo" class="form-control">
 							<option selected value="">Seleccionar el tipo de asignatura</option>
@@ -88,6 +98,7 @@
 							<option value="PROYECTO FIN DE MASTER">PROYECTO FIN DE MASTER</option>
 						</select>
 					</div>
+					Semestre de impartición:
 					<div class="form-group">
 						<select name="semestre" class="form-control">
 							<option selected value="">Seleccionar el semestre de impartición</option>
@@ -96,6 +107,7 @@
 							<option value="Anual">Anual</option>
 						</select>
 					</div>
+					Plan de estudios al que pertenece:
 					<div class="form-group">
 						<select name="plan" class="form-control">
 							<option selected value="">Seleccionar el plan al que pertenece</option>
@@ -104,6 +116,7 @@
 							</c:forEach>
 						</select>
 					</div>
+					Curso al que pertenece:
 					<div class="form-group">
 						<select name="curso" class="form-control">
 							<option selected value="">Seleccionar el curso al que pertenece</option>

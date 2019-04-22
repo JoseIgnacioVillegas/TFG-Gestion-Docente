@@ -32,7 +32,7 @@
 
 <body class="bg-gradient-primary">
 
-  <div class="container">
+  <div class="container" style="padding-top:13%">
 <c:if test="${not empty error}"><div>${error}</div></c:if>
 	<c:if test="${not empty message}"><div>${message}</div></c:if>
 

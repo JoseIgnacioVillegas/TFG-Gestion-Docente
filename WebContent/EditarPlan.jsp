@@ -55,8 +55,9 @@
             	<div class="col-xl-6 col-md-6 mb-4" style="text-align:center;">
             	<form class="user" action="EditarPlanServlet">
             		<input type="hidden" value="<%=codigo%>" name="codigo1">
-					
+					Código:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="codigo" value="<%=codigo%>"></div>
+                    Nombre:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="nombre" value="<%=nom%>"></div>
 
                      <button type="submit" class="btn btn-primary btn-user btn-block">Guardar cambios</button>

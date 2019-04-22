@@ -58,9 +58,11 @@
 
             	<form class="user" action="EditarUsuarioServlet">
             		<input type="hidden" value="<%=id%>" name="id">
-					
+					Nombre:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="nombre" value="<%=nom%>"></div>
+                    Apellidos:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="apellidos" value="<%=apellidos%>"></div>
+                    Email:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="correo" value="<%=correo%>"></div>
 
                      <button type="submit" class="btn btn-primary btn-user btn-block">Guardar cambios</button>

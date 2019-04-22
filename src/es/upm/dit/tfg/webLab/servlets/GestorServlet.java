@@ -366,6 +366,8 @@ public class GestorServlet extends HttpServlet{
 		try {
 			String anio = hora();
 			JSONArray miJSON = jsonGetRequestArray("https://www.upm.es/wapi_upm/academico/comun/index.upm/v2/departamento.json/D520/planes?anio="+anio);
+			System.out.println("weee"+anio);
+			System.out.println("eeeepa"+miJSON);
 			for (int i=0; i<miJSON.length(); i++) {
 				String codigo =  (String) miJSON.getJSONObject(i).get("codigo");
 				String nombre =  (String) miJSON.getJSONObject(i).get("nombre");

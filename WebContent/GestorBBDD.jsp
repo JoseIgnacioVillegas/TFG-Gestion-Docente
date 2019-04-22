@@ -53,24 +53,35 @@
           <div class="row" >	
 			<div class="card mb-4 py-3 border-bottom-primary" style="width:60%;align:center;margin-left:auto;margin-right:auto;">
 				<div class="card-body">
-					<p>Para exportar los datos de las asignaturas y planes de estudios haz click aquí: 
-					<form action="ExportarAsignaturasServlet"><input  type="submit" value="Exportar Asignaturas"/> </form></p>
+					<form action="ExportarAsignaturasServlet">
+ 						<button type="submit" style="width:100%;">	
+		                	<div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size:15px;">
+			                    Crear copia de seguridad de la base de datos
+								<img  style="width:30px;height:30px;"   src="./img/backup.ico" />
+							</div>
+						</button>
+					</form>
 				</div>
 			</div>
           </div>
+          
+          
           
           
           <!-- Content Row -->
           <div class="row" >	
 			<div class="card mb-4 py-3 border-bottom-primary" style="width:60%;align:center;margin-left:auto;margin-right:auto;">
 				<div class="card-body">
-					<p>Para restaurar una antigua versión de la base de datos selecciones un archivo con formato .mv.db </p>
-	<form action="RestoreServlet" enctype="MULTIPART/FORM-DATA" method="post">
-            <input type="file" name="file" /><br><br>
-            <input type="submit" value="Restaurar" />
-        </form>
+					<div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size:15px;">
+						Para restaurar una antigua versión de la base de datos selecciones un archivo con formato .mv.db 
+						<form action="RestoreServlet" enctype="MULTIPART/FORM-DATA" method="post">
+	            			<input type="file" name="file" /><br><br>
+	            			<button type="submit" style="width:100%;">
+	            			Restaurar<img  style="width:30px;height:30px;"   src="./img/backup.ico" /></button>
+	            			
+        				</form>
+					</div>
 				</div>
-			</div>
           </div>
 
 

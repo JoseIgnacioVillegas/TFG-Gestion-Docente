@@ -1,158 +1,219 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
-
-
-
-<html>
-<head>
-<style>
-html {
-  min-height: 100%;
-  position: relative;
-}
-body {
-  margin: 0;
-  margin-bottom: 40px;
-}
-footer {
-  background-color: black;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 200px;
-  color: white;
-}
-</style>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Gestion de departamento</title>
-<link rel="icon" type="image/gif" href="./img/ditupm.gif"/>
-</head>
-
-<body id="myPage">
-
-<!-- En este archivo .jsp esta definido el menu principal y la barra lateral -->
-<%@ include file="menu.jsp" %> 
-
-
-<!-- Team Container -->
-
-
-<div class="w3-container w3-padding-64 w3-center" id="team">
-
-<h2>Asignar Usuarios</h2>
-<p> Para la asignatura </p>
-<p>${codigo } - ${nombre } - ${acronimo }</p>
+    
+<!DOCTYPE html>
 
 
 
 
-<form action="AsignarDocentesServlet">
+<html lang="en">
+
+<!-- En este archivo .jsp esta definida la cabecera -->
+	<%@ include file="head.jsp" %> 
+
+
+<body id="page-top">
+
+  
+
+
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+<!-- En este archivo .jsp esta definida superior -->
+	<%@ include file="sidebar.jsp" %> 
+	
+	
+	
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- En este archivo .jsp esta definida superior -->
+		<%@ include file="topbar.jsp" %> 
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Asignar Usuarios para la asignatura ${codigo } - ${nombre } - ${acronimo } </h1>
+          </div>
+
+
+<form action="AsignarDocentesServlet" class="user">
 <input type="hidden" value="${codigo}" name="codigoAsignatura">
 
 
-<div style="border-style:groove;width:50%;align:center;margin-right:auto;margin-left:auto;">
+	<!-- Content Row -->
+    <div class="row" >	
+    	<!-- Celda superior izquierda, profesores que participan en la asignatura -->
+		<div class="col-xl-6 col-md-6 mb-4">
+			<!-- Collapsable Card Example -->
+            <div class="card shadow mb-4">
+            	<!-- Card Header - Accordion -->
+                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                  <h6 class="m-0 font-weight-bold text-primary">Profesores que participan en esta asignatura</h6>
+                </a>
+                <!-- Card Content - Collapse -->
+                <div class="collapse show" id="collapseCardExample">
+                	<div class="card-body">
+               			<c:set var = "cod3" value="${longitud}"/>
+						<c:set var = "cod4" value="<%=0%>"/>
+						<c:if test = "${cod3 eq cod4}"><p>Aún no hay profesores que participen en esta asignatura</p></c:if>
+						<c:if test = "${cod3 != cod4}">
+							<c:forEach items="${profesoresPorAsignatura}" var="profesor">
+								<p>
+								<input type="checkbox" style="visibility:hidden;" value="${profesor.id}"name="profesoresBorrados" id="${profesor.id}">
+								${profesor.usuario.nombre} ${profesor.usuario.apellidos}
+								<a href="#" onclick="ponerValor(this,'${profesor.id}');">Eliminar este profesor</a>
+								</p>
+							</c:forEach>
+						</c:if>		                 
+                  	</div>
+                </div>
+              </div>
+            </div>
 
 
-<p>Profesores que participan en esta asignatura</p>
-	<c:forEach items="${profesoresPorAsignatura}" var="profesor">
-					<p>
-					<input type="checkbox" style="visibility:hidden;" value="${profesor.id}"name="profesoresBorrados" id="${profesor.id}">
-					${profesor.usuario.nombre} ${profesor.usuario.apellidos}
-					<a href="#" onclick="ponerValor(this,'${profesor.id}');">Eliminar este profesor</a>
-					</p>
-		</c:forEach>
-		
-		</div>
-		
-		
-		<br>
+		<!-- Celda superior superior derecha, aparece el coordinador de la asignatura-->
+          <div class="col-xl-6 col-md-6 mb-4">
+          	<!-- Collapsable Card Example -->
+            <div class="card shadow mb-4">
+            	<!-- Card Header - Accordion -->
+                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                  <h6 class="m-0 font-weight-bold text-primary">Coordinador de la asignatura</h6>
+                </a>
+                <!-- Card Content - Collapse -->
+                <div class="collapse show" id="collapseCardExample">
+                	<div class="card-body">
+						<c:set var = "cod1" value="${coordinador.usuario.nombre}"/>
+						<c:set var = "cod2" value="<%=null%>"/>
+						<c:if test = "${cod1 eq cod2}"><p>Aún no hay coordinadores asignados a esta asignatura</p></c:if>
+						<c:if test = "${cod1 != cod2}">
+							<p>
+								<input type="checkbox" style="visibility:hidden;" value="${coordinador.id}" name="coordinadorBorrado" id="${coordinador.usuario.correo}">
+								${coordinador.usuario.nombre} ${coordinador.usuario.apellidos}
+								<a href="#" onclick="ponerValor(this,'${coordinador.usuario.correo}');">Eliminar coordinador</a>
+							</p>
+						</c:if>
+                  	</div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <!-- End of Content Row -->
+          
 
-		
-<div style="border-style:groove;width:50%;align:center;margin-right:auto;margin-left:auto;">
-<p>Coordinador de la asignatura</p>
-
-<c:set var = "cod1" value="${coordinador.usuario.nombre}"/>
-<c:set var = "cod2" value="<%=null%>"/>
-<c:if test = "${cod1 eq cod2}">
-   				<p>Aún no hay coordinadores asignados a esta asignatura</p>
-</c:if>
-<c:if test = "${cod1 != cod2}">
-   		<p>
-		<input type="checkbox" style="visibility:hidden;" value="${coordinador.id}" name="coordinadorBorrado" id="${coordinador.usuario.correo}">
-		${coordinador.usuario.nombre} ${coordinador.usuario.apellidos}
-		<a href="#" onclick="ponerValor(this,'${coordinador.usuario.correo}');">Eliminar coordinador</a>
-	</p>
-</c:if>
-
-
-</div>
-
-<br>
-<div style="border-style:groove;width:50%;align:center;margin-right:auto;margin-left:auto;">
-	<p>Añadir otro profesor o coordinador a la asignatura</p>
-	<div id="profes1">
-		<p>
-			<select name="profesores" onchange="setValue(this);">
-				<option selected>Seleccionar docente</option>
-				<c:forEach items="${todosProfesores}" var="profesor">
-					<option value="${profesor.id}">${profesor.usuario.nombre} ${profesor.usuario.apellidos}</option>
-				</c:forEach>
-				
-			</select>
-			<a>
-			Profesor<input name="profesor" type="checkbox">
-			Coordinador<input name="coordinador" type="checkbox" onclick="marcarProfesor(this);"></a>
-		</p>
-
-	</div>
-
-	<div id="profes"></div>
-	<br>
-	<a  href="#" onClick="addProfesor()" >Añadir otro profesor</a>
-	<br>
-	</div>
-	
-	
-	
-	<br>
-	<button type="submit" >Guardar cambios</button>
+          <!-- Content Row -->
+          <div class="row" >	
+			<!-- Fila inferior, para añadir nuevos docentes -->             
+          	<div class="col-xl-12 col-md-6 mb-4">
+				<div class="card mb-4 py-3 border-bottom-primary" >
+					<div class="card-body" style="align:center;margin-left:auto;margin-right:auto">ç
+					
+						<p>Añadir otro profesor o coordinador a la asignatura</p>
+							<div id="profes1">
+								<p>
+								<input type="text" id="buscar" onKeyUp="buscarSelect(this)" placeholder="Buscar docente">
+								<select name="profesores" onchange="setValue(this);">
+									<option selected>Seleccionar docente</option>
+									<c:forEach items="${todosProfesores}" var="profesor">
+										<option value="${profesor.id}">${profesor.usuario.nombre} ${profesor.usuario.apellidos}</option>
+									</c:forEach>
+								</select>
+								<a>
+									Profesor<input name="profesor" type="checkbox">
+									Coordinador<input name="coordinador" type="checkbox" onclick="marcarProfesor(this);"></a>
+								</p>
+							</div>
+							
+							<div id="profes"></div>
+							<br>
+							<a  href="#" onClick="addProfesor()" >Añadir otro profesor</a>
+					</div>
+				</div>
+			</div>
+        </div>
+		<button type="submit" class="btn btn-primary btn-user btn-block" style="width:50%;align:center;margin-left:auto;margin-right:auto;">Guardar cambios</button>
+		<hr>
 </form>
-	
-	
-	
-	
-	</div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
 
 
 
 
 
-<!-- Footer -->
-<footer class="w3-padding-32 w3-center" >
-  <h4>Enlaces de interés</h4>
-  <a class="w3-button w3-large w3-teal" href="https://www.dit.upm.es/" title="DIT"><img src="./img/ditupm.gif" style="width:30px;height:30px;"></a>
-  <a class="w3-button w3-large w3-teal" href="http://www.etsit.upm.es/" title="ETSIT"><img src="./img/etsit.gif" style="width:30px;height:30px;"></a>
-  <a class="w3-button w3-large w3-teal" href="https://moodle.upm.es/" title="MOODLE"><img src="./img/moodle.gif" style="width:30px;height:30px;"></a>
-  <a class="w3-button w3-large w3-teal" href="http://www.upm.es/" title="UPM"><img src="./img/upm.gif" style="width:30px;height:30px;"></a>
-  <p>TFG Gestión docente - 2019</p>
-  <!--  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>  -->
+
+<footer class="sticky-footer bg-white" >
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+
+  <p>TFG Gestión docente - 2019</p></div></div>
 </footer>
 
 
 
 
+
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+
+
+
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  
+<!-- En este archivo .jsp estan incluidos los enlances a los archivos JS -->
+	<%@ include file="JavaScript.jsp" %> 
+
+</body>
+    
+    
+
 <script>
+
+function buscarSelect(obj){
+	var p = obj.parentNode;
+
+	// creamos un variable que hace referencia al select
+	var select = p.children[1];
+
+	var input = p.children[0];
+	
+	// obtenemos el valor a buscar
+	var buscar = input.value ;
+ 	
+	// recorremos todos los valores del select
+	for(var i=1;i<select.length;i++){
+		var x = select.options[i].text.substr(0,buscar.length);
+		if(x.toLowerCase() ==buscar.toLowerCase() ){
+			// seleccionamos el valor que coincide
+			select.selectedIndex=i;
+		}
+	}
+}
 
 function marcarProfesor(source) {
 	elements = source.parentNode.getElementsByTagName('input');
@@ -186,35 +247,8 @@ function addProfesor(){
 }
 
 
-
-function desplegarMenu(obj){ 	
-   	if(obj.value == "gestUsuarios" && document.getElementById('gestUsuarios').style.display=="none" )	{
-   		document.getElementById('gestUsuarios').style.display="";
-   	}else if(obj.value == "gestUsuarios" && document.getElementById('gestUsuarios').style.display==""){
-		document.getElementById('gestUsuarios').style.display="none";
-   	}
-   	
-	if(obj.value == "gestDocencia" && document.getElementById('gestDocencia').style.display=="none"){
-		document.getElementById('gestDocencia').style.display="";
-   	}else if(obj.value == "gestDocencia" && document.getElementById('gestDocencia').style.display==""){
-   		document.getElementById('gestDocencia').style.display="none";
-   	}
-} 
-
-
-
-
-
-
-
 </script>
-
-
-
-
-
-</body>
-
-
-
 </html>
+
+
+

@@ -47,38 +47,60 @@
       
       
       
+     
+			
+			
+			
+			
+      
       
           <!-- Content Row -->
-          <div class="row" >		
-			<div class="card mb-4 py-3 border-bottom-primary" style="width:60%;align:center;margin-left:auto;margin-right:auto;">
-				<div class="card-body">
-					<p>Para exportar los datos de los docentes haz click aquí: 
-					<form action="ExportarDocentesServlet"><input  type="submit" value="Exportar Docentes"/> </form></p>
+          <div class="row">
+			<div class="card mb-4 py-3 border-bottom-primary" style="width:60%;align:center;margin-left:auto;margin-right:auto;" >
+				<div class="card-body" style="width:100%;">		
+					<form action="ExportarDocentesServlet">
+ 						<button type="submit" style="width:100%;">	
+		                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size:15px;">
+		                      Exportar los datos de los docentes 
+                    		<img  style="width:30px;height:30px;"   src="./img/excel.png" /></div>
+						</button>
+					</form>
 				</div>
 			</div>
-	
-	                  
-   
           </div>
+          
+
+				
+
 
 
  		<!-- Content Row -->
           <div class="row" >	
 			<div class="card mb-4 py-3 border-bottom-primary" style="width:60%;align:center;margin-left:auto;margin-right:auto;">
 				<div class="card-body">
-					<p>Para exportar los datos de las asignaturas y planes de estudios haz click aquí: 
-					<form action="ExportarAsignaturasServlet"><input  type="submit" value="Exportar Asignaturas"/> </form></p>
+				<form action="ExportarAsignaturasServlet">
+				<button type="submit" style="width:100%;">	
+				<div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size:15px;">
+					Exportar los datos de las asignaturas y planes de estudios
+					<img  style="width:30px;height:30px;"src="./img/excel.png" /></div>
+					</button></form>
 				</div>
 			</div>
           </div>
+          
+          
           
           
           <!-- Content Row -->
           <div class="row" >	
 			<div class="card mb-4 py-3 border-bottom-primary" style="width:60%;align:center;margin-left:auto;margin-right:auto;">
 				<div class="card-body">
-					<p>Para exportar los datos de los usuarios NO docentes haz click aquí: 
-					<form action="ExportarUsuariosServlet"><input  type="submit" value="Exportar Usuarios"/> </form></p>
+				<form action="ExportarUsuariosServlet">
+				<button type="submit" style="width:100%;">	
+				<div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size:15px;">
+					Exportar los datos de los usuarios NO docentes
+					<img  style="width:30px;height:30px;" src="./img/excel.png" /></div>
+					</button></form>
 				</div>
 			</div>
           </div>

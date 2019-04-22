@@ -12,13 +12,20 @@ import org.apache.shiro.realm.text.IniRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
+import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
+import es.upm.dit.tfg.webLab.dao.PermisoDAOImplementation;
+import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
+import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.UsuarioDAOImplementation;
+import es.upm.dit.tfg.webLab.model.Asignatura;
+import es.upm.dit.tfg.webLab.model.PlanEstudios;
+import es.upm.dit.tfg.webLab.model.Profesor;
 import es.upm.dit.tfg.webLab.model.Usuario;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,7 +59,15 @@ public class LoginServlet extends HttpServlet{
 		
 		if (!currentUser.isAuthenticated()) {               
 			  UsernamePasswordToken token = new UsernamePasswordToken(user, password);
-			  token.setRememberMe(true);                        
+			  token.setRememberMe(true);  
+			  List<Asignatura> todasAsignaturas = AsignaturaDAOImplementation.getInstance().readAsignaturas();
+			  List<PlanEstudios> todosPlanes = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
+			  List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
+			  req.getSession().setAttribute("asignaturas", todasAsignaturas.size());
+			  req.getSession().setAttribute("planes", todosPlanes.size());
+			  req.getSession().setAttribute("profesores", todosProfesores.size());
+			  
+			  
 			  try {          
 				  currentUser.isAuthenticated();
 			      currentUser.login(token); 

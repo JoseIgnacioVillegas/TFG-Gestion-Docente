@@ -111,6 +111,7 @@ public class CrearAsignaturaServlet extends HttpServlet{
 			
 			AsignaturaDAOImplementation.getInstance().createAsignatura(asignaturaNueva);
 			
+			/*
 			if(nombreGrupo.length == numeroAlumnosGrupo.length && numeroAlumnosGrupo.length == descripcionGrupo.length) {
 				List<GrupoClase> gruposClase = new ArrayList<>();
 				for (int i = 0; i< nombreGrupo.length; i++) {
@@ -125,7 +126,7 @@ public class CrearAsignaturaServlet extends HttpServlet{
 				asignaturaNueva.setGruposClase(gruposClase);
 				AsignaturaDAOImplementation.getInstance().updateAsignatura(asignaturaNueva);
 			}
-			
+			*/
 		
 			try {
 				List<Profesor> profesores = new ArrayList<>();
