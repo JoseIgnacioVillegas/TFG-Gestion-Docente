@@ -35,13 +35,42 @@ public class ObtenerAsignaturasServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
 		req.getSession().removeAttribute("mensaje");
+		
+		String BotonAsignaturasPorDocente = req.getParameter("asignaturaDocentes");
+		
+	if(BotonAsignaturasPorDocente!=null && BotonAsignaturasPorDocente.equals("asignaturaDocentes")) {
+		String profesorId = req.getParameter("profesor");
+		Profesor profe = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesorId));
+		
+		
+		List<Asignatura> asignaturasParticipa = null;
+		
+		try {
+			asignaturasParticipa = profe.getAsignaturasParticipa();
+		}catch(Exception e){
+			
+		}
+		Asignatura asigCoordina = null;
+		try {
+			asigCoordina = profe.getAsignaturaCoordina();
+		}catch(Exception e){
+			
+		}
+		
+		
+		
+		
+		req.getSession().setAttribute("asignaturasParticipa", asignaturasParticipa);
+		req.getSession().setAttribute("asignaturasCoordina", asigCoordina);
+		req.getSession().setAttribute("profesor", profe.getUsuario());
+		getServletContext().getRequestDispatcher("/VerAsignaturas.jsp").forward(req, resp);
+	}else {
 		String profesorId = req.getParameter("idProfe");
 		Profesor profesor = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesorId));
 
 		List<Asignatura> asignaturasParticipa = new ArrayList<>();
 		
 		asignaturasParticipa =	profesor.getAsignaturasParticipa();
-		System.out.println("LAS ASIGNATURAS QUE COORDINAR "+profesor.getAsignaturaCoordina());
 
 		req.getSession().setAttribute("profesor", profesor);
 		req.getSession().setAttribute("asignaturasParticipa", asignaturasParticipa);
@@ -51,6 +80,7 @@ public class ObtenerAsignaturasServlet extends HttpServlet{
 		
 		req.getSession().setAttribute("longitud", asignaturasParticipa.size());
 		getServletContext().getRequestDispatcher("/AsignarAsignaturas.jsp").forward(req, resp);
+	}
 	}
 }
 		

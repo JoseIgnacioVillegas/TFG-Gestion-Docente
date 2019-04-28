@@ -307,7 +307,8 @@ public class GestorServlet extends HttpServlet{
 		List<Asignatura> listaAsignaturas = new ArrayList<Asignatura>();
 		try {
 			String anio = hora();
-			JSONObject miJSON = jsonGetRequestObject("https://www.upm.es/wapi_upm/academico/comun/index.upm/v2/departamento.json/D520/"+codigo+"/asignaturas?anio="+anio);
+			//Cuando funcione lo del año en la API lo único que habría que añadir al final del siguiente URL sería ?anio="+anio
+			JSONObject miJSON = jsonGetRequestObject("https://www.upm.es/wapi_upm/academico/comun/index.upm/v2/departamento.json/D520/"+codigo+"/asignaturas");
 		    
 			JSONArray nombres = miJSON.names();
 
@@ -361,11 +362,16 @@ public class GestorServlet extends HttpServlet{
 	}
 	
 	
+	
+	
+	
+	
 	private static List<PlanEstudios> descargarPlanes(){
 		List<PlanEstudios> listaPlanes = new ArrayList<PlanEstudios>();
 		try {
 			String anio = hora();
-			JSONArray miJSON = jsonGetRequestArray("https://www.upm.es/wapi_upm/academico/comun/index.upm/v2/departamento.json/D520/planes?anio="+anio);
+			//Cuando funcione lo del año en la API lo único que habría que añadir al final del siguiente URL sería ?anio="+anio
+			JSONArray miJSON = jsonGetRequestArray("https://www.upm.es/wapi_upm/academico/comun/index.upm/v2/departamento.json/D520/planes");
 			System.out.println("weee"+anio);
 			System.out.println("eeeepa"+miJSON);
 			for (int i=0; i<miJSON.length(); i++) {
@@ -395,6 +401,9 @@ public class GestorServlet extends HttpServlet{
 	    }
 		return listaPlanes;
 	}
+	
+	
+	
 	
 	
 	
@@ -428,6 +437,8 @@ public class GestorServlet extends HttpServlet{
 	  }
 	
 	
+	
+	
 	public static JSONObject jsonGetRequestObject(String urlQueryString) throws JSONException {
 		JSONObject jsonObject = null;
 	    try {
@@ -455,6 +466,9 @@ public class GestorServlet extends HttpServlet{
 	    }
 	    return jsonObject;
 	  }
+	
+	
+	
 	
 	private static String hora(){
 		String fechaEnviar = "";

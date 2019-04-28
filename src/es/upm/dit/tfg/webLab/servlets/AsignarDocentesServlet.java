@@ -110,7 +110,7 @@ public class AsignarDocentesServlet extends HttpServlet{
 			String coordinadorId = req.getParameter("coordinador");
 	
 			
-			Profesor coordinador = new Profesor();
+			Profesor coordinador = null;
 			try {
 				coordinador = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(coordinadorId));
 			}catch(Exception e) {
@@ -119,7 +119,11 @@ public class AsignarDocentesServlet extends HttpServlet{
 				
 			}
 			
+
 			
+			
+			
+		
 			if(coordinadorBorradoId!=null && coordinadorId!=null) {
 				//Si el coordinador a borrar es nulo y el coordinador a poner no es nulo, simplemente se cambia uno por otro 
 	

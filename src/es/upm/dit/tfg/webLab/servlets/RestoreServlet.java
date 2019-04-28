@@ -45,7 +45,7 @@ public class RestoreServlet extends HttpServlet{
     	output.close();
     	
     	
-    	
+    	// EL DIRECTORIO DONDE GUARDA LA BBDD /home/isst/TFG.mv.db
     	
     	
     	//Ahora a ver si conseguimos hacer el restore

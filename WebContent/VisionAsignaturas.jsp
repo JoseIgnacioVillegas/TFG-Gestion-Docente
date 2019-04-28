@@ -27,7 +27,7 @@
   <div id="wrapper">
 
 <!-- En este archivo .jsp esta definida superior -->
-	<%@ include file="sidebar.jsp" %> 
+	<%@ include file="sidebarDocente.jsp" %> 
 	
 	
 	
@@ -44,63 +44,11 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Gestión de las asignaturas</h1>
+          <h1 class="h3 mb-2 text-gray-800">Visión de las asignaturas</h1>
           
    
           
-          <shiro:hasAnyRoles name="administrador, gestiondocencia">
-          
-          <!-- Content Row -->
-          <div class="row">
-			<form action="GestorServlet" >
-            <button type="submit" value="importarapi" name="importarapi">
-            <div class="col-xl-12 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size:15px;">Para importar asignaturas de la API pincha aquí</div>
-
-                    </div>
-                    <div class="col-auto">
-                      <img  style="width:30px;height:30px;"src="./img/import.png" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-			</button>
-			</form>
-            
-            
-            <form action="ObtenerDocentesServlet">
-            <input type="hidden" value="crear" name="crear"/>
-            <button type="submit" value="CRUDPlaza" name="CRUDPlaza">
-            <div class="col-xl-12 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-size:15px;">Para crear una nueva asignatura pincha aquí</div>
-                    </div>
-                    <div class="col-auto">
-                      <img  style="width:30px;height:30px;"src="./img/crear.png" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-			</button>
-			</form>               
-          </div>
-          
-          
-          </shiro:hasAnyRoles>
-          
-          
-          
-          
-          
+  
           
           
             
@@ -164,53 +112,20 @@
 			<td><p title="${asignatura.comentario}" style="height:20px;width:100px; overflow:hidden!important;">${asignatura.comentario}</p></td>
 			
 			<td>
-			<div class="row" style="padding-left:5px;">
-			<form action="EditarAsignatura.jsp">
-			<input type="hidden" value="${asignatura.comentario}" name="comentario">
-				<input type="hidden" value="${asignatura.nombre}" name="nombre">
-				<input type="hidden" value="${asignatura.codigo}" name="codigo">
-				<input type="hidden" value="${plan.codigo}" name="codigoPlan">
-				<input type="hidden" value="${asignatura.acronimo}" name="acronimo">
-				<input type="hidden" value="${asignatura.tipo}" name="tipo">
-				<input type="hidden" value="${asignatura.curso}" name="curso">
-				<input type="hidden" value="${asignatura.semestre}" name="semestre">
-				<input type="hidden" value="${asignatura.ects}" name="ects">
-				<input type="hidden" value="${asignatura.horasTeoria}" name="horasTeoria">
-				<input type="hidden" value="${asignatura.horasLab}" name="horasLab">
-				<input type="hidden" value="${asignatura.numeroAlumnos}" name="numeroAlumnos">
-				<input type="hidden" value="${asignatura.horasApolo}" name="horasApolo">
-				<button  title="Editar" type="submit" class="btn btn-success btn-circle" >
-					<img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"  src="./img/edit.svg" />
-				</button>
-				</form>
-			
-				<form action="BorrarAsignaturaServlet">
-				<input type="hidden" value="${asignatura.codigo}" name="codigo">
-				<button title="Borrar" type="submit" class="btn btn-danger btn-circle">
-				<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
-				</button>
-				</form>
-				</div>
-				<br>
+
 				<div class="row" style="padding-left:5px;">
 				<form action="ObtenerDocentesServlet">
-				<input type="hidden" value="${asignatura.codigo}" name="codigo">
-				<button type="submit" class="btn btn-primary btn-icon-split">
-		       	<span class="icon text-white-50"><img  src="./img/lock.svg" /></span>
-		       	<span class="text">Asignar docentes</span>
-		    	</button>
-				</form>
-				</div>
-				<br>
-				<div class="row" style="padding-left:5px;">
-				<form action="ObtenerGruposServlet">
-				<input type="hidden" value="${asignatura.codigo}" name="codigo">
+				<input type="hidden" name="docentesAsignatura" value="docentesAsignatura"/>
+				<input type="hidden" value="${asignatura.codigo}" name="asignatura">
+				
 				<button type="submit" class="btn btn-info btn-icon-split">
-		       	<span class="icon text-white-50"><img  style="width:25px;height:25px;"src="./img/gestion.svg" /></span>
-		       	<span class="text">Gestionar grupos</span>
+		       	<span class="icon text-white-50"><img  style="width:30px;height:30px;" src="./img/detalles.png" /></span>
+		       	<span class="text">Ver Docentes</span>
 		    	</button>
 				</form>
 				</div>
+				
+
 			</td>
 			
 		</tr>

@@ -39,7 +39,7 @@ button {
           
           
 <shiro:hasRole name="docente">
-  <form action="PasoDocenteServlet" class="boton btn">
+  <form action="VistaDocente.jsp" class="boton btn">
   <input type="hidden" name="correo" value="<shiro:principal/>">
   <button class="nav-link"  type="submit">Docente</button>
   </form>

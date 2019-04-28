@@ -72,7 +72,7 @@
 	                  <div class="row no-gutters align-items-center">
 	                    <div class="col mr-2">
 	                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size:20px">Número de profesores del departamento</div>
-	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${profesores }</div>
+	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${Numeroprofesores }</div>
 	                    </div>
 	                  </div>
 	                </div>
@@ -90,7 +90,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-size:20px">Número de asignaturas del departamento</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">${asignaturas }</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">${Numeroasignaturas }</div>
                     </div>
 
                   </div>
@@ -110,7 +110,7 @@
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1" style="font-size:20px">Número de planes de estudios del departamento</div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${planes }</div>
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${Numeroplanes }</div>
                         </div>
                       </div>
                     </div>

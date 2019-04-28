@@ -22,6 +22,9 @@ public class ProfesorGrupoClaseAsociacion implements Serializable{
 	
 	@Id
 	private int grupoClaseId;
+	
+	
+	
 	//@Id
 	@ManyToOne
 	@PrimaryKeyJoinColumn(referencedColumnName="id")
@@ -44,7 +47,12 @@ public class ProfesorGrupoClaseAsociacion implements Serializable{
 		this.hTeoria=0.0;
 		this.hLaboratorio=0.0;
 		this.hPracticas=0.0;
-		
+		/*
+		this.profesorId;
+		this.profesor;
+		this.grupoClaseId;
+		this.grupo;
+		*/
 	}
 	
 	public double getHorasTeoria() {

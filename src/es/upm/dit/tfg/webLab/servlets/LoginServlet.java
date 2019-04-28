@@ -63,9 +63,9 @@ public class LoginServlet extends HttpServlet{
 			  List<Asignatura> todasAsignaturas = AsignaturaDAOImplementation.getInstance().readAsignaturas();
 			  List<PlanEstudios> todosPlanes = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
 			  List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
-			  req.getSession().setAttribute("asignaturas", todasAsignaturas.size());
-			  req.getSession().setAttribute("planes", todosPlanes.size());
-			  req.getSession().setAttribute("profesores", todosProfesores.size());
+			  req.getSession().setAttribute("Numeroasignaturas", todasAsignaturas.size());
+			  req.getSession().setAttribute("Numeroplanes", todosPlanes.size());
+			  req.getSession().setAttribute("Numeroprofesores", todosProfesores.size());
 			  
 			  
 			  try {          

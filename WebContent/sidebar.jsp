@@ -30,7 +30,7 @@ button {
           <img  type="image/gif" src="./img/ditupm.gif" style="width:25px;height:25px;"/>
         </div>
         <div class="sidebar-brand-text mx-3">
-        <shiro:hasAnyRoles name="administrador">Administrador</shiro:hasAnyRoles>
+        Administrador
         </div>
       </a>
 

@@ -117,7 +117,7 @@
 			<!-- Fila inferior, para añadir nuevos docentes -->             
           	<div class="col-xl-12 col-md-6 mb-4">
 				<div class="card mb-4 py-3 border-bottom-primary" >
-					<div class="card-body" style="align:center;margin-left:auto;margin-right:auto">ç
+					<div class="card-body" style="align:center;margin-left:auto;margin-right:auto">
 					
 						<p>Añadir otro profesor o coordinador a la asignatura</p>
 							<div id="profes1">
