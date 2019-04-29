@@ -56,6 +56,8 @@ public class LoginServlet extends HttpServlet{
 		SecurityUtils.setSecurityManager((org.apache.shiro.mgt.SecurityManager) securityManager);
 		Subject currentUser = SecurityUtils.getSubject();
 		
+
+		
 		
 		if (!currentUser.isAuthenticated()) {               
 			  UsernamePasswordToken token = new UsernamePasswordToken(user, password);

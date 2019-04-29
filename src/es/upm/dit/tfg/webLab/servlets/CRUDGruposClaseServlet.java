@@ -14,11 +14,11 @@ import com.itextpdf.io.IOException;
 import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.GrupoClaseDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
+import es.upm.dit.tfg.webLab.dao.ProfesorGrupoClaseAsociacionDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.GrupoClase;
 import es.upm.dit.tfg.webLab.model.Profesor;
 import es.upm.dit.tfg.webLab.model.ProfesorGrupoClaseAsociacion;
-import es.upm.dit.tfg.webLab.model.ProfesorGrupoClaseAsociacionId;
 
 
 
@@ -80,17 +80,16 @@ public class CRUDGruposClaseServlet extends HttpServlet{
 				for (int j = 0; j< nProfesores.length(); j++) {
 					Profesor profe = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesores[j]));
 					System.out.println(profe.getUsuario().getNombre());
-					
-					ProfesorGrupoClaseAsociacionId asociarId = new ProfesorGrupoClaseAsociacionId();
-					asociarId.setGrupoClaseId(grupoNuevo.getId());
-					asociarId.setProfesorId(profe.getId());
-					
+										
 					
 					ProfesorGrupoClaseAsociacion asociacion = new ProfesorGrupoClaseAsociacion();
 					
 					asociacion.setHorasLaboratorio(Integer.parseInt(hLab[j]));
 					asociacion.setHorasPracticas(Integer.parseInt(hPracticas[j]));
 					asociacion.setHorasTeoria(Integer.parseInt(hTeoria[j]));
+					asociacion.setGrupoClase(grupoNuevo);
+					asociacion.setProfesor(profe);
+					ProfesorGrupoClaseAsociacionDAOImplementation.getInstance().createAsociacion(asociacion);
 					ProfesorDAOImplementation.getInstance().updateProfesor(profe);
 					GrupoClaseDAOImplementation.getInstance().updateGrupoClase(grupoNuevo);
 				}

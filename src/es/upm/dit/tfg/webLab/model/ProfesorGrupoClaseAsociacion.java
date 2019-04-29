@@ -5,41 +5,21 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Profesor_Grupo")
-@IdClass(ProfesorGrupoClaseAsociacionId.class)
 public class ProfesorGrupoClaseAsociacion implements Serializable{
-	
+
 	
 	@Id
-	private int profesorId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 	
-	//@Id
 	@ManyToOne
-	@PrimaryKeyJoinColumn(referencedColumnName="id")
 	private Profesor profesor;
-	
-	
-	
-	@Id
-	private int grupoClaseId;
-	
-	
-	
-	//@Id
+
 	@ManyToOne
-	@PrimaryKeyJoinColumn(referencedColumnName="id")
 	private GrupoClase grupo;
-	
-	
-	
-	
-	@Column(name="HorasTeoria")
+
 	private double hTeoria;
-	
-	@Column(name="HorasLaboratorio")
 	private double hLaboratorio;
-	
-	@Column(name="HorasPracticas")
 	private double hPracticas;
 	
 	
@@ -47,12 +27,9 @@ public class ProfesorGrupoClaseAsociacion implements Serializable{
 		this.hTeoria=0.0;
 		this.hLaboratorio=0.0;
 		this.hPracticas=0.0;
-		/*
-		this.profesorId;
-		this.profesor;
-		this.grupoClaseId;
-		this.grupo;
-		*/
+	}
+	public int getId() {
+		return this.id;
 	}
 	
 	public double getHorasTeoria() {
@@ -64,7 +41,17 @@ public class ProfesorGrupoClaseAsociacion implements Serializable{
 	public double getHorasPracticas() {
 		return this.hPracticas;
 	}
+	public GrupoClase getGrupoClase() {
+		return this.grupo;
+	}
+	public Profesor getProfesor() {
+		return this.profesor;
+	}
 	
+	
+	public void setId(int id) {
+		this.id=id;
+	}
 	public void setHorasTeoria(double hTeoria) {
 		this.hTeoria=hTeoria;
 	}
@@ -74,6 +61,10 @@ public class ProfesorGrupoClaseAsociacion implements Serializable{
 	public void setHorasPracticas(double hPracticas) {
 		this.hPracticas=hPracticas;
 	}
-	
-
+	public void setGrupoClase(GrupoClase grupo) {
+		this.grupo=grupo;
+	}
+	public void setProfesor(Profesor profesor) {
+		this.profesor=profesor;
+	}
 }

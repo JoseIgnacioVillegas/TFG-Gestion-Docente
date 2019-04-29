@@ -68,9 +68,15 @@
                 		<div class="card-body">
                   			<div class="row no-gutters align-items-center">
                     			<div class="col mr-2">
-                      				<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Grupo ${grupo.nombre}</div>
+                      				<div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size:15px;">Grupo ${grupo.nombre}</div>
 									Número de alumnos del grupo: ${grupo.numeroAlumnos}<br>
 									Decripción: ${grupo.descripcion}<br>
+									Profesores:
+									<c:forEach items="${grupo.profesores}" var="asociacion">
+									<p >${asociacion.profesor.usuario.nombre } ${asociacion.profesor.usuario.apellidos } - </p>
+									
+									<!--  ${asociacion.hTeoria } - ${asociacion.hLaboratorio } - ${asociacion.hPracticas }-->
+									</c:forEach>
 									<input type="checkbox" style="visibility:hidden;" value="${grupo.id}" name="gruposBorrados" id="${grupo.id}">
 									<a href="#" style="width:50%;" onclick="borrarGrupo(this,${grupo.id})">Borrar Grupo de Clase</a>
 
@@ -274,10 +280,6 @@ function deleteProfesor(obj){
 	parent.removeChild(child);
 	
 }
-
-
-
-
 
 
 

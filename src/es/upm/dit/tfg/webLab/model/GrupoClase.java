@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 
 @Entity
 public class GrupoClase implements Serializable{
@@ -23,8 +26,10 @@ public class GrupoClase implements Serializable{
 	
 	
 	//fetch = FetchType.EAGER,
-	@OneToMany(mappedBy="grupo",cascade = CascadeType.ALL,orphanRemoval=true)
-	private List<ProfesorGrupoClaseAsociacion> profesores;
+	//@Fetch(value = FetchMode.)
+	@OneToMany(mappedBy="grupo",cascade = CascadeType.ALL,orphanRemoval=true,fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<ProfesorGrupoClaseAsociacion> asociacion;
 	
 	
 	@ManyToOne
@@ -39,7 +44,7 @@ public class GrupoClase implements Serializable{
 	public GrupoClase() {
 		this.nombre="";
 		this.descripcion="";
-		this.profesores=new ArrayList<ProfesorGrupoClaseAsociacion>();
+		this.asociacion=new ArrayList<ProfesorGrupoClaseAsociacion>();
 		this.id=0;
 		this.numeroAlumnos=0;
 		this.asignatura= new Asignatura();
@@ -58,7 +63,7 @@ public class GrupoClase implements Serializable{
 		return this.numeroAlumnos;
 	}
 	public List<ProfesorGrupoClaseAsociacion> getProfesores(){
-		return profesores;
+		return asociacion;
 	}
 	public Asignatura getAsignatura() {
 		return asignatura;
@@ -77,8 +82,8 @@ public class GrupoClase implements Serializable{
 	public void setNumeroAlumnos(int nalumnos) {
 		this.numeroAlumnos=nalumnos;
 	}
-	public void setProfesores(List<ProfesorGrupoClaseAsociacion> profesores) {
-		this.profesores=profesores;
+	public void setProfesores(List<ProfesorGrupoClaseAsociacion> asociacion) {
+		this.asociacion=asociacion;
 	}
 	public void setAsignatura(Asignatura asignatura) {
 		this.asignatura=asignatura;

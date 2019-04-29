@@ -1,6 +1,7 @@
 package es.upm.dit.tfg.webLab.servlets;
 
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.GrupoClase;
 import es.upm.dit.tfg.webLab.model.Profesor;
+import es.upm.dit.tfg.webLab.model.ProfesorGrupoClaseAsociacion;
 
 
 
@@ -44,6 +46,8 @@ public class ObtenerGruposServlet extends HttpServlet{
 		System.out.println("LOS GRUPICOS "+gruposClase);
 		GrupoClase grupo = new GrupoClase();
 
+
+		
 		List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
 		
 		

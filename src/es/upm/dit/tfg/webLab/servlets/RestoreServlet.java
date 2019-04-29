@@ -15,11 +15,16 @@ import org.h2.tools.DeleteDbFiles;
 import com.itextpdf.io.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.FileChannel;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,10 +37,15 @@ public class RestoreServlet extends HttpServlet{
 	
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
     	
+    	
+    	
+    	
+    	
+    	
     	//Ya sube los archivos a escritorio
     	Path currentRelativePath = Paths.get("");
 	    String s = currentRelativePath.toAbsolutePath().toString();
-	    String path = s+"/TFG.mv.db";
+	    String path = "~/TFG.mv.db";
 		Part filePart = req.getPart( "file" );
     	File file = new File(path);
     	OutputStream output = new FileOutputStream(file);
@@ -43,6 +53,11 @@ public class RestoreServlet extends HttpServlet{
 		byte[] buffer = new byte[10240];
 		for ( int length = 0; ( length = fileContent.read( buffer ) ) > 0; )output.write( buffer, 0, length );
     	output.close();
+    	
+    	
+    	
+    	
+    	
     	
     	
     	// EL DIRECTORIO DONDE GUARDA LA BBDD /home/isst/TFG.mv.db
@@ -91,9 +106,22 @@ public class RestoreServlet extends HttpServlet{
 	         }
 	      }
 	      
+    	 
+    	 
+
+    	 
+    	 Path FROM = Paths.get(path);
+         Path TO = Paths.get("~/TFG.mv.db");
+         //sobreescribir el fichero de destino, si existe, y copiar
+         // los atributos, incluyendo los permisos rwx
+         CopyOption[] options = new CopyOption[]{
+           StandardCopyOption.REPLACE_EXISTING,
+           StandardCopyOption.COPY_ATTRIBUTES
+         }; 
+         Files.copy(FROM, TO, options);
 	      
     	 //Eto para cuando funcione, que luego lo borre
-    	 file.delete();
+    	// file.delete();
     
     	resp.sendRedirect(req.getContextPath()+ "/GestorBBDD.jsp");
     }

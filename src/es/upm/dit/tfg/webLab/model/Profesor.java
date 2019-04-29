@@ -21,7 +21,11 @@ public class Profesor implements Serializable{
 	@Id
 	private int id;
 	
-	@OneToMany(mappedBy="profesor",cascade = CascadeType.ALL)
+	
+	
+	
+	@OneToMany(mappedBy="profesor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<ProfesorGrupoClaseAsociacion> gruposParticipa;
 	
 	
