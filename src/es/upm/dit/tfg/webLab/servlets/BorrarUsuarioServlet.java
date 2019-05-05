@@ -24,8 +24,14 @@ public class BorrarUsuarioServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
-		int id = Integer.parseInt(req.getParameter("id"));
+
+		
+		int id = 0;
+		try{
+			id = Integer.parseInt(req.getParameter("id"));
+		}catch(Exception e){
+			log.error(e);
+		}
 		
 		
 		/*
@@ -34,11 +40,7 @@ public class BorrarUsuarioServlet extends HttpServlet{
 		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
 			Usuario usuario = UsuarioDAOImplementation.getInstance().readUsuario(id);
 			UsuarioDAOImplementation.getInstance().deleteUsuario(usuario);
-			
-			Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
-	
-			//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha borrado el usuario "+usuario.getNombre()+" "+usuario.getApellidos());
-	
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha borrado el usuario "+usuario.getNombre()+" "+usuario.getApellidos());
 			
 			List<Usuario> todoUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
 			List<Usuario> usuarios =new ArrayList();
@@ -47,15 +49,8 @@ public class BorrarUsuarioServlet extends HttpServlet{
 				Profesor profesor = todoUsuarios.get(i).getProfesor();
 				if(profesor==null) usuarios.add(todoUsuarios.get(i));
 			}
-			
 			req.getSession().setAttribute("usuarios", usuarios);
-	
-			
-			String msj = "Usuario editado con éxito";
-			req.getSession().setAttribute("mensaje", msj);
-
 			getServletContext().getRequestDispatcher("/CRUDPAS.jsp").forward(req, resp);
-			
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}

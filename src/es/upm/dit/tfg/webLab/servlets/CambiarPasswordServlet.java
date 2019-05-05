@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.subject.Subject;
+import org.apache.log4j.Logger;
 
 import com.itextpdf.io.IOException;
 
@@ -21,13 +21,17 @@ import es.upm.dit.tfg.webLab.model.Usuario;
 @WebServlet("/CambiarPasswordServlet")
 
 public class CambiarPasswordServlet extends HttpServlet{
-
+	
+	private final static Logger log = Logger.getLogger(CambiarPasswordServlet.class);
+	
 	
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		String email = req.getParameter("usuario");
 		Usuario user = UsuarioDAOImplementation.getInstance().readUsuarioPorCorreo(email);
+		log.info("El usuario "+user.getNombre()+" "+user.getApellidos()+" ha cambiado su contraseña");
+
 		String passNueva = req.getParameter("passNueva");
 		String passAntigua = req.getParameter("passAntigua");
 		String shaAntigua = convertirSHA256(passAntigua);

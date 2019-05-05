@@ -38,16 +38,13 @@ public class ExportarUsuariosServlet extends HttpServlet{
     private static List<Usuario> todosUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
     private static List<Profesor> profesores = ProfesorDAOImplementation.getInstance().readProfesores();
 
-
+    private final static Logger log = Logger.getLogger(ExportarUsuariosServlet.class);
 	
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
-		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
-
-		
+		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");		
 		
 		/*
 		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar los datos
@@ -97,14 +94,11 @@ public class ExportarUsuariosServlet extends HttpServlet{
 	        int rowNum = 1;
 	        for(Usuario usuario: todosUsuarios) {
 	            Row row = sheet.createRow(rowNum++);
-	            try {row.createCell(0).setCellValue(usuario.getNombre());
-	            }catch(Exception e){System.out.println(e);}
+	            try {row.createCell(0).setCellValue(usuario.getNombre());}catch(Exception e){log.error(e);}
 	            
-	            try {row.createCell(1).setCellValue(usuario.getApellidos());
-	            }catch(Exception e){System.out.println(e);}
+	            try {row.createCell(1).setCellValue(usuario.getApellidos());}catch(Exception e){log.error(e);}
 	
-				try { row.createCell(2).setCellValue(usuario.getCorreo());
-				}catch(Exception e){System.out.println(e);}
+				try { row.createCell(2).setCellValue(usuario.getCorreo());}catch(Exception e){log.error(e);}
 	            
 	        }
 	
@@ -124,12 +118,12 @@ public class ExportarUsuariosServlet extends HttpServlet{
 				workbook.write(resp.getOutputStream());
 		        workbook.close();
 	        }catch(Exception e){
-	        	System.out.println(e);
+	        	log.error(e);
 	        }
-	        
-	      
+	        log.info("El usuario "+currentUser.getPrincipal().toString()+" ha exportado las asignaturas del departamento.");
+	        getServletContext().getRequestDispatcher("/ExportarDatos.jsp").forward(req, resp);
 		}else {
-			getServletContext().getRequestDispatcher("/ExportarDatos.jsp").forward(req, resp);
+			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}
 		
 	}

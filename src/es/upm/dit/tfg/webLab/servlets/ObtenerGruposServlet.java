@@ -1,10 +1,10 @@
 package es.upm.dit.tfg.webLab.servlets;
 
 
-import java.lang.reflect.Field;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 
 import com.itextpdf.io.IOException;
 
@@ -20,7 +21,6 @@ import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.GrupoClase;
 import es.upm.dit.tfg.webLab.model.Profesor;
-import es.upm.dit.tfg.webLab.model.ProfesorGrupoClaseAsociacion;
 
 
 
@@ -30,12 +30,12 @@ import es.upm.dit.tfg.webLab.model.ProfesorGrupoClaseAsociacion;
 
 public class ObtenerGruposServlet extends HttpServlet{
 
+	private final static Logger log = Logger.getLogger(ObtenerGruposServlet.class);
 	
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
-		req.getSession().removeAttribute("mensaje");
 		String BotonVisionGrupos = req.getParameter("visionGrupos");
 		String codigoAsignatura = req.getParameter("codigo");
 		
@@ -45,14 +45,12 @@ public class ObtenerGruposServlet extends HttpServlet{
 
 		
 		if(BotonVisionGrupos!=null&&BotonVisionGrupos.equals("visionGrupos")) {
-			
 			req.getSession().setAttribute("gruposClase", gruposClase);
 			req.getSession().setAttribute("asignatura",asignatura);
 			getServletContext().getRequestDispatcher("/VerGruposClase.jsp").forward(req, resp);
 		}else {
 			List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
-			
-			
+
 			req.getSession().setAttribute("todosProfesores", todosProfesores);
 			req.getSession().setAttribute("gruposClase", gruposClase);
 			req.getSession().setAttribute("asignatura",asignatura);

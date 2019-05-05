@@ -1,10 +1,11 @@
 package es.upm.dit.tfg.webLab.dao;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.Grupo;
 
 
@@ -12,11 +13,10 @@ import es.upm.dit.tfg.webLab.model.Grupo;
 
 
 public class GrupoDAOImplementation implements GrupoDAO{
-
+	private final static Logger log = Logger.getLogger(GrupoDAOImplementation.class);
 	public static GrupoDAOImplementation instance;
 	
 	private GrupoDAOImplementation() {
-	
 	}
 	
 	public static GrupoDAOImplementation getInstance() {
@@ -31,12 +31,10 @@ public class GrupoDAOImplementation implements GrupoDAO{
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
-
 			session.save(grupo);
-
 			session.getTransaction().commit();
-
 		} catch (Exception e) {
+			log.error(e);
 		} finally {
 			session.close();
 		}	
@@ -49,12 +47,10 @@ public class GrupoDAOImplementation implements GrupoDAO{
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
-
 			session.delete(grupo);
-
 			session.getTransaction().commit();
-
 		} catch (Exception e) {
+			log.error(e);
 		} finally {
 			session.close();
 		}	
@@ -67,12 +63,10 @@ public class GrupoDAOImplementation implements GrupoDAO{
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
-
 			grup = session.get(Grupo.class, nombre);
-
 			session.getTransaction().commit();
 		}catch(Exception e) {
-			
+			log.error(e);
 		}finally {
 			session.close();
 		}
@@ -88,7 +82,7 @@ public class GrupoDAOImplementation implements GrupoDAO{
 			grupos.addAll(session.createQuery("select t from Grupo t").getResultList() );
 			session.getTransaction().commit();
 		}catch(Exception e) {
-			
+			log.error(e);
 		}finally {
 			session.close();
 		}
@@ -104,7 +98,7 @@ public class GrupoDAOImplementation implements GrupoDAO{
 			session.saveOrUpdate(grupo);
 			session.getTransaction().commit();
 		} catch (Exception e) {
-			
+			log.error(e);
 		} finally {
 			session.close();
 		}		

@@ -35,9 +35,8 @@ public class EditarUsuarioServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
-		
-		int id = Integer.parseInt(req.getParameter("id"));
+		int id = 0;
+		try{ id = Integer.parseInt(req.getParameter("id"));}catch(Exception e) {log.error(e); }
 		String nombre = req.getParameter("nombre");
 		String apellidos = req.getParameter("apellidos");
 		String correo = req.getParameter("correo");
@@ -57,8 +56,7 @@ public class EditarUsuarioServlet extends HttpServlet{
 			
 			UsuarioDAOImplementation.getInstance().updateUsuario(usuario);
 			
-			Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
-			//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha editado el usuario "+nombre+" "+apellidos);
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha editado el usuario "+nombre+" "+apellidos);
 	
 			List<Usuario> todoUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
 			List<Usuario> usuarios =new ArrayList();
@@ -69,12 +67,7 @@ public class EditarUsuarioServlet extends HttpServlet{
 			}
 			
 			req.getSession().setAttribute("usuarios", usuarios);
-
-			String msj = "Usuario editado con éxito";
-			req.getSession().setAttribute("mensaje", msj);
-			
 			getServletContext().getRequestDispatcher("/CRUDPAS.jsp").forward(req, resp);
-			
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}

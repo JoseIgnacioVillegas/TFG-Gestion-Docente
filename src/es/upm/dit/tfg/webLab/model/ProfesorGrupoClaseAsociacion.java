@@ -28,63 +28,46 @@ public class ProfesorGrupoClaseAsociacion implements Serializable{
 		this.hLaboratorio=0.0;
 		this.hPracticas=0.0;
 	}
-
-
+	
+	
+	
 	public int getId() {
 		return id;
 	}
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
-	public Profesor getProfesor() {
-		return profesor;
-	}
-
-
-	public void setProfesor(Profesor profesor) {
-		this.profesor = profesor;
-	}
-
-
 	public GrupoClase getGrupo() {
 		return grupo;
 	}
-
-
-	public void setGrupo(GrupoClase grupo) {
-		this.grupo = grupo;
-	}
-
-
 	public double gethTeoria() {
 		return hTeoria;
 	}
-
-
-	public void sethTeoria(double hTeoria) {
-		this.hTeoria = hTeoria;
+	public Profesor getProfesor() {
+		return profesor;
 	}
-
-
 	public double gethLaboratorio() {
 		return hLaboratorio;
 	}
-
-
-	public void sethLaboratorio(double hLaboratorio) {
-		this.hLaboratorio = hLaboratorio;
-	}
-
-
 	public double gethPracticas() {
 		return hPracticas;
 	}
-
-
+	
+	
+	
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setProfesor(Profesor profesor) {
+		this.profesor = profesor;
+	}
+	public void setGrupo(GrupoClase grupo) {
+		this.grupo = grupo;
+	}
+	public void sethTeoria(double hTeoria) {
+		this.hTeoria = hTeoria;
+	}
+	public void sethLaboratorio(double hLaboratorio) {
+		this.hLaboratorio = hLaboratorio;
+	}
 	public void sethPracticas(double hPracticas) {
 		this.hPracticas = hPracticas;
 	}

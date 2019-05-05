@@ -9,9 +9,6 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.Proxy;
 
 
 @Entity
@@ -20,10 +17,7 @@ public class Profesor implements Serializable{
 
 	@Id
 	private int id;
-	
-	
-	
-	
+
 	@OneToMany(mappedBy="profesor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<ProfesorGrupoClaseAsociacion> gruposParticipa;
@@ -32,9 +26,7 @@ public class Profesor implements Serializable{
 	@OneToOne
 	private Usuario usuario;
 	
-	//@OneToMany(mappedBy = "coordinador", fetch = FetchType.EAGER,cascade = { CascadeType.PERSIST,CascadeType.MERGE}) 
 	@OneToOne(mappedBy = "coordinador", fetch = FetchType.EAGER,cascade = { CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH}) 
-	//@Fetch(value = FetchMode.SUBSELECT)
 	private Asignatura asignaturaCoordina;
 	
 
@@ -42,7 +34,6 @@ public class Profesor implements Serializable{
 	private String dedicacion;
 	
 
-	//fetch = FetchType.EAGER,
 	@ManyToMany(mappedBy="profesores",cascade = { CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH},fetch = FetchType.EAGER)
 	private List<Asignatura> asignaturasParticipa;
 
@@ -103,7 +94,6 @@ public class Profesor implements Serializable{
 	}
 	public void setAcronimo(String acronimo) {
 		this.acronimo=acronimo;
-		
 	}
 	public void setGrupo(Grupo grupo) {
 		this.grupo=grupo;
@@ -111,7 +101,6 @@ public class Profesor implements Serializable{
 	public void setDedicacion(String dedicacion) {
 		this.dedicacion=dedicacion;
 	}
-	
 	public void setAsignaturasParticipa(List<Asignatura> asignaturasParticipa) {
 		this.asignaturasParticipa=asignaturasParticipa;
 	}
@@ -121,14 +110,13 @@ public class Profesor implements Serializable{
 	public void setUsuario(Usuario usuario) {
 		this.usuario=usuario;
 	}
-	
 	public void setAsignaturaCoordina( Asignatura asignaturaCoordina) {
 		this.asignaturaCoordina=asignaturaCoordina;
 	}
-
 	public void setGrupoClase( List<ProfesorGrupoClaseAsociacion> gruposParticipa) {
 		this.gruposParticipa=gruposParticipa;
 	}
+	
 	
 	
 	public void deleteAsignaturaCoordina() {

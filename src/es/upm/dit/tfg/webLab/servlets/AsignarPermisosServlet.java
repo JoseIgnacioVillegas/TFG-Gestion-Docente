@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.subject.Subject;
 
 import com.itextpdf.io.IOException;
@@ -34,14 +35,18 @@ import es.upm.dit.tfg.webLab.model.Usuario;
 
 public class AsignarPermisosServlet extends HttpServlet{
 
+	private final static Logger log = Logger.getLogger(AsignarPermisosServlet.class);
 	
 	@Override
-	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
-		int UsuarioId = Integer.parseInt(req.getParameter("id"));
+		int UsuarioId = 0;
+		try{
+			Integer.parseInt(req.getParameter("id"));
+		}catch(Exception e){
+			log.error(e);
+		}
 		
 		/*
 		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
@@ -59,19 +64,14 @@ public class AsignarPermisosServlet extends HttpServlet{
 				for (int i = 0; i< todosPermisosId.length; i++) {
 					Permiso permiso = PermisoDAOImplementation.getInstance().readPermiso(Integer.parseInt(todosPermisosId[i]));
 					nuevosPermisos.add(permiso);
+					log.info("El usuario "+currentUser.getPrincipal().toString()+" ha asignado nuevos permisos al usuario " + usuario.getNombre()+" "+ usuario.getApellidos());
 				}
 			}catch(Exception e) {
-				System.out.println(e);
-			}finally {
-						
+				log.error(e);
 			}
 			
 			usuario.setPermisos(nuevosPermisos);
 			UsuarioDAOImplementation.getInstance().updateUsuario(usuario);
-
-			String msj = "Permisos asignados con éxito";
-			req.getSession().setAttribute("mensaje", msj);
-			
 			
 			Profesor profe = usuario.getProfesor();
 			if(profe==null) {

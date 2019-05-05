@@ -85,7 +85,6 @@ public class Usuario implements Serializable{
 	public void setProfesor(Profesor profesor) {	
 		this.profesor=profesor;
 	}
-
 	public void setPassword(String password) {	
 		this.password=password;
 	}

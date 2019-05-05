@@ -3,7 +3,6 @@ package es.upm.dit.tfg.webLab.servlets;
 import org.apache.log4j.Logger;
 import org.apache.shiro.subject.Subject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,7 +15,6 @@ import com.itextpdf.io.IOException;
 
 import es.upm.dit.tfg.webLab.dao.PlazaDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Plaza;
-import es.upm.dit.tfg.webLab.model.Usuario;
 
 @WebServlet("/BorrarPlazaServlet")
 public class BorrarPlazaServlet extends HttpServlet{
@@ -25,8 +23,14 @@ public class BorrarPlazaServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
-		int id = Integer.parseInt(req.getParameter("id"));
+
+		
+		int id = 0;
+		try{
+			id = Integer.parseInt(req.getParameter("id"));
+		}catch(Exception e){
+			log.error(e);
+		}
 
 		
 		/*
@@ -35,23 +39,13 @@ public class BorrarPlazaServlet extends HttpServlet{
 		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
 			Plaza plaza = PlazaDAOImplementation.getInstance().readPlaza(id);
 			PlazaDAOImplementation.getInstance().deletePlaza(plaza);
-			
-			Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
 	
-			//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha borrado la plaza de profesor "+plaza.getPlaza());
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha borrado la plaza de profesor "+plaza.getPlaza());
 			
 			
 			List<Plaza> todasPlazas = PlazaDAOImplementation.getInstance().readPlazas();
-		
-			
 			req.getSession().setAttribute("plazas", todasPlazas);
-			
-	
-			String msj = "Plaza borrada con éxito";
-			req.getSession().setAttribute("mensaje", msj);
-
 			getServletContext().getRequestDispatcher("/CRUDPlaza.jsp").forward(req, resp);
-			
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}

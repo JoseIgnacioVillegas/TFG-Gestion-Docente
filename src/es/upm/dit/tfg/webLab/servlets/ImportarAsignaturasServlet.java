@@ -21,7 +21,6 @@ import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
-import es.upm.dit.tfg.webLab.model.Usuario;
 
 
 
@@ -48,7 +47,6 @@ public class ImportarAsignaturasServlet extends HttpServlet{
 		
 		List<Asignatura> todasAsignaturas = (List<Asignatura>) req.getSession().getAttribute("listaAsignaturas");
 		
-		Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
 		
 		
 		/*
@@ -61,7 +59,7 @@ public class ImportarAsignaturasServlet extends HttpServlet{
 					for (int j = 0; j< planes.size(); j++) { 
 						if(planesCodigo[i].equals(planes.get(j).getCodigo())) {
 							PlanEstudiosDAOImplementation.getInstance().createPlanEstudios(planes.get(j));
-							//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha importado el plan de estudios "+planes.get(j).getCodigo()+" - "+planes.get(j).getNombre());
+							log.info("El usuario "+currentUser.getPrincipal().toString()+" ha importado el plan de estudios "+planes.get(j).getCodigo()+" - "+planes.get(j).getNombre());
 						}
 					} 
 				} 
@@ -86,10 +84,10 @@ public class ImportarAsignaturasServlet extends HttpServlet{
 									crearPlan.setNombre(todasAsignaturas.get(j).getPlanEstudios().getNombre());
 									crearPlan.setAsignaturas(asignaturasPlan);
 									PlanEstudiosDAOImplementation.getInstance().createPlanEstudios(crearPlan);
-									//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha importado el plan de estudios "+todasAsignaturas.get(j).getPlanEstudios().getCodigo()+" - "+todasAsignaturas.get(j).getPlanEstudios().getNombre());
+									log.info("El usuario "+currentUser.getPrincipal().toString()+" ha importado el plan de estudios "+todasAsignaturas.get(j).getPlanEstudios().getCodigo()+" - "+todasAsignaturas.get(j).getPlanEstudios().getNombre());
 	
 									AsignaturaDAOImplementation.getInstance().createAsignatura(todasAsignaturas.get(j));
-									//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha importado la asignatura "+todasAsignaturas.get(j).getCodigo()+" - "+todasAsignaturas.get(j).getNombre());
+									log.info("El usuario "+currentUser.getPrincipal().toString()+" ha importado la asignatura "+todasAsignaturas.get(j).getCodigo()+" - "+todasAsignaturas.get(j).getNombre());
 									todasAsignaturas.get(j).setPlanEstudios(crearPlan);
 	
 								}else if (asignaturasCodigo[i].equals(todasAsignaturas.get(j).getCodigo()) && plan !=null) {
@@ -121,16 +119,12 @@ public class ImportarAsignaturasServlet extends HttpServlet{
 				} 
 				
 			}
-			//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" importado asignaturas.");
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" importado asignaturas.");
 	
 			List<PlanEstudios> planesEnviar = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
 			req.getSession().setAttribute("planesActuales",  planesEnviar);
-	
-			String msj = "Asignaturas importadas con éxito";
-			req.getSession().setAttribute("mensaje", msj);
 
 			getServletContext().getRequestDispatcher("/CRUDAsignatura.jsp").forward(req, resp);
-		
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}

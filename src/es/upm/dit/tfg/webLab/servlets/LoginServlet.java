@@ -9,18 +9,14 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.realm.text.IniRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
-import es.upm.dit.tfg.webLab.dao.PermisoDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
-import es.upm.dit.tfg.webLab.dao.UsuarioDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
 import es.upm.dit.tfg.webLab.model.Profesor;
-import es.upm.dit.tfg.webLab.model.Usuario;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -73,10 +69,9 @@ public class LoginServlet extends HttpServlet{
 			  try {          
 				  currentUser.isAuthenticated();
 			      currentUser.login(token); 
-			      //req.getSession().setAttribute("currentUser", currentUser);
-			      System.out.println(currentUser.getPrincipal());
-			      System.out.println(currentUser.isAuthenticated());
 			      getServletContext().getRequestDispatcher("/VistaInicial.jsp").forward(req, resp);
+			      log.info("El usuario "+currentUser.getPrincipal().toString()+" ha iniciado sesión.");
+
 			  } catch (UnknownAccountException uae) {           
 			      log.error("Username Not Found!", uae);  
 			      System.out.println("Username Not Found!");
@@ -97,7 +92,8 @@ public class LoginServlet extends HttpServlet{
 			      System.out.println("Unexpected Error!");
 			      req.getSession().setAttribute("error", "Unexpected Error!");
 			      getServletContext().getRequestDispatcher("/loginPage.jsp").forward(req, resp);
-			  }                                                 
+			  }   
+			  
 			}		
 	}
 }

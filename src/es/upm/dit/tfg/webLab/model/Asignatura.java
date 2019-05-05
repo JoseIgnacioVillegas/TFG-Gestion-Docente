@@ -3,16 +3,11 @@ package es.upm.dit.tfg.webLab.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.Proxy;
 
 
 @Entity
@@ -114,7 +109,6 @@ public class Asignatura implements Serializable{
 	public Profesor getCoordinador() {
 		return this.coordinador;
 	}
-
 	public List<GrupoClase> getGruposClase() {
 		return this.grupos;
 	}
@@ -168,8 +162,6 @@ public class Asignatura implements Serializable{
 	public void setCoordinador(Profesor coordinador) {
 		this.coordinador=coordinador;
 	}
-	
-	 
 	public void setGruposClase(List<GrupoClase> grupos) {
 		this.grupos=grupos;
 	}
@@ -182,7 +174,6 @@ public class Asignatura implements Serializable{
 	public void deleteProfesores() {
 		this.profesores=new ArrayList<Profesor>();
 	}
-	
 	public void deleteCoordinador() {
 		this.coordinador=null;
 	}

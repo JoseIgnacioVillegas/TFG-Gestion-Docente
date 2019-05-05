@@ -16,7 +16,6 @@ import com.itextpdf.io.IOException;
 
 import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
-import es.upm.dit.tfg.webLab.model.Usuario;
 
 @WebServlet("/CrearPlanServlet")
 public class CrearPlanServlet extends HttpServlet{
@@ -27,7 +26,6 @@ public class CrearPlanServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
 		String codigo = req.getParameter("codigo");
 		String nombre = req.getParameter("nombre");
 
@@ -41,16 +39,10 @@ public class CrearPlanServlet extends HttpServlet{
 			plan.setNombre(nombre);
 			PlanEstudiosDAOImplementation.getInstance().createPlanEstudios(plan);
 			
-			Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
-			//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha creado el plan de estudios "+plan.getCodigo()+" - "+plan.getNombre());
-	
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha creado el plan de estudios "+plan.getCodigo()+" - "+plan.getNombre());
 			List<PlanEstudios> todosPlanes = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
 			
 			req.getSession().setAttribute("planesActuales", todosPlanes);
-	
-			String msj = "Plan de Estudios creado con éxito";
-			req.getSession().setAttribute("mensaje", msj);
-
 			getServletContext().getRequestDispatcher("/CRUDPlan.jsp").forward(req, resp);
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);

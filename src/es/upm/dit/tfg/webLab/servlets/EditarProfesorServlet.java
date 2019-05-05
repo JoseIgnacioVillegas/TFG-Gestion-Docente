@@ -33,20 +33,20 @@ public class EditarProfesorServlet extends HttpServlet{
 	private final static Logger log = Logger.getLogger(EditarProfesorServlet.class);
 	
 	@Override
-	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
 		
 		String nombre = req.getParameter("nombre");
 		String apellidos = req.getParameter("apellidos");
 		String acronimo = req.getParameter("acronimo");
 		String correo = req.getParameter("correo");
 		String dedicacion = req.getParameter("dedicacion");
-		int id = Integer.parseInt(req.getParameter("id"));
+		int id = 0;
+		try{ id = Integer.parseInt(req.getParameter("id"));}catch(Exception e) {log.error(e); }
 		String grupoStr = req.getParameter("grupo");
-		int plazaId = Integer.parseInt(req.getParameter("plaza"));
+		int plazaId = 0;
+		try{ plazaId = Integer.parseInt(req.getParameter("plaza"));}catch(Exception e) {log.error(e); }
 		
 		/*
 		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
@@ -81,19 +81,13 @@ public class EditarProfesorServlet extends HttpServlet{
 			
 			ProfesorDAOImplementation.getInstance().createProfesor(profesor);
 			
-			Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
-			//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha editado el profesor "+nombre+" "+apellidos);
+
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha editado el profesor "+nombre+" "+apellidos);
 	
 			//Sacamos todas las asignaturas para pasarlas al jsp
 			List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
 			req.getSession().setAttribute("profesores", todosProfesores);
-	
-		
-			String msj = "Profesor editado con éxito";
-			req.getSession().setAttribute("mensaje", msj);
-			
 			getServletContext().getRequestDispatcher("/CRUDProfesor.jsp").forward(req, resp);
-			
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}

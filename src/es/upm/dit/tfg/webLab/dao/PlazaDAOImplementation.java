@@ -2,20 +2,18 @@ package es.upm.dit.tfg.webLab.dao;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import java.util.List;
 
-import es.upm.dit.tfg.webLab.model.Permiso;
 import es.upm.dit.tfg.webLab.model.Plaza;
 
 public class PlazaDAOImplementation implements PlazaDAO{
-
+	private final static Logger log = Logger.getLogger(PlazaDAOImplementation.class);
+	
 	public static PlazaDAOImplementation instance;
-	
 	private PlazaDAOImplementation() {
-	
 	}
-	
 	public static PlazaDAOImplementation getInstance() {
 		if (null == instance) {
 			instance = new PlazaDAOImplementation();
@@ -28,12 +26,10 @@ public class PlazaDAOImplementation implements PlazaDAO{
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
-
 			session.save(plaza);
-
 			session.getTransaction().commit();
-
 		} catch (Exception e) {
+			log.error(e);
 		} finally {
 			session.close();
 		}	
@@ -46,12 +42,10 @@ public class PlazaDAOImplementation implements PlazaDAO{
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
-
 			session.delete(plaza);
-
 			session.getTransaction().commit();
-
 		} catch (Exception e) {
+			log.error(e);
 		} finally {
 			session.close();
 		}	
@@ -62,14 +56,13 @@ public class PlazaDAOImplementation implements PlazaDAO{
 	@Override
 	public Plaza readPlaza(int id) {
 		Plaza plaza = null;
-		
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
 			plaza = session.get(Plaza.class, id);
 			session.getTransaction().commit();
 		}catch(Exception e) {
-			
+			log.error(e);
 		}finally {
 			session.close();
 		}
@@ -85,7 +78,7 @@ public class PlazaDAOImplementation implements PlazaDAO{
 			plazas.addAll(session.createQuery("select t from Plaza t").getResultList() );
 			session.getTransaction().commit();
 		}catch(Exception e) {
-			
+			log.error(e);
 		}finally {
 			session.close();
 		}
@@ -100,7 +93,7 @@ public class PlazaDAOImplementation implements PlazaDAO{
 			session.saveOrUpdate(plaza);
 			session.getTransaction().commit();
 		} catch (Exception e) {
-			System.out.println("En el DAO: "+e);
+			log.error(e);
 		} finally {
 			session.close();
 		}		

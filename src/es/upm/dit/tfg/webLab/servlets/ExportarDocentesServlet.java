@@ -45,7 +45,6 @@ public class ExportarDocentesServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {	
 		
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
 
 		
 		/*
@@ -90,26 +89,19 @@ public class ExportarDocentesServlet extends HttpServlet{
 	        int rowNum = 1;
 	        for(Profesor profesor: profesores) {
 	            Row row = sheet.createRow(rowNum++);
-	            try {row.createCell(0).setCellValue(profesor.getUsuario().getNombre());
-	            }catch(Exception e){System.out.println(e);}
+	            try {row.createCell(0).setCellValue(profesor.getUsuario().getNombre());}catch(Exception e){log.error(e);}
 	            
-	            try {row.createCell(1).setCellValue(profesor.getUsuario().getApellidos());
-	            }catch(Exception e){System.out.println(e);}
+	            try {row.createCell(1).setCellValue(profesor.getUsuario().getApellidos());}catch(Exception e){log.error(e);}
 	
-	            try { row.createCell(2).setCellValue(profesor.getAcronimo());
-				}catch(Exception e){System.out.println(e);}
+	            try { row.createCell(2).setCellValue(profesor.getAcronimo());}catch(Exception e){log.error(e);}
 	            
-				try { row.createCell(3).setCellValue(profesor.getUsuario().getCorreo());
-				}catch(Exception e){System.out.println(e);}
+				try { row.createCell(3).setCellValue(profesor.getUsuario().getCorreo());}catch(Exception e){log.error(e);}
 	
-				try { row.createCell(4).setCellValue(profesor.getGrupo().getNombre());
-				}catch(Exception e){System.out.println(e);}
+				try { row.createCell(4).setCellValue(profesor.getGrupo().getNombre());}catch(Exception e){log.error(e);}
 				
-				try {row.createCell(5).setCellValue(profesor.getPlaza().getPlaza());
-				}catch(Exception e){System.out.println(e);}
+				try {row.createCell(5).setCellValue(profesor.getPlaza().getPlaza());}catch(Exception e){log.error(e);}
 				
-				try {row.createCell(6).setCellValue(profesor.getDedicacion());
-				}catch(Exception e){System.out.println(e);}
+				try {row.createCell(6).setCellValue(profesor.getDedicacion());}catch(Exception e){log.error(e);}
 	            
 	        }
 	
@@ -131,10 +123,11 @@ public class ExportarDocentesServlet extends HttpServlet{
 				workbook.write(resp.getOutputStream());
 		        workbook.close();
 	        }catch(Exception e){
-	        	System.out.println(e);
+	        	log.error(e);
 	        }
 
-			
+	        log.info("El usuario "+currentUser.getPrincipal().toString()+" ha exportado los docentes del departamento.");
+
 			getServletContext().getRequestDispatcher("/ExportarDatos.jsp").forward(req, resp);
 			
 		}else {

@@ -25,9 +25,21 @@ public class BorrarProfesorServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
-		int idProfe = Integer.parseInt(req.getParameter("idProfe"));
-		int idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
+		
+		int idProfe = 0;
+		try{
+			idProfe = Integer.parseInt(req.getParameter("idProfe"));
+		}catch(Exception e){
+			log.error(e);
+		}
+		
+		
+		int idUsuario = 0;
+		try{
+			idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
+		}catch(Exception e){
+			log.error(e);
+		}
 
 		
 		/*
@@ -39,18 +51,11 @@ public class BorrarProfesorServlet extends HttpServlet{
 			
 			Usuario usuario = UsuarioDAOImplementation.getInstance().readUsuario(idUsuario);
 			UsuarioDAOImplementation.getInstance().deleteUsuario(usuario);
-			
-			Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
+
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha borrado al profesor "+usuario.getNombre()+" "+usuario.getApellidos());
 	
-			//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha borrado al profesor "+usuario.getNombre()+" "+usuario.getApellidos());
-	
-			
 			List<Profesor> todasProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
 			req.getSession().setAttribute("profesores", todasProfesores);
-			
-			String msj = "Profesor borrado con éxito";
-			req.getSession().setAttribute("mensaje", msj);
-
 			getServletContext().getRequestDispatcher("/CRUDProfesor.jsp").forward(req, resp);
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);

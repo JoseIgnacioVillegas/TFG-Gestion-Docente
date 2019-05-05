@@ -5,10 +5,7 @@ package es.upm.dit.tfg.webLab.servlets;
 import org.apache.log4j.Logger;
 import org.apache.shiro.subject.Subject;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,11 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.itextpdf.io.IOException;
 
 import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
-import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.Profesor;
-import es.upm.dit.tfg.webLab.model.Usuario;
 
 
 
@@ -48,7 +43,12 @@ public class AsignarAsignaturasServlet extends HttpServlet{
 		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
 		 */
 		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
-			Profesor profesor = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(docenteId));
+			Profesor profesor = null;
+			try {
+				profesor = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(docenteId));
+			}catch(Exception e){
+				log.error(e);
+			}
 			
 			
 			

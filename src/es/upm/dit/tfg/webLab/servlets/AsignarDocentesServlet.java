@@ -1,10 +1,8 @@
 package es.upm.dit.tfg.webLab.servlets;
 
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,12 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.subject.Subject;
 
 import com.itextpdf.io.IOException;
 
 import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
-import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.Profesor;
@@ -30,13 +28,12 @@ import es.upm.dit.tfg.webLab.model.Profesor;
 
 public class AsignarDocentesServlet extends HttpServlet{
 
+	private final static Logger log = Logger.getLogger(AsignarDocentesServlet.class);
 	
 	@Override
-	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
 		
 		//Sacamos el codigo de la asignatura que queremos modificar
 		
@@ -66,13 +63,15 @@ public class AsignarDocentesServlet extends HttpServlet{
 			try {
 				for (int i = 0; i< profesoresBorradosId.length; i++) {
 					for (int j = 0; j< profesoresParticipan.size(); j++) {
-						if(Integer.parseInt(profesoresBorradosId[i])==profesoresParticipan.get(j).getId()) profesoresParticipan.remove(j);
+						if(Integer.parseInt(profesoresBorradosId[i])==profesoresParticipan.get(j).getId()) { 
+							profesoresParticipan.remove(j);
+							log.info("El usuario "+currentUser.getPrincipal().toString()+" ha borrado el profesor" +profesoresParticipan.get(j).getUsuario().getNombre()+" "+ profesoresParticipan.get(j).getUsuario().getApellidos()+" a la asignatura "+asignatura.getNombre());
+
+						}
 					}
 				}
 				}catch(Exception e) {
-					System.out.println(e);
-				}finally {
-						
+					log.error(e);
 				}
 
 			
@@ -88,14 +87,14 @@ public class AsignarDocentesServlet extends HttpServlet{
 				for (int i = 0; i< profesoresId.length; i++) {
 					Profesor profe = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesoresId[i]));
 					profesoresParticipan.add(profe);
+					log.info("El usuario "+currentUser.getPrincipal().toString()+" ha asignado el profesor" +profe.getUsuario().getNombre()+" "+ profe.getUsuario().getApellidos()+" a la asignatura "+asignatura.getNombre());
+
 				}
 				//y hago un set en la asignatura de la lista completa de profesores
 				asignatura.setProfesores(profesoresParticipan);
 			
 			}catch(Exception e) {
-				System.out.println(e);
-			}finally {
-				
+				log.error(e);
 			}
 			
 			
@@ -114,9 +113,7 @@ public class AsignarDocentesServlet extends HttpServlet{
 			try {
 				coordinador = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(coordinadorId));
 			}catch(Exception e) {
-				System.out.println(e);
-			}finally {
-				
+				log.error(e);
 			}
 			
 
@@ -126,7 +123,8 @@ public class AsignarDocentesServlet extends HttpServlet{
 		
 			if(coordinadorBorradoId!=null && coordinadorId!=null) {
 				//Si el coordinador a borrar es nulo y el coordinador a poner no es nulo, simplemente se cambia uno por otro 
-	
+				log.info("El usuario "+currentUser.getPrincipal().toString()+" ha cambiado el coordinador de la asignatura " +asignatura.getNombre() +" por el profesor "+ coordinador.getUsuario().getNombre()+" "+ coordinador.getUsuario().getApellidos());
+
 				coordinador.setAsignaturaCoordina(asignatura);
 				asignatura.setCoordinador(coordinador);
 				
@@ -134,7 +132,8 @@ public class AsignarDocentesServlet extends HttpServlet{
 				//Si el coordinador a borrar no es nulo y el nuevo coordinador si lo es, simplemente borramos el coordinador
 				//Profesor coordinadorBorrado = new Profesor();
 				asignatura.deleteCoordinador();
-	
+				log.info("El usuario "+currentUser.getPrincipal().toString()+" ha borrado el coordinador de la asignatura " +asignatura.getNombre());
+
 				
 			}else if (coordinadorBorradoId==null && coordinadorId!=null){
 				//Si el coordinador a borrar es nulo pero el nuevo coordinador no es nulo, ponemos el nuevo coordinador
@@ -145,7 +144,8 @@ public class AsignarDocentesServlet extends HttpServlet{
 				
 				coordinador.deleteAsignaturaCoordina();
 				coordinador.setAsignaturaCoordina(asignatura);
-	
+				log.info("El usuario "+currentUser.getPrincipal().toString()+" ha asignado el coordinador "+coordinador.getUsuario().getNombre()+" "+ coordinador.getUsuario().getApellidos()+" de la asignatura " +asignatura.getNombre());
+
 				
 			}else if (coordinadorBorradoId==null && coordinadorId==null) {
 				//En caso de que ambos sean nulos, no habría que hacer nada 
@@ -153,58 +153,11 @@ public class AsignarDocentesServlet extends HttpServlet{
 			}else {
 				//No se realiza ninguna accion
 				
-			}
-			
-			
-			
-			
-			
-			
-			
-			
-			/*
-			 * Creo que esto esta jodidamente mal, lo que estoy haciendo en ponerle un coordinador que he borrado a esta asignatura 
-			 * en todo caso seria de la siguiente forma:
-			 * 
-			 * 		String coordinadorBorradoId = req.getParameter("coordinadorBorrado");
-					Profesor coordinadorBorrado = new Profesor();
-					try {
-						
-						coordinadorBorrado  = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(coordinadorBorradoId));
-						asignatura.setCoordinador(coordinadorBorrado);
-					}catch(Exception e) {
-						System.out.println(e);
-					}finally {
-							
-					}
-					
-					Y de todas formas no comprendo porque quiero hacer un set de un coordinadora que preciamente he borrado
-			 */
-						
-			//String coordinadorBorradoId = req.getParameter("coordinadorBorrado");
-		
+			}			
 
-			
-			
-			//Saco los id de los nuevos profesores y nuevo coordinador(en caso de que los haya)
-			
-			
-
-		
-	
-			
-			
-			//System.out.println("EL COORDINADOR "+asignatura.getCoordinador().getUsuario().getNombre());
-			
-			// Actualizo la asignatura y los profesores ya estarían terminados
-						AsignaturaDAOImplementation.getInstance().updateAsignatura(asignatura);
+			AsignaturaDAOImplementation.getInstance().updateAsignatura(asignatura);
 			ProfesorDAOImplementation.getInstance().updateProfesor(coordinador);
-	
-			String msj = "Usuarios asignados con éxito";
-			req.getSession().setAttribute("mensaje", msj);
-			
 			getServletContext().getRequestDispatcher("/CRUDAsignatura.jsp").forward(req, resp);
-			
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}

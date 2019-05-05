@@ -15,10 +15,8 @@ import org.apache.log4j.Logger;
 import com.itextpdf.io.IOException;
 
 import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
-import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
-import es.upm.dit.tfg.webLab.model.Profesor;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -45,7 +43,6 @@ public class ExportarAsignaturasServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {	
 		
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
 
 		
 		/*
@@ -91,54 +88,41 @@ public class ExportarAsignaturasServlet extends HttpServlet{
 	        for(PlanEstudios plan: planes) {
 	            Row row = sheet.createRow(rowNum++);
 	            
-	            try {row.createCell(0).setCellValue(plan.getCodigo());
-	            }catch(Exception e){System.out.println(e);}
+	            try {row.createCell(0).setCellValue(plan.getCodigo());}catch(Exception e){log.error(e);}
 	            
-	            try {row.createCell(1).setCellValue(plan.getNombre());
-	            }catch(Exception e){System.out.println(e);}
+	            try {row.createCell(1).setCellValue(plan.getNombre()); }catch(Exception e){log.error(e);}
 	
 	            
 	            for(Asignatura asignatura: plan.getAsignaturas()) {
 	            	row = sheet.createRow(rowNum++);
 	            	
-	            	try {row.createCell(0).setCellValue(asignatura.getCodigo());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(0).setCellValue(asignatura.getCodigo());}catch(Exception e){log.error(e);}
 	            	
-	            	try {row.createCell(1).setCellValue(asignatura.getNombre());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(1).setCellValue(asignatura.getNombre());}catch(Exception e){log.error(e);}
 	            	
-	            	try {row.createCell(2).setCellValue(asignatura.getAcronimo());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(2).setCellValue(asignatura.getAcronimo());}catch(Exception e){log.error(e);}
 	            	
-	            	try {row.createCell(3).setCellValue(asignatura.getCurso());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(3).setCellValue(asignatura.getCurso());}catch(Exception e){log.error(e);}
 	            	
-	            	try {row.createCell(4).setCellValue(asignatura.getSemestre());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(4).setCellValue(asignatura.getSemestre());}catch(Exception e) {log.error(e);}
 	            	
-	            	try {row.createCell(5).setCellValue(asignatura.getTipo());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(5).setCellValue(asignatura.getTipo());}catch(Exception e){log.error(e);}
 	            	
-	            	try {row.createCell(6).setCellValue(asignatura.getEcts());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(6).setCellValue(asignatura.getEcts());}catch(Exception e){log.error(e);}
 	
-	            	try {row.createCell(7).setCellValue(asignatura.getHorasTeoria());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(7).setCellValue(asignatura.getHorasTeoria());}catch(Exception e){log.error(e);}
 	            	
-	            	try {row.createCell(8).setCellValue(asignatura.getHorasLab());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(8).setCellValue(asignatura.getHorasLab());}catch(Exception e){log.error(e);}
 	            	
-	            	try {row.createCell(9).setCellValue(asignatura.getHorasApolo());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(9).setCellValue(asignatura.getHorasApolo()); }catch(Exception e){log.error(e);}
 	            	
-	            	try {row.createCell(10).setCellValue(asignatura.getNumeroAlumnos());
-	                }catch(Exception e){System.out.println(e);}
+	            	try {row.createCell(10).setCellValue(asignatura.getNumeroAlumnos());}catch(Exception e){log.error(e);}
 	            	
 	            	try {row.createCell(11).setCellValue(asignatura.getCoordinador().getUsuario().getNombre()+asignatura.getCoordinador().getUsuario().getApellidos());
-	                }catch(Exception e){System.out.println(e);}
+	                }catch(Exception e){log.error(e);}
 	            	
 	            	try {row.createCell(12).setCellValue(asignatura.getComentario());
-	                }catch(Exception e){System.out.println(e);}
+	                }catch(Exception e){log.error(e);}
 	            }
 	            
 	        }
@@ -159,9 +143,10 @@ public class ExportarAsignaturasServlet extends HttpServlet{
 				workbook.write(resp.getOutputStream());
 		        workbook.close();
 	        }catch(Exception e){
-	        	System.out.println(e);
+	        	log.error(e);
 	        }
 	        
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha exportado las asignaturas del departamento.");
 
 			getServletContext().getRequestDispatcher("/ExportarDatos.jsp").forward(req, resp);
 		}else {

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/PasoDocenteServlet")
 public class PasoDocenteServlet extends HttpServlet {
-	private final static Logger log = Logger.getLogger(LogoutServlet.class);
+	private final static Logger log = Logger.getLogger(PasoDocenteServlet.class);
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,11 +23,7 @@ public class PasoDocenteServlet extends HttpServlet {
 		Usuario user = UsuarioDAOImplementation.getInstance().readUsuarioPorCorreo(email);
 		user.getProfesor().getAsignaturaCoordina();
 		user.getProfesor().getAsignaturasParticipa();
-		
-		
-		
-		
-		
+
 		req.getSession().setAttribute("usuario", user);
 		getServletContext().getRequestDispatcher("/Perfil.jsp").forward(req, resp);
 	}

@@ -3,25 +3,18 @@ package es.upm.dit.tfg.webLab.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.criteria.*;
-
-import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.Permiso;
-import es.upm.dit.tfg.webLab.model.Plaza;
-import es.upm.dit.tfg.webLab.model.Profesor;
-import es.upm.dit.tfg.webLab.model.Usuario;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 
 public class PermisoDAOImplementation implements PermisoDAO{
+	private final static Logger log = Logger.getLogger(PermisoDAOImplementation.class);
 
 	public static PermisoDAOImplementation instance;
-	
 	private PermisoDAOImplementation() {
-	
 	}
-	
 	public static PermisoDAOImplementation getInstance() {
 		if (null == instance) {
 			instance = new PermisoDAOImplementation();
@@ -34,12 +27,10 @@ public class PermisoDAOImplementation implements PermisoDAO{
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
-			
 			session.save(permiso);
-
 			session.getTransaction().commit();
-
 		} catch (Exception e) {
+			log.error(e);
 		} finally {
 			session.close();
 		}	
@@ -49,18 +40,14 @@ public class PermisoDAOImplementation implements PermisoDAO{
 	
 	@Override
 	public Permiso readPermiso(int id) {
-
-		
 		Permiso permiso = null;
 		Session session = SessionFactoryService.get().openSession();
-		
-
 		try {
 			session.beginTransaction();
 			permiso = session.get(Permiso.class, id);
 			session.getTransaction().commit();
 		}catch(Exception e) {
-			
+			log.error(e);
 		}finally {
 			session.close();
 		}
@@ -72,12 +59,10 @@ public class PermisoDAOImplementation implements PermisoDAO{
 		Session session = SessionFactoryService.get().openSession();
 		try {
 			session.beginTransaction();
-
 			session.delete(permiso);
-
 			session.getTransaction().commit();
-
 		} catch (Exception e) {
+			log.error(e);
 		} finally {
 			session.close();
 		}	
@@ -87,20 +72,14 @@ public class PermisoDAOImplementation implements PermisoDAO{
 	@Override
 	
 	public List<Permiso> readPermisos() {
-			
 		Session session = SessionFactoryService.get().openSession();
-			
 		List<Permiso> permisos = new ArrayList<>();
-			
 		try {
-				
 			session.beginTransaction();
-			
 			permisos.addAll(session.createQuery("select t from Permiso t").getResultList() );
 			session.getTransaction().commit();
-			
 		}catch(Exception e) {
-				
+			log.error(e);
 		}finally {
 			session.close();
 		}	
@@ -115,7 +94,7 @@ public class PermisoDAOImplementation implements PermisoDAO{
 			session.saveOrUpdate(permiso);
 			session.getTransaction().commit();
 		} catch (Exception e) {
-			System.out.println("En el DAO: "+e);
+			log.error(e);
 		} finally {
 			session.close();
 		}		
@@ -136,33 +115,11 @@ public class PermisoDAOImplementation implements PermisoDAO{
 				.uniqueResult();
 			session.getTransaction().commit();
 		}catch(Exception e) {
+			log.error(e);
 		}finally {	
 			session.close();
 		}
 		return permiso;
 	}
 	
-	/*
-	@Override
-	public List<Permiso> readPermisosPorUsuario(int usuarioid) {
-		List<Permiso> listaPermisos = null;
-		Session session = SessionFactoryService.get().openSession();
-		try {
-			session.beginTransaction();
-		
-			listaPermisos.addAll(session.createQuery("select t from Permiso t  where t.usuario_id = :usuario_id").setParameter("usuario_id", usuarioid).getResultList() );
-			
-
-			session.getTransaction().commit();
-		}catch(Exception e) {
-			System.out.println("eeeeeeeeeeeheeee"+e);
-		}finally {
-			session.close();
-		}
-		return listaPermisos;
-	}
-	
-	*/
-
-
 }

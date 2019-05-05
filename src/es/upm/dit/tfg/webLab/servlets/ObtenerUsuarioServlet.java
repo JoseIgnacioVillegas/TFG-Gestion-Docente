@@ -1,8 +1,6 @@
 package es.upm.dit.tfg.webLab.servlets;
 
 import org.apache.log4j.Logger;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 
 import es.upm.dit.tfg.webLab.dao.GrupoDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PermisoDAOImplementation;
@@ -20,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/ObtenerUsuarioServlet")
 public class ObtenerUsuarioServlet extends HttpServlet {
-	private final static Logger log = Logger.getLogger(LogoutServlet.class);
+	private final static Logger log = Logger.getLogger(ObtenerUsuarioServlet.class);
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,19 +28,19 @@ public class ObtenerUsuarioServlet extends HttpServlet {
 		
 		if(BotonConvertirDocente!=null&&BotonConvertirDocente.equals("ConvertirDocente")) {
 			String id = req.getParameter("id");
-			Usuario user = UsuarioDAOImplementation.getInstance().readUsuario(Integer.parseInt(id));
+			Usuario user = null;
+			try{ user = UsuarioDAOImplementation.getInstance().readUsuario(Integer.parseInt(id));}catch(Exception e) {log.error(e);}
 			
 			req.getSession().setAttribute("permisos", PermisoDAOImplementation.getInstance().readPermisos());
 			req.getSession().setAttribute("plazas", PlazaDAOImplementation.getInstance().readPlazas());
 			req.getSession().setAttribute("grupos", GrupoDAOImplementation.getInstance().readGrupos());
 			req.getSession().setAttribute("usuario", user);
-			System.out.println(user.getNombre() +"-"+ user.getApellidos() +"-"+ user.getCorreo());
 			getServletContext().getRequestDispatcher("/ConvertirDocente.jsp").forward(req, resp);
 		}else {
-		String email = req.getParameter("usuario");
-		Usuario user = UsuarioDAOImplementation.getInstance().readUsuarioPorCorreo(email);
-		req.getSession().setAttribute("usuario", user);
-		getServletContext().getRequestDispatcher("/Perfil.jsp").forward(req, resp);
+			String email = req.getParameter("usuario");
+			Usuario user = UsuarioDAOImplementation.getInstance().readUsuarioPorCorreo(email);
+			req.getSession().setAttribute("usuario", user);
+			getServletContext().getRequestDispatcher("/Perfil.jsp").forward(req, resp);
 		}
 	}
 }

@@ -6,7 +6,6 @@ import org.apache.shiro.subject.Subject;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,12 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import es.upm.dit.tfg.webLab.dao.GrupoDAOImplementation;
-import es.upm.dit.tfg.webLab.dao.PermisoDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PlazaDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.UsuarioDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Grupo;
-import es.upm.dit.tfg.webLab.model.Permiso;
 import es.upm.dit.tfg.webLab.model.Plaza;
 import es.upm.dit.tfg.webLab.model.Profesor;
 import es.upm.dit.tfg.webLab.model.Usuario;
@@ -35,7 +32,6 @@ public class CrearProfesorServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
 		String nom = req.getParameter("nombre");
 		String ape = req.getParameter("apellidos");
 		String acrom = req.getParameter("acronimo");
@@ -56,7 +52,7 @@ public class CrearProfesorServlet extends HttpServlet{
 				int plz = Integer.parseInt(req.getParameter("plaza"));
 				plaza = PlazaDAOImplementation.getInstance().readPlaza(plz);
 			}catch(Exception e){
-				
+				log.error(e);
 			};
 			
 			
@@ -88,26 +84,14 @@ public class CrearProfesorServlet extends HttpServlet{
 			profesor.setUsuario(usuario);
 			
 			ProfesorDAOImplementation.getInstance().createProfesor(profesor);
-			
-			Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
-	
-			//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha creado el profesor "+nom+" "+ape);
-	
-			
-		
-			
+
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha creado el profesor "+nom+" "+ape);
+
 			//Sacamos todas las asignaturas para pasarlas al jsp
 			List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
 			req.getSession().setAttribute("profesores", todosProfesores);
-	
-			
-			
-			
-			String msj = "Profesor creado con éxito";
-			req.getSession().setAttribute("mensaje", msj);
 
 			getServletContext().getRequestDispatcher("/CRUDProfesor.jsp").forward(req, resp);
-			
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}

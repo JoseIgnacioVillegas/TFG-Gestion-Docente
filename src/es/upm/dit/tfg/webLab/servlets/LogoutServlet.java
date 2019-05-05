@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
-import es.upm.dit.tfg.webLab.model.Usuario;
 
 import java.io.IOException;
 
@@ -20,10 +19,9 @@ public class LogoutServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+		Subject currentUser = SecurityUtils.getSubject();
 		SecurityUtils.getSubject().logout();
-		//getServletContext().getRequestDispatcher("/loginPage.jsp").forward(req, resp);
-		
+		log.info("El usuario "+currentUser.getPrincipal().toString()+" ha cerrado sesión.");
 		getServletContext().getRequestDispatcher("/loginPage.jsp").forward(req, resp);
 	}
 }

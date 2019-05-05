@@ -3,7 +3,6 @@ package es.upm.dit.tfg.webLab.dao;
 import java.util.List;
 
 import es.upm.dit.tfg.webLab.model.Permiso;
-import es.upm.dit.tfg.webLab.model.Usuario;
 
 
 
@@ -15,5 +14,4 @@ public interface PermisoDAO {
 	public List<Permiso> readPermisos();
 	public void updatePermiso(Permiso permiso);
 	public Permiso readPermisoPorNombre(String nombre);
-	//public List<Permiso> readPermisosPorUsuario(int usuarioid);
 }

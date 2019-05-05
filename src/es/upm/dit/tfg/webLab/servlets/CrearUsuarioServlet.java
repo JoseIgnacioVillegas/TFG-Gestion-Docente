@@ -28,7 +28,6 @@ public class CrearUsuarioServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
 		String nom = req.getParameter("nombre");
 		String ape = req.getParameter("apellidos");
 		String corr = req.getParameter("correo");
@@ -49,10 +48,8 @@ public class CrearUsuarioServlet extends HttpServlet{
 			usuario.setId(idMaxUsuario);
 			usuario.setPassword(convertirSHA256("1234"));
 			UsuarioDAOImplementation.getInstance().createUsuario(usuario);
-			
-			
-			Usuario usuarioAccion = (Usuario) req.getSession().getAttribute("usuario");
-			//log.info("El usuario "+usuarioAccion.getNombre()+" "+usuarioAccion.getApellidos()+" ha creado el usuario "+nom+" "+ape);
+
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha creado el usuario "+nom+" "+ape);
 	
 			
 			List<Usuario> todoUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
@@ -64,13 +61,7 @@ public class CrearUsuarioServlet extends HttpServlet{
 			}
 			
 			req.getSession().setAttribute("usuarios", usuarios);
-	
-			
-			String msj = "Usuario creado con éxito";
-			req.getSession().setAttribute("mensaje", msj);
 			getServletContext().getRequestDispatcher("/CRUDPAS.jsp").forward(req, resp);
-		
-		
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}

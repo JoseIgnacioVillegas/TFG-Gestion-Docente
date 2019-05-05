@@ -15,11 +15,10 @@ public class Plaza implements Serializable{
 
 	@Id
 	private int id;
-	
-	
+
 	private String nombre;
 	
-	@OneToMany(mappedBy = "plaza", fetch = FetchType.EAGER) //OJITO A ESTO QUE LO DE USER ME LO HE INVENTADO
+	@OneToMany(mappedBy = "plaza", fetch = FetchType.EAGER) 
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Profesor> profesores;
 	

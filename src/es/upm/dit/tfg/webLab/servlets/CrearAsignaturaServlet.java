@@ -15,14 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.itextpdf.io.IOException;
 
 import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
-import es.upm.dit.tfg.webLab.dao.GrupoClaseDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PlanEstudiosDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Asignatura;
-import es.upm.dit.tfg.webLab.model.GrupoClase;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
 import es.upm.dit.tfg.webLab.model.Profesor;
-import es.upm.dit.tfg.webLab.model.Usuario;
 
 @WebServlet("/CrearAsignaturaServlet")
 
@@ -49,19 +46,19 @@ public class CrearAsignaturaServlet extends HttpServlet{
 		String comentario = req.getParameter("comentario");
 		
 		int numeroAlumnos = 0;
-		try {numeroAlumnos = Integer.parseInt(req.getParameter("numeroAlumnos"),10);}catch(Exception e) {System.out.println(e);}
+		try {numeroAlumnos = Integer.parseInt(req.getParameter("numeroAlumnos"),10);}catch(Exception e) {log.error(e);}
 		
 		double horasApolo = 0.0;
-		try {horasApolo = Double.parseDouble(req.getParameter("horasApolo"));}catch(Exception e) {System.out.println(e);}
+		try {horasApolo = Double.parseDouble(req.getParameter("horasApolo"));}catch(Exception e) {log.error(e);}
 		
 		double ects = 0.0;
-		try {ects = Double.parseDouble(req.getParameter("ects"));}catch(Exception e) {System.out.println(e);}
+		try {ects = Double.parseDouble(req.getParameter("ects"));}catch(Exception e) {log.error(e);}
 		
 		int horasTeoria = 0;
-		try {horasTeoria = Integer.parseInt(req.getParameter("horasTeoria"),10);}catch(Exception e) {System.out.println(e);}
+		try {horasTeoria = Integer.parseInt(req.getParameter("horasTeoria"),10);}catch(Exception e) {log.error(e);}
 		
 		int horasLab = 0;
-		try {horasLab = Integer.parseInt(req.getParameter("horasLab"),10);}catch(Exception e) {System.out.println(e);}
+		try {horasLab = Integer.parseInt(req.getParameter("horasLab"),10);}catch(Exception e) {log.error(e);}
 		
 		
 		
@@ -85,7 +82,7 @@ public class CrearAsignaturaServlet extends HttpServlet{
 		try {
 			coordinadorId = Integer.parseInt(req.getParameter("coordinador"),10);
 		}catch(Exception e) {
-			System.out.println(e);
+			log.error(e);
 		}
 		
 		
@@ -122,7 +119,7 @@ public class CrearAsignaturaServlet extends HttpServlet{
 				asignaturaNueva.setProfesores(profesores);
 				AsignaturaDAOImplementation.getInstance().updateAsignatura(asignaturaNueva);
 			}catch(Exception e) {
-				System.out.println(e);
+				log.error(e);
 			}finally {
 						
 			}
@@ -134,25 +131,14 @@ public class CrearAsignaturaServlet extends HttpServlet{
 				asignaturaNueva.setCoordinador(coordinador);
 				AsignaturaDAOImplementation.getInstance().updateAsignatura(asignaturaNueva);
 			}catch(Exception e) {
-				System.out.println(e);
-			}finally {
-						
+				log.error(e);
 			}
-			
-			
-			
-			
-			
-			Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
-	
-			//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha creado la asignatura "+codigo+" - "+nom);
+
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha creado la asignatura "+codigo+" - "+nom);
 	
 			//Sacamos todas las asignaturas para pasarlas al jsp
 			List<PlanEstudios> todosPlanes = PlanEstudiosDAOImplementation.getInstance().readTodosPlanesEstudios();
 			req.getSession().setAttribute("planesActuales", todosPlanes);
-	
-			String msj = "Asignatura creada con éxito";
-			req.getSession().setAttribute("mensaje", msj);
 
 			getServletContext().getRequestDispatcher("/CRUDAsignatura.jsp").forward(req, resp);
 		}else {

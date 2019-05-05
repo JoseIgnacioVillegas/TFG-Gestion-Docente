@@ -3,7 +3,6 @@ package es.upm.dit.tfg.webLab.servlets;
 import org.apache.log4j.Logger;
 import org.apache.shiro.subject.Subject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,7 +15,6 @@ import com.itextpdf.io.IOException;
 
 import es.upm.dit.tfg.webLab.dao.GrupoDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Grupo;
-import es.upm.dit.tfg.webLab.model.Usuario;
 
 @WebServlet("/BorrarGrupoServlet")
 public class BorrarGrupoServlet extends HttpServlet{
@@ -36,19 +34,13 @@ public class BorrarGrupoServlet extends HttpServlet{
 			Grupo grupo = GrupoDAOImplementation.getInstance().readGrupo(nom);
 			GrupoDAOImplementation.getInstance().deleteGrupo(grupo);
 	
-			Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
-			//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha borrado el grupo de investigacion "+grupo.getNombre());
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha borrado el grupo de investigacion "+grupo.getNombre());
 			
 			
 			List<Grupo> todosGrupos = GrupoDAOImplementation.getInstance().readGrupos();
 			
 			req.getSession().setAttribute("grupos", todosGrupos);
-			
-			String msj = "Grupo borrado con éxito";
-			req.getSession().setAttribute("mensaje", msj);
-
 			getServletContext().getRequestDispatcher("/CRUDGrupo.jsp").forward(req, resp);
-			
 		}else {
 			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 		}

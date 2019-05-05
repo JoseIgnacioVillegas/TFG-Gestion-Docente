@@ -3,7 +3,6 @@ package es.upm.dit.tfg.webLab.servlets;
 import org.apache.log4j.Logger;
 import org.apache.shiro.subject.Subject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,13 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.itextpdf.io.IOException;
 
-import es.upm.dit.tfg.webLab.dao.PermisoDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PlazaDAOImplementation;
-import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
-import es.upm.dit.tfg.webLab.model.Permiso;
 import es.upm.dit.tfg.webLab.model.Plaza;
-import es.upm.dit.tfg.webLab.model.Profesor;
-import es.upm.dit.tfg.webLab.model.Usuario;
 
 @WebServlet("/EditarPlazaServlet")
 public class EditarPlazaServlet extends HttpServlet{
@@ -29,13 +23,11 @@ public class EditarPlazaServlet extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
-		
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
-		req.getSession().removeAttribute("mensaje");
-		int id = Integer.parseInt(req.getParameter("id"));
+		int id = 0;
+		try{id = Integer.parseInt(req.getParameter("id"));}catch(Exception e) {log.error(e); }
 		String nom = req.getParameter("nombre");
 		String descripcion = req.getParameter("descripcion");
-		
 		
 		/*
 		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
@@ -46,21 +38,12 @@ public class EditarPlazaServlet extends HttpServlet{
 			plaza.setDescripcion(descripcion);
 			PlazaDAOImplementation.getInstance().updatePlaza(plaza);
 			
-			Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
-			//log.info("El usuario "+usuario.getNombre()+" "+usuario.getApellidos()+" ha la plaza de profesor "+nom);
-	
-			
+			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha la plaza de profesor "+nom);
+
 			List<Plaza> todasPlazas = PlazaDAOImplementation.getInstance().readPlazas();
-			
-			
+
 			req.getSession().setAttribute("plazas", todasPlazas);
-			
-			
-			String msj = "Plaza editada con éxito";
-			req.getSession().setAttribute("mensaje", msj);
-			
 			getServletContext().getRequestDispatcher("/CRUDPlaza.jsp").forward(req, resp);
-		
 	}else {
 		getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
 	}

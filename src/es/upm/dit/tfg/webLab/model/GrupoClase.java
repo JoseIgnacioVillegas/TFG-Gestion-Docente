@@ -24,9 +24,6 @@ public class GrupoClase implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	
-	//fetch = FetchType.EAGER,
-	//@Fetch(value = FetchMode.)
 	@OneToMany(mappedBy="grupo",cascade = CascadeType.ALL,orphanRemoval=true,fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<ProfesorGrupoClaseAsociacion> asociacion;

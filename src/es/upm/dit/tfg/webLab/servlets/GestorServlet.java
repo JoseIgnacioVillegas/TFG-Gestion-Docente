@@ -27,22 +27,16 @@ import es.upm.dit.tfg.webLab.model.Profesor;
 import es.upm.dit.tfg.webLab.model.Usuario;
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.config.IniSecurityManagerFactory;
+
 import org.apache.shiro.subject.Subject;
 import org.json.*;
 
-import com.microsoft.schemas.office.excel.*;
-import com.microsoft.schemas.office.office.*;
 
-import java.io.IOException;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 
 
 

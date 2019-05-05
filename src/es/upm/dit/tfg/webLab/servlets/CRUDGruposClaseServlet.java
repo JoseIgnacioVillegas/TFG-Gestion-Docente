@@ -1,6 +1,6 @@
 package es.upm.dit.tfg.webLab.servlets;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+import org.apache.shiro.subject.Subject;
 
 import com.itextpdf.io.IOException;
 
@@ -26,12 +29,14 @@ import es.upm.dit.tfg.webLab.model.ProfesorGrupoClaseAsociacion;
 
 public class CRUDGruposClaseServlet extends HttpServlet{
 
-	
+	private final static Logger log = Logger.getLogger(CRUDGruposClaseServlet.class);
+
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
 		
-		req.getSession().removeAttribute("mensaje");
+		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestiondocencia")){
 		String codigoAsignatura = req.getParameter("asignatura");
 		Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(codigoAsignatura);
 
@@ -64,7 +69,7 @@ public class CRUDGruposClaseServlet extends HttpServlet{
 				try {
 					numeroAlumnos =Integer.parseInt(nAlumnos[i]);
 				}catch(NumberFormatException ex){
-					
+					log.error(ex);
 				}
 				GrupoClase grupoNuevo = new GrupoClase();
 				grupoNuevo.setNombre(nombre[i]);
@@ -78,15 +83,19 @@ public class CRUDGruposClaseServlet extends HttpServlet{
 				
 				String nProfesores = req.getParameter(nombre[i]);
 				for (int j = 0; j< nProfesores.length(); j++) {
-					Profesor profe = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesores[j]));
-					System.out.println(profe.getUsuario().getNombre());
-										
+					Profesor profe = null;
+					try {
+						profe = ProfesorDAOImplementation.getInstance().readProfesor(Integer.parseInt(profesores[j]));
+					}catch(Exception e) {
+						log.error(e);
+					}
+					
 					
 					ProfesorGrupoClaseAsociacion asociacion = new ProfesorGrupoClaseAsociacion();
 					
-					asociacion.sethLaboratorio(Integer.parseInt(hLab[j]));
-					asociacion.sethPracticas(Integer.parseInt(hPracticas[j]));
-					asociacion.sethTeoria(Integer.parseInt(hTeoria[j]));
+					try {asociacion.sethLaboratorio(Integer.parseInt(hLab[j]));}catch(Exception e) {log.error(e); }
+					try {asociacion.sethPracticas(Integer.parseInt(hPracticas[j]));}catch(Exception e) {log.error(e); }
+					try {asociacion.sethTeoria(Integer.parseInt(hTeoria[j]));}catch(Exception e) {log.error(e); }
 					asociacion.setGrupo(grupoNuevo);
 					asociacion.setProfesor(profe);
 					ProfesorGrupoClaseAsociacionDAOImplementation.getInstance().createAsociacion(asociacion);
@@ -109,37 +118,7 @@ public class CRUDGruposClaseServlet extends HttpServlet{
 			}
 			
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		String gruposBorrados[]; 
 		gruposBorrados = req.getParameterValues("gruposBorrados");
 		
@@ -155,11 +134,15 @@ public class CRUDGruposClaseServlet extends HttpServlet{
 		asignatura.setGruposClase(gruposActuales);
 		AsignaturaDAOImplementation.getInstance().updateAsignatura(asignatura);
 		}catch(Exception e) {
-			
+			log.error(e); 
 		}
 		
-		
+		log.info("El usuario "+currentUser.getPrincipal().toString()+" ha modificado los grupos de clase de la asignatura "+asignatura.getNombre());
 		getServletContext().getRequestDispatcher("/CRUDAsignatura.jsp").forward(req, resp);
 		
+		
+		}else {
+			getServletContext().getRequestDispatcher("/NoPermitido.jsp").forward(req, resp);
+		}
 	}
 }

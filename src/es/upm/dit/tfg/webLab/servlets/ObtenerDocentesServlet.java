@@ -2,9 +2,8 @@
 package es.upm.dit.tfg.webLab.servlets;
 
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 
 import com.itextpdf.io.IOException;
 
@@ -33,7 +33,8 @@ import es.upm.dit.tfg.webLab.model.Usuario;
 
 public class ObtenerDocentesServlet extends HttpServlet{
 
-	
+	private final static Logger log = Logger.getLogger(ObtenerDocentesServlet.class);
+
 	@Override
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
@@ -60,11 +61,7 @@ public class ObtenerDocentesServlet extends HttpServlet{
 			
 			List<Profesor> profesores = null;
 			
-			try {
-			profesores = GrupoInvestigacion.getProfesores();
-			}catch(Exception e) {
-				
-			}
+			try {profesores = GrupoInvestigacion.getProfesores();}catch(Exception e) {log.error(e);}
 			
 			req.getSession().setAttribute("profesores", profesores);
 			req.getSession().setAttribute("grupo", grupo);
@@ -72,22 +69,15 @@ public class ObtenerDocentesServlet extends HttpServlet{
 			
 		}else if(BotonDocentesPorPlaza!=null && BotonDocentesPorPlaza.equals("docentesPlaza")) {
 			String plazaId = req.getParameter("plaza");
-			Plaza PlazaProfesor = PlazaDAOImplementation.getInstance().readPlaza(Integer.parseInt(plazaId,10));
-			
+			Plaza PlazaProfesor = null;
+			try{ PlazaProfesor = PlazaDAOImplementation.getInstance().readPlaza(Integer.parseInt(plazaId,10));}catch(Exception e) {log.error(e);}
 			List<Profesor> profesores = null;
-			
-			try {
-			profesores = PlazaProfesor.getProfesores();
-			}catch(Exception e) {
-				
-			}
+			try {profesores = PlazaProfesor.getProfesores();}catch(Exception e) {log.error(e);}
 			
 			req.getSession().setAttribute("profesores", profesores);
 			req.getSession().setAttribute("plaza", PlazaProfesor.getPlaza());
 			getServletContext().getRequestDispatcher("/VerProfesores.jsp").forward(req, resp);
-		
 		}else if(BotonDocentesPorAsignatura!=null && BotonDocentesPorAsignatura.equals("docentesAsignatura")){
-			
 			String asignaturaCodigo = req.getParameter("asignatura");
 			Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(asignaturaCodigo);
 			
@@ -97,41 +87,34 @@ public class ObtenerDocentesServlet extends HttpServlet{
 			profesores = asignatura.getProfesores();
 			coordi = asignatura.getCoordinador();
 			}catch(Exception e) {
-				
+				log.error(e);
 			}
 			
 			Usuario coordinador = null;
-			try {
-				coordinador = coordi.getUsuario();
-			}catch(Exception e) {
-					
-			}
-			
-		
-			
+			try {coordinador = coordi.getUsuario();}catch(Exception e) {log.error(e);}
+
 			req.getSession().setAttribute("profesores", profesores);
 			req.getSession().setAttribute("coordinador", coordinador);
 			req.getSession().setAttribute("asignatura", asignatura);
 			getServletContext().getRequestDispatcher("/VerProfesores.jsp").forward(req, resp);
-			
-			
+
 		}else{
-		String codigoAsignatura = req.getParameter("codigo");
-		
-		Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(codigoAsignatura);
-		
-		List<Profesor> profesores = asignatura.getProfesores();
-
-		req.getSession().setAttribute("coordinador", asignatura.getCoordinador());
-		req.getSession().setAttribute("todosProfesores", todosProfesores);
-		req.getSession().setAttribute("profesoresPorAsignatura", profesores);
-		req.getSession().setAttribute("nombre", asignatura.getNombre());
-		req.getSession().setAttribute("codigo", asignatura.getCodigo());
-		req.getSession().setAttribute("acronimo", asignatura.getAcronimo());
-		
-		req.getSession().setAttribute("longitud", profesores.size());
-
-		getServletContext().getRequestDispatcher("/AsignarDocentes.jsp").forward(req, resp);
+			String codigoAsignatura = req.getParameter("codigo");
+			
+			Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(codigoAsignatura);
+			
+			List<Profesor> profesores = asignatura.getProfesores();
+	
+			req.getSession().setAttribute("coordinador", asignatura.getCoordinador());
+			req.getSession().setAttribute("todosProfesores", todosProfesores);
+			req.getSession().setAttribute("profesoresPorAsignatura", profesores);
+			req.getSession().setAttribute("nombre", asignatura.getNombre());
+			req.getSession().setAttribute("codigo", asignatura.getCodigo());
+			req.getSession().setAttribute("acronimo", asignatura.getAcronimo());
+			
+			req.getSession().setAttribute("longitud", profesores.size());
+	
+			getServletContext().getRequestDispatcher("/AsignarDocentes.jsp").forward(req, resp);
 		
 		}
 		

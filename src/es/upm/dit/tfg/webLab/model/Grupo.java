@@ -32,8 +32,6 @@ public class Grupo implements Serializable{
 	public String getNombre() {
 		return this.nombre;
 	}
-
-	
 	public String getAcronimo() {
 		return this.acronimo;
 	}
@@ -41,15 +39,14 @@ public class Grupo implements Serializable{
 		return this.profesores;
 	}
 
+	
+	
 	public void setNombre(String nombre) {
 		this.nombre=nombre;
 	}
-
 	public void setAcronimo(String acronimo) {
 		this.acronimo=acronimo;
-		
 	}
-	
 	public void setProfesores(List<Profesor> profesores) {
 		this.profesores=profesores;
 	}
