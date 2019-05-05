@@ -110,23 +110,7 @@ public class CrearAsignaturaServlet extends HttpServlet{
 			asignaturaNueva.setPlanEstudios(PlanEstudiosDAOImplementation.getInstance().readPlanEstudios(planCodigo));
 			
 			AsignaturaDAOImplementation.getInstance().createAsignatura(asignaturaNueva);
-			
-			/*
-			if(nombreGrupo.length == numeroAlumnosGrupo.length && numeroAlumnosGrupo.length == descripcionGrupo.length) {
-				List<GrupoClase> gruposClase = new ArrayList<>();
-				for (int i = 0; i< nombreGrupo.length; i++) {
-					GrupoClase nuevoGrupo = new GrupoClase();
-					nuevoGrupo.setNombre(nombreGrupo[i]);
-					nuevoGrupo.setNumeroAlumnos(Integer.parseInt(numeroAlumnosGrupo[i],10));
-					nuevoGrupo.setDescripcion(descripcionGrupo[i]);
-					nuevoGrupo.setAsignatura(asignaturaNueva);
-					GrupoClaseDAOImplementation.getInstance().createGrupoClase(nuevoGrupo);
-					gruposClase.add(nuevoGrupo);
-				}
-				asignaturaNueva.setGruposClase(gruposClase);
-				AsignaturaDAOImplementation.getInstance().updateAsignatura(asignaturaNueva);
-			}
-			*/
+
 		
 			try {
 				List<Profesor> profesores = new ArrayList<>();

@@ -53,10 +53,6 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 " style="font-size:15px;">Para crear un nuevo usuario pincha aquí</div>
-                    
-                      	
-
-                      
                     </div>
                     <div class="col-auto">
                       <img  style="width:30px;height:30px;"src="./img/crear.png" />
@@ -97,38 +93,80 @@
 			<td>${usuario.correo}</td>
 
 			<td>
-			<div style="position: relative;">
-				<div style="float:left;margin: 10px;">
-					<form action="EditarUsuario.jsp">
-						<input type="hidden" value="${usuario.id}" name="id">
-						<input type="hidden" value="${usuario.nombre}" name="nombre">
-						<input type="hidden" value="${usuario.apellidos}" name="apellidos">
-						<input type="hidden" value="${usuario.correo}" name="correo">
-						<button  title="Editar" type="submit" class="btn btn-success btn-circle" >
-							<img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"  src="./img/edit.svg" />
-						</button>
-					</form>
-				</div>
-				
-				<div style="float:left;margin: 10px;">
-				<form action="BorrarUsuarioServlet">
-					<input type="hidden" value="${usuario.id}" name="id">
-					<button href="#" title="Borrar" type="submit" class="btn btn-danger btn-circle">
-						<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
-					</button>
-				</form>
-				</div>
-			</div>
 
-			<div style="position:relative;margin-top:70px;" >
-				<form action="ObtenerPermisosServlet">
-					<input type="hidden" value="${usuario.id}" name="id">
-					<button type="submit" class="btn btn-primary btn-icon-split">
-		            	<span class="icon text-white-50"><img  src="./img/lock.svg" /></span>
-		                <span class="text">Asignar permisos</span>
-		            </button>
-				</form>
-			</div>
+
+			<table style="border:0px;">
+			<tr>
+			<td style="border:0px;">
+			<form action="EditarUsuario.jsp">
+			<input type="hidden" value="${usuario.id}" name="id">
+			<input type="hidden" value="${usuario.nombre}" name="nombre">
+			<input type="hidden" value="${usuario.apellidos}" name="apellidos">
+			<input type="hidden" value="${usuario.correo}" name="correo">
+			<button  title="Editar" type="submit" class="btn btn-success btn-circle" >
+			<img  style="padding-bottom:15px;padding-left:2px;width:160%;height:160%;"  src="./img/edit.svg" />
+			</button>
+			</form>
+			</td>
+			<td style="border:0px;">
+			<form action="ObtenerPermisosServlet">
+			<input type="hidden" value="${usuario.id}" name="id">
+			<button type="submit" class="btn btn-primary btn-icon-split">
+		    <span class="icon text-white-50"><img  src="./img/lock.svg" /></span>
+		    <span class="text">Asignar permisos</span>
+		    </button>
+			</form>
+			
+			</td>
+			</tr>
+			<tr>
+			<td style="border:0px;">
+			<form action="BorrarUsuarioServlet">
+			<input type="hidden" value="${usuario.id}" name="id">
+			<button href="#" title="Borrar" type="submit" class="btn btn-danger btn-circle">
+				<img  style="padding-bottom:15px;width:160%;height:160%;"  src="./img/bin.svg" />
+			</button>
+			</form>
+			</td>
+			
+			<td style="border:0px;">
+			<form action="ObtenerUsuarioServlet">
+			<input type="hidden" value="${usuario.id}" name="id">
+			<input type="hidden" value="${usuario.apellidos}" name="apellidos">
+			<input type="hidden" value="${usuario.correo}" name="correo">
+			<input type="hidden" value="${usuario.profesor.acronimo}" name="acronimo">
+			<button type="submit" class="btn btn-info btn-icon-split" value="ConvertirDocente" name="ConvertirDocente">
+		    <span class="icon text-white-50"><img  style="width:25px;height:25px;"src="./img/gestion.svg" /></span>
+		    <span class="text">Convertir en Docente</span>
+		    </button>
+			</form>
+			
+			</td>
+			</tr>
+			
+			</table>
+			
+			
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			</td>
 		</tr>
 		</c:forEach>

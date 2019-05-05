@@ -122,6 +122,26 @@ public class PermisoDAOImplementation implements PermisoDAO{
 	}
 	
 	
+	
+	
+	@Override
+	public Permiso readPermisoPorNombre(String nombre) {
+		Permiso permiso = null;
+		Session session = SessionFactoryService.get().openSession();
+		try {
+			session.beginTransaction();
+			permiso = (Permiso) session
+				.createQuery("select p from Permiso p where p.permiso= :permiso")
+				.setParameter("permiso", nombre)    
+				.uniqueResult();
+			session.getTransaction().commit();
+		}catch(Exception e) {
+		}finally {	
+			session.close();
+		}
+		return permiso;
+	}
+	
 	/*
 	@Override
 	public List<Permiso> readPermisosPorUsuario(int usuarioid) {

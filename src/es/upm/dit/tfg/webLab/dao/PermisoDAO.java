@@ -14,5 +14,6 @@ public interface PermisoDAO {
 	public void deletePermiso(Permiso permiso);
 	public List<Permiso> readPermisos();
 	public void updatePermiso(Permiso permiso);
+	public Permiso readPermisoPorNombre(String nombre);
 	//public List<Permiso> readPermisosPorUsuario(int usuarioid);
 }

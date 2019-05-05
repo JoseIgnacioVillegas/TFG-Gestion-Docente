@@ -6,6 +6,7 @@ import org.apache.shiro.subject.Subject;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,10 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import es.upm.dit.tfg.webLab.dao.GrupoDAOImplementation;
+import es.upm.dit.tfg.webLab.dao.PermisoDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.PlazaDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.UsuarioDAOImplementation;
 import es.upm.dit.tfg.webLab.model.Grupo;
+import es.upm.dit.tfg.webLab.model.Permiso;
 import es.upm.dit.tfg.webLab.model.Plaza;
 import es.upm.dit.tfg.webLab.model.Profesor;
 import es.upm.dit.tfg.webLab.model.Usuario;
@@ -63,6 +66,7 @@ public class CrearProfesorServlet extends HttpServlet{
 			
 			List<Usuario> todosUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
 			int idMaxUsuario = todosUsuarios.size() +1;
+			
 			
 			
 			Usuario usuario =new Usuario();

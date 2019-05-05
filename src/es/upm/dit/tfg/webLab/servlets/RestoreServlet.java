@@ -34,94 +34,26 @@ import java.sql.Statement;
 @WebServlet("/RestoreServlet")
 @MultipartConfig
 public class RestoreServlet extends HttpServlet{
-	
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
+    	String path = "~";
+    	System.out.println("hola");
     	
+    	File fichero = new File("~/TFG.mv.db");
     	
-    	
-    	
-    	
-    	
-    	//Ya sube los archivos a escritorio
-    	Path currentRelativePath = Paths.get("");
-	    String s = currentRelativePath.toAbsolutePath().toString();
-	    String path = "~/TFG.mv.db";
-		Part filePart = req.getPart( "file" );
-    	File file = new File(path);
-    	OutputStream output = new FileOutputStream(file);
-		InputStream fileContent = filePart.getInputStream();
-		byte[] buffer = new byte[10240];
-		for ( int length = 0; ( length = fileContent.read( buffer ) ) > 0; )output.write( buffer, 0, length );
-    	output.close();
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	// EL DIRECTORIO DONDE GUARDA LA BBDD /home/isst/TFG.mv.db
-    	
-    	
-    	//Ahora a ver si conseguimos hacer el restore
-    	Connection conn = null;
-	     Statement stmt = null;
-    	 try{
-	    	  
-	         JdbcDataSource datasource = new JdbcDataSource();
-	         datasource.setUrl("jdbc:h2:memFS:TFG");
-	         conn = datasource.getConnection("sa", "sa");
-	         stmt = conn.createStatement();
-	         
-	         
-	         //Aqui es donde tenemos que hacer el restore
-	         DeleteDbFiles.execute("~", "TFG", true);
-	         
-	         stmt.execute(String.format("RUNSCRIPT FROM '%s'", path));
-  
-	         
-	         stmt.close();
-	         conn.close();
-	
-	      }
-	      catch (Exception e){
-	         e.printStackTrace();
-	      }
-	      finally{
-	         if (stmt != null){
-	            try{
-	               stmt.close();
-	            }
-	            catch (SQLException e){
-	               e.printStackTrace();
-	            }
-	         }
-	         if (conn != null){
-	            try{
-	               conn.close();
-	            }
-	            catch (SQLException e){
-	               e.printStackTrace();
-	            }
-	         }
-	      }
-	      
-    	 
-    	 
+    	if(fichero==null) {
+    	}else {
+    		fichero.delete();
+    	}
 
-    	 
-    	 Path FROM = Paths.get(path);
-         Path TO = Paths.get("~/TFG.mv.db");
-         //sobreescribir el fichero de destino, si existe, y copiar
-         // los atributos, incluyendo los permisos rwx
-         CopyOption[] options = new CopyOption[]{
-           StandardCopyOption.REPLACE_EXISTING,
-           StandardCopyOption.COPY_ATTRIBUTES
-         }; 
-         Files.copy(FROM, TO, options);
-	      
-    	 //Eto para cuando funcione, que luego lo borre
-    	// file.delete();
+	    
+ 		Part filePart = req.getPart( "file" );
+     	File file = new File("~");
+     	OutputStream output = new FileOutputStream(file);
+ 		InputStream fileContent = filePart.getInputStream();
+ 		byte[] buffer = new byte[10240];
+ 		for ( int length = 0; ( length = fileContent.read( buffer ) ) > 0; )output.write( buffer, 0, length );
+     	output.close();
+    	
     
     	resp.sendRedirect(req.getContextPath()+ "/GestorBBDD.jsp");
     }
