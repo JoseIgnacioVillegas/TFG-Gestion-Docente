@@ -73,9 +73,9 @@
 									Decripción: ${grupo.descripcion}<br>
 									Profesores:
 									<c:forEach items="${grupo.profesores}" var="asociacion">
-									<p >${asociacion.profesor.usuario.nombre } ${asociacion.profesor.usuario.apellidos } - </p>
+									<p >${asociacion.profesor.usuario.nombre } ${asociacion.profesor.usuario.apellidos } - 
 									
-									<!--  ${asociacion.hTeoria } - ${asociacion.hLaboratorio } - ${asociacion.hPracticas }-->
+									Horas de teoría: ${asociacion.hTeoria } - Horas de laboratorio: ${asociacion.hLaboratorio } - Horas de practicas: ${asociacion.hPracticas }</p>
 									</c:forEach>
 									<input type="checkbox" style="visibility:hidden;" value="${grupo.id}" name="gruposBorrados" id="${grupo.id}">
 									<a href="#" style="width:50%;" onclick="borrarGrupo(this,${grupo.id})">Borrar Grupo de Clase</a>
@@ -328,11 +328,17 @@ function setName(obj){
 
 
 function addProfesor(obj){
+	
+	console.log(obj.parentNode);
+	
+	
     var div = document.createElement('div');
     
         div.innerHTML = document.getElementById('profesor1').outerHTML;
         document.getElementById('profesor').style.display="";
         document.getElementById('profesor').appendChild(div);
+        
+        
         var input = obj.parentNode.parentNode.getElementsByTagName('input')[0];
         input.setAttribute("value",input.value+1);
         console.log(input);

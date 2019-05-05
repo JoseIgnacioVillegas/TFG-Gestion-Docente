@@ -67,6 +67,7 @@
                       <th>Semestre</th>
                       <th>Créditos</th>
                       <th>Tipo</th>
+                      <th>Acciones</th>
                       <th>Importar todo <input type="checkbox" onclick="marcar(this)"></th>
                     </tr>
                   </thead>
@@ -84,13 +85,16 @@
 			<th></th>
 			<th></th>
 			<th></th>
-			
+			<th  class="${plan.codigo}">
+				<a href="#" onclick="OcultarAsignaturas(this)" style="display:none;">Ocultar asignaturas</a>
+		       	<a href="#" onclick="MostrarAsignaturas(this)" >Mostrar asignaturas</a>
+			</th>
 			<th><input type="checkbox"  name="codigoPlan" value="${plan.codigo}" onclick="marcarAsignaturas(this,'${plan.codigo}');"></th>
 	</tr>
 		
 		<c:forEach items="${plan.asignaturas}" var="asignatura">
 		
-		<tr>
+		<tr class="${plan.codigo}" style="display:none;">
 			<td>${asignatura.codigo}</td>
 			<td>${asignatura.nombre}</td>
 			<td>${asignatura.acronimo}</td>
@@ -98,8 +102,9 @@
 			<td>${asignatura.semestre}</td>
 			<td>${asignatura.ects}</td>
 			<td>${asignatura.tipo}</td>
-			
+			<td></td>
 			<td><input name="${plan.codigo}" value="${asignatura.codigo}" type="checkbox"></td>
+
 		</tr>
 			
 		</c:forEach>
@@ -156,7 +161,31 @@
 
   
 <!-- En este archivo .jsp estan incluidos los enlances a los archivos JS -->
-	<%@ include file="JavaScript.jsp" %> 
+	
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/chart.js/Chart.min.js"></script>
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/chart-area-demo.js"></script>
+  <script src="js/demo/chart-pie-demo.js"></script>
+  
+  <!--  AQuí está el problema de que se muestren mal las asignaturas y los planes
+  <script src="js/demo/datatables-demo.js"></script> 
+-->
+
+
 
 </body>
 <script>
@@ -180,6 +209,27 @@ function marcarAsignaturas(source, id) {
 			checkboxes[i].checked=source.checked; //si es un checkbox le damos el valor del checkbox que lo llamó (Marcar/Desmarcar Todos)
 		}
 	}
+}
+
+
+function OcultarAsignaturas(obj){
+	var plan = obj.parentNode.getAttribute("class");
+	var elementos = document.getElementsByClassName(plan);
+	for (var i = 1; i < elementos.length; i++) {
+		elementos[i].style.display = "none";
+	}
+	obj.parentNode.getElementsByTagName("a")[0].style.display = "none";
+	obj.parentNode.getElementsByTagName("a")[1].style.display = "";
+}
+
+function MostrarAsignaturas(obj){
+	var plan = obj.parentNode.getAttribute("class");
+	var elementos = document.getElementsByClassName(plan);
+	for (var i = 1; i < elementos.length; i++) {
+		elementos[i].style.display = "";
+	}
+	obj.parentNode.getElementsByTagName("a")[0].style.display = "";
+	obj.parentNode.getElementsByTagName("a")[1].style.display = "none";
 }
 
 </script>

@@ -28,43 +28,65 @@ public class ProfesorGrupoClaseAsociacion implements Serializable{
 		this.hLaboratorio=0.0;
 		this.hPracticas=0.0;
 	}
+
+
 	public int getId() {
-		return this.id;
+		return id;
 	}
-	
-	public double getHorasTeoria() {
-		return this.hTeoria;
-	}
-	public double getHorasLaboratorio() {
-		return this.hLaboratorio;
-	}
-	public double getHorasPracticas() {
-		return this.hPracticas;
-	}
-	public GrupoClase getGrupoClase() {
-		return this.grupo;
-	}
-	public Profesor getProfesor() {
-		return this.profesor;
-	}
-	
-	
+
+
 	public void setId(int id) {
-		this.id=id;
+		this.id = id;
 	}
-	public void setHorasTeoria(double hTeoria) {
-		this.hTeoria=hTeoria;
+
+
+	public Profesor getProfesor() {
+		return profesor;
 	}
-	public void setHorasLaboratorio(double hLaboratorio) {
-		this.hLaboratorio=hLaboratorio;
-	}
-	public void setHorasPracticas(double hPracticas) {
-		this.hPracticas=hPracticas;
-	}
-	public void setGrupoClase(GrupoClase grupo) {
-		this.grupo=grupo;
-	}
+
+
 	public void setProfesor(Profesor profesor) {
-		this.profesor=profesor;
+		this.profesor = profesor;
 	}
+
+
+	public GrupoClase getGrupo() {
+		return grupo;
+	}
+
+
+	public void setGrupo(GrupoClase grupo) {
+		this.grupo = grupo;
+	}
+
+
+	public double gethTeoria() {
+		return hTeoria;
+	}
+
+
+	public void sethTeoria(double hTeoria) {
+		this.hTeoria = hTeoria;
+	}
+
+
+	public double gethLaboratorio() {
+		return hLaboratorio;
+	}
+
+
+	public void sethLaboratorio(double hLaboratorio) {
+		this.hLaboratorio = hLaboratorio;
+	}
+
+
+	public double gethPracticas() {
+		return hPracticas;
+	}
+
+
+	public void sethPracticas(double hPracticas) {
+		this.hPracticas = hPracticas;
+	}
+	
 }

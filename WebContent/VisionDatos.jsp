@@ -59,10 +59,10 @@
                 <!-- Card Content - Collapse -->
                 <div class="collapse show" id="collapseCardExample">
                 	<div class="card-body">
-                	<p>Acrónimo: ${profesor.acronimo}</p>
-                	<p>Plaza de profesor: ${profesor.plaza }</p>
-                	<p>Grupo de investigación: ${ profesor.grupo}</p>
-                	<p>Dedicación: ${ profesor.dedicacion}</p>
+                	<p>Acrónimo: <b>${profesor.acronimo}</b></p>
+                	<p>Plaza de profesor: <b>${profesor.plaza.plaza }</b></p>
+                	<p>Grupo de investigación: <b>${ profesor.grupo.nombre}</b></p>
+                	<p>Dedicación: <b>${ profesor.dedicacion}</b></p>
                 	
                 	
                 	

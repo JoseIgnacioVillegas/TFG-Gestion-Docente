@@ -36,26 +36,28 @@ public class ObtenerGruposServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 		
 		req.getSession().removeAttribute("mensaje");
-
-
+		String BotonVisionGrupos = req.getParameter("visionGrupos");
 		String codigoAsignatura = req.getParameter("codigo");
 		
 		Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(codigoAsignatura);
 		List<GrupoClase> gruposClase = new ArrayList<>();
 		gruposClase = asignatura.getGruposClase();
-		System.out.println("LOS GRUPICOS "+gruposClase);
-		GrupoClase grupo = new GrupoClase();
-
 
 		
-		List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
-		
-		
-		req.getSession().setAttribute("todosProfesores", todosProfesores);
-		req.getSession().setAttribute("gruposClase", gruposClase);
-		req.getSession().setAttribute("asignatura",asignatura);
-		getServletContext().getRequestDispatcher("/CRUDGruposClase.jsp").forward(req, resp);
-		
+		if(BotonVisionGrupos!=null&&BotonVisionGrupos.equals("visionGrupos")) {
+			
+			req.getSession().setAttribute("gruposClase", gruposClase);
+			req.getSession().setAttribute("asignatura",asignatura);
+			getServletContext().getRequestDispatcher("/VerGruposClase.jsp").forward(req, resp);
+		}else {
+			List<Profesor> todosProfesores = ProfesorDAOImplementation.getInstance().readProfesores();
+			
+			
+			req.getSession().setAttribute("todosProfesores", todosProfesores);
+			req.getSession().setAttribute("gruposClase", gruposClase);
+			req.getSession().setAttribute("asignatura",asignatura);
+			getServletContext().getRequestDispatcher("/CRUDGruposClase.jsp").forward(req, resp);
+		}
 	}
 }
 		

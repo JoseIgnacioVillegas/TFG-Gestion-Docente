@@ -84,10 +84,10 @@ public class CRUDGruposClaseServlet extends HttpServlet{
 					
 					ProfesorGrupoClaseAsociacion asociacion = new ProfesorGrupoClaseAsociacion();
 					
-					asociacion.setHorasLaboratorio(Integer.parseInt(hLab[j]));
-					asociacion.setHorasPracticas(Integer.parseInt(hPracticas[j]));
-					asociacion.setHorasTeoria(Integer.parseInt(hTeoria[j]));
-					asociacion.setGrupoClase(grupoNuevo);
+					asociacion.sethLaboratorio(Integer.parseInt(hLab[j]));
+					asociacion.sethPracticas(Integer.parseInt(hPracticas[j]));
+					asociacion.sethTeoria(Integer.parseInt(hTeoria[j]));
+					asociacion.setGrupo(grupoNuevo);
 					asociacion.setProfesor(profe);
 					ProfesorGrupoClaseAsociacionDAOImplementation.getInstance().createAsociacion(asociacion);
 					ProfesorDAOImplementation.getInstance().updateProfesor(profe);

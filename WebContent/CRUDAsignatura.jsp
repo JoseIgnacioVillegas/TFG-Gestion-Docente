@@ -146,10 +146,13 @@
 			<th></th>
 			<th></th>
 			<th></th>
-			<th></th>
+			<th  class="${plan.codigo}">
+				<a href="#" onclick="OcultarAsignaturas(this)" style="display:none;">Ocultar asignaturas</a>
+		       	<a href="#" onclick="MostrarAsignaturas(this)" >Mostrar asignaturas</a>
+			</th>
 	</tr>
                   <c:forEach items="${plan.asignaturas}" var="asignatura">
-		<tr>
+		<tr class="${plan.codigo}" style="display:none;">
 			<td>${asignatura.codigo}</td>
 			<td>${asignatura.nombre}</td>
 			<td>${asignatura.acronimo}</td>
@@ -285,7 +288,28 @@
   <script src="js/demo/datatables-demo.js"></script> 
 -->
 </body>
+<script>
+function OcultarAsignaturas(obj){
+	var plan = obj.parentNode.getAttribute("class");
+	var elementos = document.getElementsByClassName(plan);
+	for (var i = 1; i < elementos.length; i++) {
+		elementos[i].style.display = "none";
+	}
+	obj.parentNode.getElementsByTagName("a")[0].style.display = "none";
+	obj.parentNode.getElementsByTagName("a")[1].style.display = "";
+}
 
+function MostrarAsignaturas(obj){
+	var plan = obj.parentNode.getAttribute("class");
+	var elementos = document.getElementsByClassName(plan);
+	for (var i = 1; i < elementos.length; i++) {
+		elementos[i].style.display = "";
+	}
+	obj.parentNode.getElementsByTagName("a")[0].style.display = "";
+	obj.parentNode.getElementsByTagName("a")[1].style.display = "none";
+}
+
+</script>
 </html>
 
 
