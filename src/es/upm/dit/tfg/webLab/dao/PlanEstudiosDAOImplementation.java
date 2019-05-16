@@ -8,6 +8,7 @@ import org.hibernate.Session;
 
 
 import es.upm.dit.tfg.webLab.model.PlanEstudios;
+import es.upm.dit.tfg.webLab.model.Plaza;
 
 
 
@@ -86,6 +87,20 @@ public class PlanEstudiosDAOImplementation implements PlanEstudiosDAO{
 			session.close();
 		}
 		return planes;
+	}
+	
+	@Override
+	public void updatePlanEstudios(PlanEstudios plan) {
+		Session session = SessionFactoryService.get().openSession();
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(plan);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			log.error(e);
+		} finally {
+			session.close();
+		}		
 	}
 	
 	

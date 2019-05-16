@@ -10,5 +10,5 @@ public interface PlanEstudiosDAO {
 	public void deletePlanEstudios(PlanEstudios plan) ;
 	public PlanEstudios readPlanEstudios(String codigo);
 	public List<PlanEstudios> readTodosPlanesEstudios();
-
+	public void updatePlanEstudios(PlanEstudios plan);
 }
