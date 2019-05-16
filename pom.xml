@@ -54,7 +54,7 @@
 <dependency>
     <groupId>org.json</groupId>
     <artifactId>json</artifactId>
-    <version>20180813</version>war
+    <version>20180813</version>
 </dependency>
 
 
@@ -174,7 +174,7 @@
 <dependency>
     <groupId>javax.servlet</groupId>
     <artifactId>jstl</artifactId>
-    <version>1.2</version>war
+    <version>1.2</version>
 </dependency>
 <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
 <dependency>
