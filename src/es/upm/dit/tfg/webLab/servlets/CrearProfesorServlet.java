@@ -57,11 +57,11 @@ public class CrearProfesorServlet extends HttpServlet{
 			
 			
 			
-			List<Profesor> todosProfes = ProfesorDAOImplementation.getInstance().readProfesores();
-			int idMaxProfe = todosProfes.size() +1;
+			//List<Profesor> todosProfes = ProfesorDAOImplementation.getInstance().readProfesores();
+			//int idMaxProfe = todosProfes.size() +1;
 			
-			List<Usuario> todosUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
-			int idMaxUsuario = todosUsuarios.size() +1;
+			//List<Usuario> todosUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
+			//int idMaxUsuario = todosUsuarios.size() +1;
 			
 			
 			
@@ -69,14 +69,14 @@ public class CrearProfesorServlet extends HttpServlet{
 			usuario.setNombre(nom);
 			usuario.setApellidos(ape);
 			usuario.setCorreo(corr);
-			usuario.setId(idMaxUsuario);
+			//usuario.setId(290);
 			usuario.setPassword(convertirSHA256("1234"));
 			UsuarioDAOImplementation.getInstance().createUsuario(usuario);
 		
 			
 			
 			Profesor profesor = new Profesor();
-			profesor.setId(idMaxProfe);
+			//profesor.setId(290);
 			profesor.setAcronimo(acrom);
 			if(plaza!=null)profesor.setPlaza(plaza);
 			profesor.setGrupo(grupo);

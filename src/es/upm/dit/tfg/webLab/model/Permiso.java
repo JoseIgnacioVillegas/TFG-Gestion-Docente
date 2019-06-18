@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Entity
 public class Permiso implements Serializable{
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
   
 	

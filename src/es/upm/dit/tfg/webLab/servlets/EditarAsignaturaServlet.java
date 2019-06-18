@@ -40,6 +40,8 @@ public class EditarAsignaturaServlet extends HttpServlet{
 		String tipo = req.getParameter("tipo");
 		String curso = req.getParameter("curso");
 		String semestre = req.getParameter("semestre");
+		String planEstudios = req.getParameter("plan");
+		
 		
 		double ects = 0.0;
 		try{ ects = Double.parseDouble(req.getParameter("ects"));}catch(Exception e) {log.error(e); }
@@ -64,7 +66,19 @@ public class EditarAsignaturaServlet extends HttpServlet{
 		 */
 		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestiondocencia")){
 			Asignatura asignatura = AsignaturaDAOImplementation.getInstance().readAsignatura(codigoAnt);
+			
+			
+			System.out.println(planEstudios);
+			
+			
 			PlanEstudios plan = asignatura.getPlanEstudios();
+			if(planEstudios.equals(plan.getCodigo())) {
+				System.out.println("aki entra??");
+			}else {
+				System.out.println("hooooola k tl");
+				System.out.println(planEstudios);
+				plan = PlanEstudiosDAOImplementation.getInstance().readPlanEstudios(planEstudios);
+			}
 			
 			
 			asignatura.setNombre(nom);

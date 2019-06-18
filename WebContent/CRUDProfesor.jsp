@@ -211,7 +211,7 @@
 			</tr>
 			<tr>
 			<td style="border:0px;">
-			
+
 			<form action="BorrarProfesorServlet">
 			<input type="hidden" value="${profesor.id}" name="idProfe">
 			<input type="hidden" value="${profesor.usuario.id}" name="idUsuario">
@@ -225,6 +225,7 @@
 			
 			<form action="ObtenerPermisosServlet">
 			<input type="hidden" value="${profesor.usuario.id}" name="id">
+			
 			<button type="submit" class="btn btn-primary btn-icon-split">
 		       <span class="icon text-white-50"><img  src="./img/lock.svg" /></span>
 		       <span class="text">Asignar permisos</span>

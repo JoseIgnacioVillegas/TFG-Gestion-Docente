@@ -54,7 +54,7 @@
 			<div class="col-xl-3 col-md-6 mb-4"></div>
             	<div class="col-xl-6 col-md-6 mb-4" style="text-align:center;">
 
-            	<form class="user" action="EditarPlazaServlet">
+            	<form class="user" action="EditarGrupoServlet">
             		<input type="hidden" value="<%=nom%>" name="nombre1">
 					Nombre:
                     <div class="form-group"><input type="text" class="form-control form-control-user" name="nombre" value="<%=nom%>"></div>

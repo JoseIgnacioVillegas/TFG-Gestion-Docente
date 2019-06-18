@@ -16,6 +16,7 @@ public class Profesor implements Serializable{
 
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	@OneToMany(mappedBy="profesor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)

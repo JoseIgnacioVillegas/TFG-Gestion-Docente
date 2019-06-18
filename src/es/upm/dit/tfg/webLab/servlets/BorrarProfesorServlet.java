@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.itextpdf.io.IOException;
 
+import es.upm.dit.tfg.webLab.dao.AsignaturaDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.ProfesorDAOImplementation;
 import es.upm.dit.tfg.webLab.dao.UsuarioDAOImplementation;
+import es.upm.dit.tfg.webLab.model.Asignatura;
 import es.upm.dit.tfg.webLab.model.Profesor;
 import es.upm.dit.tfg.webLab.model.Usuario;
 
@@ -31,7 +33,11 @@ public class BorrarProfesorServlet extends HttpServlet{
 			idProfe = Integer.parseInt(req.getParameter("idProfe"));
 		}catch(Exception e){
 			log.error(e);
+			System.out.println(e);
 		}
+		
+		
+		
 		
 		
 		int idUsuario = 0;
@@ -39,14 +45,46 @@ public class BorrarProfesorServlet extends HttpServlet{
 			idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
 		}catch(Exception e){
 			log.error(e);
+			System.out.println(e);
 		}
 
-		
 		/*
 		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
 		 */
 		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
 			Profesor profesor = ProfesorDAOImplementation.getInstance().readProfesor(idProfe);
+
+			List<Asignatura> asignaturas = profesor.getAsignaturasParticipa();	
+			
+			try {
+				for (int i = 0; i< asignaturas.size(); i++) {
+					Asignatura asignaturaParticipaBorrada = asignaturas.get(i);
+					List<Profesor> profesoresParticipan = asignaturaParticipaBorrada.getProfesores();
+					for (int j = 0; j< profesoresParticipan.size(); j++) {
+						if(profesoresParticipan.get(j).getId()==profesor.getId())profesoresParticipan.remove(j);
+					}
+					asignaturaParticipaBorrada.setProfesores(profesoresParticipan);
+					AsignaturaDAOImplementation.getInstance().updateAsignatura(asignaturaParticipaBorrada);
+				}
+			}catch(Exception e) {
+				System.out.println(e);
+			}finally {
+					
+			}
+			
+			//profesor.deleteAsignaturaCoordina();
+			try {
+				Asignatura asignaturaCoordina = profesor.getAsignaturaCoordina();
+				asignaturaCoordina.deleteCoordinador();
+				AsignaturaDAOImplementation.getInstance().updateAsignatura(asignaturaCoordina);
+			}catch(Exception e) {
+				System.out.println(e);
+			}finally {
+					
+			}
+			
+			
+			
 			ProfesorDAOImplementation.getInstance().deleteProfesor(profesor);
 			
 			Usuario usuario = UsuarioDAOImplementation.getInstance().readUsuario(idUsuario);

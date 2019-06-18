@@ -42,16 +42,13 @@ public class AsignarPermisosServlet extends HttpServlet{
 		
 		Subject currentUser = (Subject) req.getSession().getAttribute("currentUser");
 		int UsuarioId = 0;
-		try{
-			Integer.parseInt(req.getParameter("id"));
-		}catch(Exception e){
-			log.error(e);
-		}
-		
+		try{UsuarioId = Integer.parseInt(req.getParameter("id"));}catch(Exception e){log.error(e);}
+		System.out.println("EL DI "+UsuarioId);
 		/*
 		 * Solo puede entrar aquí si es administrador o si tiene el rol para gestionar usuarios 
 		 */
 		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
+			System.out.println("id del usuario "+UsuarioId);
 			Usuario usuario = UsuarioDAOImplementation.getInstance().readUsuario(UsuarioId);
 			
 			//Saco el array de los id de los profesores borrados
@@ -59,21 +56,31 @@ public class AsignarPermisosServlet extends HttpServlet{
 			todosPermisosId = req.getParameterValues("permisos");
 			
 			List<Permiso> nuevosPermisos = new ArrayList<Permiso>();
-	
+			
+
 			try {
 				for (int i = 0; i< todosPermisosId.length; i++) {
+					System.out.println("EL ID "+todosPermisosId[i]);
 					Permiso permiso = PermisoDAOImplementation.getInstance().readPermiso(Integer.parseInt(todosPermisosId[i]));
+					System.out.println("EL PERMISO "+permiso.getPermiso());
 					nuevosPermisos.add(permiso);
-					log.info("El usuario "+currentUser.getPrincipal().toString()+" ha asignado nuevos permisos al usuario " + usuario.getNombre()+" "+ usuario.getApellidos());
+					
+					//log.info("El usuario "+currentUser.getPrincipal().toString()+" ha asignado nuevos permisos al usuario " + usuario.getNombre()+" "+ usuario.getApellidos());
 				}
 			}catch(Exception e) {
+				System.out.println("error "+e);
 				log.error(e);
 			}
 			
-			usuario.setPermisos(nuevosPermisos);
+			System.out.println("longitudd "+nuevosPermisos.size());
+			try {usuario.setPermisos(nuevosPermisos);}catch(Exception e) {
+				System.out.println(e);
+				log.error(e);}
 			UsuarioDAOImplementation.getInstance().updateUsuario(usuario);
 			
-			Profesor profe = usuario.getProfesor();
+			Profesor profe =null;
+			try {profe = usuario.getProfesor();}catch(Exception e) {log.error(e);}
+			
 			if(profe==null) {
 				getServletContext().getRequestDispatcher("/CRUDPAS.jsp").forward(req, resp);
 			}else {

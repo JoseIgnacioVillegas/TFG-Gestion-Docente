@@ -107,7 +107,8 @@ public class AsignarDocentesServlet extends HttpServlet{
 			
 			String coordinadorBorradoId = req.getParameter("coordinadorBorrado");
 			String coordinadorId = req.getParameter("coordinador");
-	
+			System.out.println("NUEVO COORDINADOR "+coordinadorId);
+			System.out.println("COORDINADOR BORRADO "+coordinadorBorradoId);
 			
 			Profesor coordinador = null;
 			try {
@@ -123,6 +124,8 @@ public class AsignarDocentesServlet extends HttpServlet{
 		
 			if(coordinadorBorradoId!=null && coordinadorId!=null) {
 				//Si el coordinador a borrar es nulo y el coordinador a poner no es nulo, simplemente se cambia uno por otro 
+				System.out.println("SE CAMBIA EL COORDINADOR");
+				
 				log.info("El usuario "+currentUser.getPrincipal().toString()+" ha cambiado el coordinador de la asignatura " +asignatura.getNombre() +" por el profesor "+ coordinador.getUsuario().getNombre()+" "+ coordinador.getUsuario().getApellidos());
 
 				coordinador.setAsignaturaCoordina(asignatura);
@@ -131,13 +134,14 @@ public class AsignarDocentesServlet extends HttpServlet{
 			}else if(coordinadorBorradoId!=null && coordinadorId==null){
 				//Si el coordinador a borrar no es nulo y el nuevo coordinador si lo es, simplemente borramos el coordinador
 				//Profesor coordinadorBorrado = new Profesor();
+				System.out.println("PONER NUEVO COORDINADOR");
 				asignatura.deleteCoordinador();
 				log.info("El usuario "+currentUser.getPrincipal().toString()+" ha borrado el coordinador de la asignatura " +asignatura.getNombre());
 
 				
 			}else if (coordinadorBorradoId==null && coordinadorId!=null){
 				//Si el coordinador a borrar es nulo pero el nuevo coordinador no es nulo, ponemos el nuevo coordinador
-	
+				System.out.println("BORRAR EL COORDINADOR");
 				asignatura.deleteCoordinador();
 				asignatura.setCoordinador(coordinador);
 

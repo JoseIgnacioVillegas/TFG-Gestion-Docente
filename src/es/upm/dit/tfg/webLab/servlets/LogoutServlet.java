@@ -20,8 +20,9 @@ public class LogoutServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Subject currentUser = SecurityUtils.getSubject();
-		SecurityUtils.getSubject().logout();
+		
 		log.info("El usuario "+currentUser.getPrincipal().toString()+" ha cerrado sesión.");
+		SecurityUtils.getSubject().logout();
 		getServletContext().getRequestDispatcher("/loginPage.jsp").forward(req, resp);
 	}
 }

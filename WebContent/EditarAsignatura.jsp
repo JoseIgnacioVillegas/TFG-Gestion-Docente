@@ -163,7 +163,7 @@ Añadir comentario(max 250 caracteres):<br>
           </div>
 
 
-<button type="submit" class="btn btn-primary btn-user btn-block" style="width:42%;align:center;margin-left:auto;margin-right:auto;">Crear</button>
+<button type="submit" class="btn btn-primary btn-user btn-block" style="width:42%;align:center;margin-left:auto;margin-right:auto;">Editar</button>
 <hr>
 
  </form>

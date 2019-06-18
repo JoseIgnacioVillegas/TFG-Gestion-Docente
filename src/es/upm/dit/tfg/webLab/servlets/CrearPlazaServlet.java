@@ -32,11 +32,11 @@ public class CrearPlazaServlet extends HttpServlet{
 		 */
 		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
 		
-			List<Plaza> plazas = PlazaDAOImplementation.getInstance().readPlazas();
-			int id = plazas.size()+1;
+			//List<Plaza> plazas = PlazaDAOImplementation.getInstance().readPlazas();
+			//int id = plazas.size()+1;
 	
 			Plaza plaza = new Plaza();
-			plaza.setId(id);
+			//plaza.setId(id);
 			plaza.setPlaza(nom);
 			plaza.setDescripcion(descripcion);
 			PlazaDAOImplementation.getInstance().createPlaza(plaza);

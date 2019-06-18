@@ -30,10 +30,20 @@ public class ObtenerPermisosServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, java.io.IOException {
 
 		int codigoUsuario = 0;
-		try{Integer.parseInt(req.getParameter("id"));}catch(Exception e) {log.error(e);}
-		Usuario usuario = UsuarioDAOImplementation.getInstance().readUsuario(codigoUsuario);
-
-		List<Permiso> permisosUsuario = usuario.getPermisos();
+		System.out.println("el primer id "+req.getParameter("id"));
+		String idString = req.getParameter("id");
+		int id = 0 ;
+		try{id = Integer.parseInt(idString);}catch(Exception e) {
+			System.out.println("flipando "+e);
+			log.error(e);}
+		
+		Usuario usuario = UsuarioDAOImplementation.getInstance().readUsuario(id);
+		System.out.println("el id del usuario "+codigoUsuario);
+		System.out.println("el usuario "+ usuario);
+		//System.out.println("el correo "+usuario.getCorreo()+"  y el id:  "+usuario.getId());
+		
+		List<Permiso> permisosUsuario = null;
+		try {permisosUsuario = usuario.getPermisos();}catch(Exception e) {log.error(e);}
 		List<Permiso> todosPermisos = PermisoDAOImplementation.getInstance().readPermisos();
 		
 		

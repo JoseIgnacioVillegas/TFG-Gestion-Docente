@@ -57,30 +57,105 @@ public class EditarProfesorServlet extends HttpServlet{
 			
 			Plaza plaza = PlazaDAOImplementation.getInstance().readPlaza(plazaId);
 			
-			Profesor profesorAnt = ProfesorDAOImplementation.getInstance().readProfesor(id);
-			Usuario UsuarioAnt = profesorAnt.getUsuario();
-			int UsuarioId = profesorAnt.getUsuario().getId();
+			Profesor profesor = ProfesorDAOImplementation.getInstance().readProfesor(id);
+			Usuario usuario = profesor.getUsuario();
+			String contra = usuario.getPassword();
+			
+			
+			//int UsuarioId = profesorAnt.getUsuario().getId();
+			
+			
+			usuario.setNombre(nombre);
+			usuario.setApellidos(apellidos);
+			usuario.setCorreo(correo);
+			usuario.setPassword(contra);
+			UsuarioDAOImplementation.getInstance().updateUsuario(usuario);
+		
+
+			profesor.setAcronimo(acronimo);
+			if(plaza!=null)profesor.setPlaza(plaza);
+			profesor.setGrupo(grupo);
+			profesor.setDedicacion(dedicacion);
+			
+			ProfesorDAOImplementation.getInstance().updateProfesor(profesor);
+			
+			
+			
+			/*
 			ProfesorDAOImplementation.getInstance().deleteProfesor(profesorAnt);
 	
 			UsuarioDAOImplementation.getInstance().deleteUsuario(UsuarioAnt);
 	
+			
+			
+			
 			Usuario usuario =new Usuario();
 			usuario.setNombre(nombre);
 			usuario.setApellidos(apellidos);
 			usuario.setCorreo(correo);
-			usuario.setId(UsuarioId);
+			//usuario.setId(290);
+			usuario.setPassword(contra);
 			UsuarioDAOImplementation.getInstance().createUsuario(usuario);
-	
+		
+			
+			
 			Profesor profesor = new Profesor();
-			profesor.setId(id);
+			//profesor.setId(290);
 			profesor.setAcronimo(acronimo);
-			profesor.setPlaza(plaza);
+			if(plaza!=null)profesor.setPlaza(plaza);
 			profesor.setGrupo(grupo);
 			profesor.setDedicacion(dedicacion);
 			profesor.setUsuario(usuario);
 			
 			ProfesorDAOImplementation.getInstance().createProfesor(profesor);
 			
+			*/
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			/*
+			Profesor profesor = new Profesor();
+			profesor.setId(id);
+			profesor.setAcronimo(acronimo);
+			profesor.setPlaza(plaza);
+			profesor.setGrupo(grupo);
+			profesor.setDedicacion(dedicacion);
+			//profesor.setUsuario(usuario);
+			
+			ProfesorDAOImplementation.getInstance().createProfesor(profesor);
+			
+			
+			Usuario usuario =new Usuario();
+			usuario.setNombre(nombre);
+			usuario.setApellidos(apellidos);
+			usuario.setCorreo(correo);
+			usuario.setId(UsuarioId);
+			usuario.setPassword(contra);
+			usuario.setProfesor(profesor);
+			UsuarioDAOImplementation.getInstance().createUsuario(usuario);
+			
+			
+			profesor.setUsuario(usuario);
+			
+			ProfesorDAOImplementation.getInstance().updateProfesor(profesor);
+			*/
+			//UsuarioDAOImplementation.getInstance().updateUsuario(usuario);
 
 			log.info("El usuario "+currentUser.getPrincipal().toString()+" ha editado el profesor "+nombre+" "+apellidos);
 	

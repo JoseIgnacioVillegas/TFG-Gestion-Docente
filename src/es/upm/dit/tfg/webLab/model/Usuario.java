@@ -15,6 +15,7 @@ import org.hibernate.annotations.FetchMode;
 public class Usuario implements Serializable{
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	  
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)  

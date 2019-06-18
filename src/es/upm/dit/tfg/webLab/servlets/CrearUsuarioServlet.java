@@ -37,15 +37,15 @@ public class CrearUsuarioServlet extends HttpServlet{
 		 */
 		if (currentUser.hasRole("administrador") || currentUser.hasRole("gestionusuarios")){
 
-			List<Usuario> todosUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
-			int idMaxUsuario = todosUsuarios.size() +1;
+			//List<Usuario> todosUsuarios = UsuarioDAOImplementation.getInstance().readUsuarios();
+			//int idMaxUsuario = todosUsuarios.size() +1;
 			
 			
 			Usuario usuario =new Usuario();
 			usuario.setNombre(nom);
 			usuario.setApellidos(ape);
 			usuario.setCorreo(corr);
-			usuario.setId(idMaxUsuario);
+			//usuario.setId(idMaxUsuario);
 			usuario.setPassword(convertirSHA256("1234"));
 			UsuarioDAOImplementation.getInstance().createUsuario(usuario);
 

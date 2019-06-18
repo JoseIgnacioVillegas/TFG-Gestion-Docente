@@ -46,10 +46,11 @@ button {
 </shiro:hasRole>
 
   
-    <shiro:hasAnyRoles name="administrador,gestiondocencia,gestionusuarios,gestiondatos">
+
+
+   <shiro:hasAnyRoles name="administrador,gestiondocencia,gestionusuarios,gestiondatos">
   <form action="PasoGestorServlet" class="boton btn"><button class="nav-link"  type="submit">Gestor</button></form>
   </shiro:hasAnyRoles>
-
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">

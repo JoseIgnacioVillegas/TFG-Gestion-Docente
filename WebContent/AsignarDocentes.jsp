@@ -123,14 +123,14 @@
 							<div id="profes1">
 								<p>
 								<input type="text" id="buscar" onKeyUp="buscarSelect(this)" placeholder="Buscar docente">
-								<select name="profesores" onchange="setValue(this);">
+								<select name="profesores" onchange="setValue(this)">
 									<option selected>Seleccionar docente</option>
 									<c:forEach items="${todosProfesores}" var="profesor">
 										<option value="${profesor.id}">${profesor.usuario.nombre} ${profesor.usuario.apellidos}</option>
 									</c:forEach>
 								</select>
 								<a>
-									Profesor<input name="profesor" type="checkbox">
+									Profesor<input name="profesor" type="checkbox" >
 									Coordinador<input name="coordinador" type="checkbox" onclick="marcarProfesor(this);"></a>
 								</p>
 							</div>
@@ -213,6 +213,11 @@ function buscarSelect(obj){
 			select.selectedIndex=i;
 		}
 	}
+	
+	//Ahora hay que poner el id del coordinador
+	p.children[2].children[0].value = p.children[1].value;
+	p.children[2].children[1].value = p.children[1].value;
+
 }
 
 function marcarProfesor(source) {
@@ -225,6 +230,12 @@ function setValue(source) {
 	elements[0].value=source.value;
 	elements[1].value=source.value;
 }
+
+
+
+
+
+
 
 
 function ponerValor(obj,id){
